@@ -15,7 +15,9 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@lyxs/ng/lyxs": ["libs/ng/lyxs/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

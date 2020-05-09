@@ -25,6 +25,9 @@
     "ng9-e2e": {
       "tags": [],
       "implicitDependencies": ["ng9"]
+    },
+    "ng-lyxs": {
+      "tags": []
     }
   }
 }

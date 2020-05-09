@@ -116,6 +116,38 @@
           }
         }
       }
+    },
+    "ng-lyxs": {
+      "projectType": "library",
+      "root": "libs/ng/lyxs",
+      "sourceRoot": "libs/ng/lyxs/src",
+      "prefix": "lyxs",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ng/lyxs/tsconfig.lib.json",
+              "libs/ng/lyxs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ng/lyxs/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ng/lyxs/jest.config.js",
+            "tsConfig": "libs/ng/lyxs/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ng/lyxs/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "none"
+        }
+      }
     }
   },
   "cli": {

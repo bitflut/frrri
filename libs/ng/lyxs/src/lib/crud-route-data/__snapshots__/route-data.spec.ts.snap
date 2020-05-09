@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`routeData function should generate active route 1`] = `
+Object {
+  "await": true,
+  "param": "id",
+  "type": "activate",
+}
+`;
+
+exports[`routeData function should generate collection route 1`] = `
+Object {
+  "await": true,
+  "params": Object {},
+  "type": "getMany",
+}
+`;
+
+exports[`routeData function should generate collection route with parameters 1`] = `
+Object {
+  "await": true,
+  "params": Object {
+    "filter[type][$eq]": "comedy",
+    "sort": "startAt",
+  },
+  "type": "getMany",
+}
+`;

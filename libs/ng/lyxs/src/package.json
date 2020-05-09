@@ -1,0 +1,31 @@
+{
+  "$schema": "../../../../node_modules/ng-packagr/package.schema.json",
+  "name": "@lyxs/angular",
+  "version": "0.0.0",
+  "license": "MIT",
+  "private": true,
+  "peerDependencies": {
+    "@angular/common": "^9.1.0",
+    "@angular/core": "^9.1.0",
+    "@ngxs/store": "^3.6.2",
+    "@ngxs-labs/data": "^3.0.4"
+  },
+  "keywords": [
+    "Angular",
+    "Bitflut",
+    "NGXS",
+    "CRUD",
+    "State management"
+  ],
+  "author": "marian@bitflut.com bitflut.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bitflut/lyxs"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "public_api.ts"
+    },
+    "dest": "../../../../dist/@lyxs/angular"
+  }
+}
