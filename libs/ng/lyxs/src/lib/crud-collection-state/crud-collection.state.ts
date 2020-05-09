@@ -444,7 +444,16 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
                 break;
         }
 
-        const entityIds: IdType[] = flatten(entities.map(entity => entity[ownIdKey]));
+        const entityIds: IdType[] = flatten(
+            entities.map(entity => entity[ownIdKey]),
+        );
+
+        // Look if we already have these entities in our cache
+        if (population.strategy === PopulationStrategy.Id) {
+            const entityIdsFiltered: IdType[] = entityIds.filter(id => !facade.ids.includes(id as any));
+            if (!entityIdsFiltered.length) { return of([]); }
+        }
+
         const defaultFactory = (ids: IdType[], path: string) => ({ [path]: uniq(ids.map(id => id.toString())) });
         const factory = population.populatFactory || this.populateFactory || defaultFactory;
         return facade.getAll({

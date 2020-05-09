@@ -60,7 +60,7 @@ const routes: Routes = [
             path: ':id',
             component: PostsShowComponent,
             data: crudRouteInstructions({
-                'entities.comments': clear(),
+                // 'entities.comments': clear(),
                 'entities.posts': [
                     getActive(),
                     populate({
