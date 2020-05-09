@@ -60,15 +60,47 @@ const routes: Routes = [
             path: ':id',
             component: PostsShowComponent,
             data: crudRouteInstructions({
-                'entities.comments': [
-                    clear(),
-                ],
+                'entities.comments': clear(),
                 'entities.posts': [
                     getActive(),
                     populate({
                         idPath: 'postId',
                         strategy: PopulationStrategy.ForeignId,
                         statePath: 'entities.comments',
+                    }),
+                ],
+            }),
+        }],
+    },
+    {
+        path: 'with-user',
+        component: PostsIndexComponent,
+        data: crudRouteInstructions({
+            'entities': clear(),
+            'entities.posts': [
+                deactivate(),
+                getMany({ params: { _page: '1', _limit: '5' } }),
+                populate({
+                    idPath: 'userId',
+                    statePath: 'entities.users',
+                }),
+            ],
+        }),
+        children: [{
+            path: ':id',
+            component: PostsShowComponent,
+            data: crudRouteInstructions({
+                'entities.comments': clear(),
+                'entities.posts': [
+                    getActive(),
+                    populate({
+                        idPath: 'postId',
+                        strategy: PopulationStrategy.ForeignId,
+                        statePath: 'entities.comments',
+                    }),
+                    populate({
+                        idPath: 'userId',
+                        statePath: 'entities.users',
                     }),
                 ],
             }),

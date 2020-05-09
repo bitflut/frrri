@@ -63,11 +63,17 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
             ...providerOptions.requestOptions,
             ...this.requestOptions,
         };
+    }
 
+    public resetPopulations(): void {
+        this.populations = undefined;
     }
 
     public setPopulations(data: Array<ReturnType<typeof populate>>) {
-        this.populations = data;
+        this.populations = uniq([
+            ...this.populations ?? [],
+            ...data,
+        ]);
     }
 
     @Computed()
@@ -128,6 +134,14 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
     @Computed()
     public get all$(): Observable<Entity[]> {
         return this.state$.pipe(map((value: Reducer) => Object.values(value.entities)));
+    }
+
+    @Computed()
+    public get one$() {
+        return (id: IdType) => this.state$.pipe(map((value: Reducer) => {
+            console.log(id, id && value.entities[id.toString()]);
+            return id && value.entities[id.toString()];
+        }));
     }
 
     @Computed()

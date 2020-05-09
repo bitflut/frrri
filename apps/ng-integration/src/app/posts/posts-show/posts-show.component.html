@@ -2,7 +2,15 @@
     <lyxs-active path="entities.posts" #activePostComponent>
         <ng-container *ngIf="activePostComponent.active$ | async as post">
             <div class="font-bold">{{ post.title }}</div>
-            <div>{{ post.body }}</div>
+            <div class="mt-3">{{ post.body }}</div>
+
+            <lyxs-one path="entities.users" [id]="post.userId" #oneUser>
+                <ng-container *ngIf="oneUser.one$ | async as user">
+                    <div class="mt-3">
+                        &mdash; {{ user.name }} {{ user.email }}
+                    </div>
+                </ng-container>
+            </lyxs-one>
         </ng-container>
 
         <div class="loading">

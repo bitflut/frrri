@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@a
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { PaginatedCrudCollectionState } from '../paginated-crud-collection-state/paginated-crud-collection.state';
-import { StatesRegistryService } from '../states-registry/states-registry.service';
+import { PaginatedCrudCollectionState } from '../../paginated-crud-collection-state/paginated-crud-collection.state';
+import { StatesRegistryService } from '../../states-registry/states-registry.service';
 
 @Component({
     selector: 'lyxs-collection',
@@ -13,7 +13,7 @@ import { StatesRegistryService } from '../states-registry/states-registry.servic
 })
 export class CollectionComponent implements OnInit, OnDestroy {
 
-    private unsubscribe$ = new Subject<boolean>();
+    private destroy$ = new Subject<void>();
 
     @Input() path: string;
     protected facade: PaginatedCrudCollectionState;
@@ -77,13 +77,13 @@ export class CollectionComponent implements OnInit, OnDestroy {
 
     private untilDestroyed<In>() {
         return pipe(
-            takeUntil(this.unsubscribe$),
+            takeUntil(this.destroy$),
         ) as UnaryFunction<Observable<In>, Observable<In>>;
     }
 
     ngOnDestroy() {
-        this.unsubscribe$.next();
-        this.unsubscribe$.complete();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
 }

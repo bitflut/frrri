@@ -9,6 +9,11 @@
                             [routerLink]="post.id">
                             <div class="font-bold">{{ post.title }}</div>
                             <div>{{ post.body | slice:0:20 }}...</div>
+                            <lyxs-one path="entities.users" [id]="post.userId" #oneUser>
+                                <ng-container *ngIf="oneUser.one$ | async as user">
+                                    {{ user.name }}
+                                </ng-container>
+                            </lyxs-one>
                         </a>
                     </ng-container>
                 </div>
