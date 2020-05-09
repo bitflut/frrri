@@ -19,6 +19,7 @@ export class CollectionComponent implements OnInit, OnDestroy {
     protected facade: PaginatedCrudCollectionState;
 
     all$: Observable<any[]>;
+    loaded$: Observable<boolean>;
     loading$: Observable<boolean>;
     loadingFirst$: Observable<boolean>;
     loadingNext$: Observable<boolean>;
@@ -44,6 +45,7 @@ export class CollectionComponent implements OnInit, OnDestroy {
         }
 
         this.all$ = this.facade.all$.pipe(this.untilDestroyed());
+        this.loaded$ = this.facade.loaded$.pipe(this.untilDestroyed());
         this.loading$ = this.facade.loadingMany$.pipe(this.untilDestroyed());
         this.loadingFirst$ = this.facade.loadingFirst$.pipe(this.untilDestroyed());
         this.loadingNext$ = this.facade.loadingNext$.pipe(this.untilDestroyed());
@@ -64,7 +66,10 @@ export class CollectionComponent implements OnInit, OnDestroy {
         this.facade.getActive(id).toPromise();
     }
 
-    trackByKey(key: string) {
+    trackByKey(key?: string) {
+        if (!key) {
+            key = this.facade.primaryKey;
+        }
         return (index: number, item: any) => {
             return item[key] ?? index;
         };

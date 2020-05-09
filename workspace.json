@@ -14,7 +14,10 @@
               "libs/ng/lyxs/tsconfig.lib.json",
               "libs/ng/lyxs/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/ng/lyxs/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/ng/lyxs/**"
+            ]
           }
         },
         "test": {
@@ -57,7 +60,9 @@
               "apps/ng-integration/src/favicon.ico",
               "apps/ng-integration/src/assets"
             ],
-            "styles": ["apps/ng-integration/src/styles.css"],
+            "styles": [
+              "apps/ng-integration/src/styles.css"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -115,7 +120,10 @@
               "apps/ng-integration/tsconfig.app.json",
               "apps/ng-integration/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/ng-integration/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/ng-integration/**"
+            ]
           }
         },
         "test": {
@@ -150,8 +158,13 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": ["apps/ng-integration-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/ng-integration-e2e/**"]
+            "tsConfig": [
+              "apps/ng-integration-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/ng-integration-e2e/**"
+            ]
           }
         }
       }

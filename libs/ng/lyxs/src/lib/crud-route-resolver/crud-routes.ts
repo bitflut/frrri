@@ -11,7 +11,7 @@ export function crudRoutes(routes: Routes, name = CRUD_ROUTE_RESOLVE_KEY): Route
 
         route.children = route.children
             ? crudRoutes(route.children, name)
-            : [];
+            : undefined;
 
         return route;
     });

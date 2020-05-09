@@ -7,11 +7,7 @@ import { CrudCollectionReducer, CrudCollectionState, GetManyOptions, OperationCo
 import { Paginated, PaginatedCrudCollectionService } from './paginated-crud-collection.service';
 
 export type PaginatedCrudCollectionReducer<Entity = {}, IdType extends EntityIdType = EntityIdType> = CrudCollectionReducer<Entity, IdType> & {
-    next: {
-        size?: number;
-        [key: string]: any;
-    },
-    nextUrl: string,
+    next: string,
 };
 
 @Injectable()
@@ -65,14 +61,13 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
         }
         this.ctx.patchState({
             next: response.pagination.next,
-            nextUrl: response.pagination.nextUrl,
         } as any);
     }
 
     @DataAction()
     public getNext() {
-        const next = this.snapshot.next;
-        return this.paginatedService.getNext(this.requestOptions.collectionUrlFactory(), next)
+        const url = this.snapshot.next;
+        return this.paginatedService.getNext(url)
             .pipe(
                 this.requestOptionsPipe<Paginated<Entity[]>>(OperationContext.Many),
                 tap<Paginated<Entity[]>>(paginated => this.setNext(paginated)),

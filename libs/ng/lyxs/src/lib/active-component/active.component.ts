@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { EntityIdType } from '@ngxs-labs/data/typings/public_api';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { PaginatedCrudCollectionState } from '../paginated-crud-collection-state/paginated-crud-collection.state';
@@ -18,6 +19,7 @@ export class ActiveComponent implements OnInit, OnDestroy {
     protected facade: PaginatedCrudCollectionState;
 
     active$: Observable<any>;
+    activeId$: Observable<EntityIdType>;
     loading$: Observable<boolean>;
     error$: Observable<string>;
 
@@ -38,6 +40,7 @@ export class ActiveComponent implements OnInit, OnDestroy {
         }
 
         this.active$ = this.facade.active$.pipe(this.untilDestroyed());
+        this.activeId$ = this.facade.activeId$.pipe(this.untilDestroyed());
         this.loading$ = this.facade.loadingOne$.pipe(this.untilDestroyed());
         this.error$ = this.facade.errorOne$.pipe(this.untilDestroyed());
     }

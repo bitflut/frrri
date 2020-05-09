@@ -1,5 +1,5 @@
 import { EntityIdType } from '@ngxs-labs/data/typings/public_api';
-import { uniq } from 'lodash';
+import { OperationContext } from '../crud-collection-state/crud-collection.state';
 import { CRUD_ROUTE_DATA } from './constants';
 
 export enum RouteInstructionType {
@@ -9,17 +9,21 @@ export enum RouteInstructionType {
     GetOne = 'getOne',
     /** Uses getActive */
     GetActive = 'getActive',
+    /** Uses deactivate */
+    Deactivate = 'deactivate',
     /** Sets populate instruction */
     Populate = 'populate',
+    /** Clears this state and all its children */
+    Clear = 'clear',
 }
 
 interface RouteOptions {
-    /** Await until loaded (default: `true`) */
+    /** Await until loaded (default: `false`) */
     await?: boolean;
 }
 
 const routeOptionsDefaults = {
-    await: true,
+    await: false,
 } as RouteOptions;
 
 
@@ -62,7 +66,7 @@ export function getActive(
 }
 
 interface CollectionRouteOptions extends RouteOptions {
-    params?: { [key: string]: string };
+    params?: { [key: string]: string | string[] };
 }
 
 export function getMany(
@@ -88,6 +92,7 @@ export interface PopulateRouteData<IdType = EntityIdType> {
     statePath: string;
     /** Strategy used when mapping ids (default: `PopulationStrategy.Id`) */
     strategy?: PopulationStrategy;
+    operations?: Array<OperationContext>;
     /** Params to add to getMany request */
     params?: { [key: string]: string };
     /**
@@ -117,13 +122,30 @@ export function populate<IdType = EntityIdType>(options: PopulateRouteData<IdTyp
         type: RouteInstructionType.Populate as RouteInstructionType.Populate,
         strategy: options.strategy ?? PopulationStrategy.Id,
         params: {},
-        populatFactory: (ids: IdType[], path: string) => ({ [`filter[${path}][$in]`]: uniq(ids.map(id => id.toString())) }),
         ...options,
     };
 }
 
+export function deactivate() {
+    return {
+        type: RouteInstructionType.Deactivate as RouteInstructionType.Deactivate,
+    };
+}
+
+export function clear() {
+    return {
+        type: RouteInstructionType.Clear as RouteInstructionType.Clear,
+    };
+}
+
 export type PopulationOptions = ReturnType<typeof populate>;
-export type RouteData = ReturnType<typeof getActive> | ReturnType<typeof getMany> | ReturnType<typeof getOne> | PopulationOptions;
+export type RouteData =
+    ReturnType<typeof getActive>
+    | ReturnType<typeof getMany>
+    | ReturnType<typeof getOne>
+    | ReturnType<typeof clear>
+    | ReturnType<typeof deactivate>
+    | PopulationOptions;
 
 export function crudRouteInstructions(data: { [key: string]: RouteData | Array<RouteData> }) {
     return {

@@ -3,13 +3,13 @@ import { Injectable, InjectFlags, Injector } from '@angular/core';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';
-import { flatten } from 'lodash';
+import { flatten, uniq } from 'lodash';
 import { EMPTY, forkJoin, Observable, of, pipe, throwError, UnaryFunction } from 'rxjs';
 import { catchError, delay, map, mapTo, switchMap, tap, timeout } from 'rxjs/operators';
 import { populate, PopulationOptions, PopulationStrategy } from '../crud-route-data/route-data';
 import { StatesRegistryService } from '../states-registry/states-registry.service';
 import { CRUD_COLLECTION_OPTIONS_TOKEN } from './constants';
-import { CrudCollectionRequestOptions } from './crud-collection.decorator';
+import { CrudCollectionOptions } from './crud-collection.decorator';
 import { CrudCollectionService } from './crud-collection.service';
 
 export enum OperationContext {
@@ -38,10 +38,11 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
     private statesRegistry = this.injector.get<StatesRegistryService>(StatesRegistryService);
     private populations: Array<PopulationOptions>;
     protected http = this.injector.get(HttpClient);
-    readonly requestOptions: CrudCollectionRequestOptions;
+    readonly requestOptions: CrudCollectionOptions['requestOptions'];
     readonly idKey: string;
     readonly baseUrl: string;
     readonly endpoint: string;
+    readonly populateFactory: CrudCollectionOptions['requestOptions']['populateFactory'];
 
     constructor(protected injector: Injector) {
         super();
@@ -51,6 +52,11 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
         this.primaryKey = this.idKey ?? providerOptions.idKey ?? this.primaryKey; // TODO: update in @ngxs-labs/data
         this.baseUrl = providerOptions.baseUrl ?? this.baseUrl;
         this.endpoint = providerOptions.endpoint ?? this.endpoint;
+
+        if (providerOptions.requestOptions?.populateFactory) {
+            this.populateFactory = providerOptions.requestOptions.populateFactory;
+        }
+
         this.requestOptions = {
             collectionUrlFactory: () => `${this.baseUrl}/${this.endpoint}`,
             resourceUrlFactory: id => `${this.baseUrl}/${this.endpoint}/${id}`,
@@ -182,6 +188,7 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
 
     @DataAction()
     public getActive(@Payload('id') id: IdType) {
+        this.ctx.patchState({ active: { [this.primaryKey]: id } } as any);
         return this.service.getOne(this.requestOptions.resourceUrlFactory(id))
             .pipe(
                 this.requestOptionsPipe(OperationContext.One),
@@ -332,7 +339,7 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
         return this.service.deleteOne(this.requestOptions.resourceUrlFactory(id))
             .pipe(
                 this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
+                // this.populationPipe(),
                 tap(() => this.deleteOneSuccess(id)),
                 this.catchErrorPipe(OperationContext.One),
             );
@@ -352,7 +359,7 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
             .pipe(
                 this.catchOptimistcUndoPipe(() => this.deleteOneOptimisticUndo(original)),
                 this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
+                // this.populationPipe(),
                 this.catchErrorPipe(OperationContext.One),
             );
     }
@@ -407,6 +414,7 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
     }
 
     private populate<In extends Array<any>>(entities: In, population: PopulationOptions) {
+        console.log('population', population);
         const facade = this.statesRegistry.getByPath(population.statePath);
         let ownIdKey: string;
         let foreignIdKey: string;
@@ -423,11 +431,13 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
                 break;
         }
 
-        const ids: IdType[] = flatten(entities.map(entity => entity[ownIdKey]));
+        const entityIds: IdType[] = flatten(entities.map(entity => entity[ownIdKey]));
+        const defaultFactory = (ids: IdType[], path: string) => ({ [path]: uniq(ids.map(id => id.toString())) });
+        const factory = population.populatFactory || this.populateFactory || defaultFactory;
         return facade.getAll({
             params: {
                 ...population.params,
-                ...population.populatFactory(ids, foreignIdKey),
+                ...factory(entityIds, foreignIdKey),
             },
         });
     }
@@ -435,12 +445,18 @@ export class CrudCollectionState<Entity, IdType extends EntityIdType = string, R
     protected populationPipe<In>(): UnaryFunction<Observable<In>, Observable<In>> {
         return pipe(
             switchMap(result => {
-                if (!this.populations?.length) { return of(result); }
+                const hasPopulations = !!this.populations?.length;
+                if (!hasPopulations) { return of(result); }
+
+                const operation = Array.isArray(result) ? OperationContext.Many : OperationContext.One;
+                const populations = this.populations.filter(p => p.operations.includes(operation));
+                if (!populations.length) { return of(result); }
+
+                const entities: In[] = Array.isArray(result) ? result : [result];
                 return forkJoin(
-                    this.populations.map(population => {
-                        const entities: In[] = Array.isArray(result) ? result : [result];
-                        return this.populate(entities, population);
-                    }),
+                    this.populations
+                        .filter(p => p.operations.includes(operation))
+                        .map(p => this.populate(entities, p)),
                 ).pipe(mapTo(result));
             }),
         );

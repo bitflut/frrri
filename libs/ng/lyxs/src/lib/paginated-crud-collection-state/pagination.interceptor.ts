@@ -1,6 +1,5 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DefaultUrlSerializer } from '@angular/router';
 import * as parseLinkHeader from 'parse-link-header';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -30,12 +29,8 @@ export class PaginationInterceptor implements HttpInterceptor {
         const hasLink = response.headers.has('Link') && response.headers.get('Link');
         const nextLink = hasLink && parseLinkHeader(hasLink).next;
 
-        const nextParams = nextLink
-            ? new DefaultUrlSerializer().parse(nextLink.url).queryParams
-            : undefined;
-
         const paginatedResponse = new HttpResponse({
-            body: { pagination: { data: response.body, next: nextParams, nextUrl: nextLink.url } },
+            body: { pagination: { data: response.body, next: nextLink.url } },
             headers: response.headers,
             status: response.status,
             statusText: response.statusText,

@@ -7,8 +7,7 @@ import { GetManyOptions } from '../crud-collection-state/crud-collection.state';
 export interface Paginated<T> {
     pagination: {
         data: T,
-        next: any,
-        nextUrl: string,
+        next: string,
     };
 }
 
@@ -25,33 +24,19 @@ export class PaginatedCrudCollectionService<V> {
         return this.http.get<Paginated<V[]>>(url, { params: options.params });
     }
 
-    /**
-     * private async getAllPages(firstPage: any[]) {
-     *     const data = [...firstPage];
-     *     let hasNext = await this.service.next$.pipe(take(1)).toPromise();
-     *     while (hasNext) {
-     *         const nextRequest = await this.service.getNext();
-     *         const newData = await nextRequest.toPromise();
-     *         data.push(...newData);
-     *         hasNext = await this.service.next$.pipe(take(1)).toPromise();
-     *     }
-     *     return data;
-     * }
-     */
-
     getAll(url: string, options: GetManyOptions & { size?: number } = {}): Observable<V[]> {
         return this.getMany(url, options).pipe(
             expand(response => {
-                let nextUrl = response.pagination?.nextUrl;
-                if (!nextUrl) { return EMPTY; }
+                let next = response.pagination?.next;
+                if (!next) { return EMPTY; }
 
-                const isUrlWith = nextUrl.startsWith('http');
+                const isUrlWith = next.startsWith('http');
                 if (!isUrlWith) {
                     const baseUrl = url.match(/^(https?:\/\/[^\/]+)\//)[1];
-                    nextUrl = `${baseUrl}${nextUrl}`;
+                    next = `${baseUrl}${next}`;
                 }
 
-                return this.getMany(nextUrl);
+                return this.getMany(next);
             }),
             reduce((acc, res) => {
                 return [
@@ -62,10 +47,8 @@ export class PaginatedCrudCollectionService<V> {
         );
     }
 
-    getNext(url: string, next: any) {
-        return this.http.get<Paginated<V[]>>(url, {
-            params: next,
-        });
+    getNext(url: any) {
+        return this.http.get<Paginated<V[]>>(url);
     }
 
 }

@@ -9,13 +9,7 @@
 </div>
 
 <div class="loading-content" *ngIf="loading$ | async">
-    <div #loadingContent>
-        <ng-content select=".loading"></ng-content>
-    </div>
-
-    <div *ngIf="!(loadingContent.innerHTML||'').trim()">
-        Loading...
-    </div>
+    <ng-content select=".loading"></ng-content>
 </div>
 
 <div class="content">

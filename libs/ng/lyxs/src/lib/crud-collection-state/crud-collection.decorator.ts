@@ -17,6 +17,10 @@ export interface CrudCollectionRequestOptions<IdType = EntityIdType> {
      * Defaults to `id => \`${baseUrl}/${endpoint}/${id}\``
      */
     resourceUrlFactory?: (id: IdType) => string;
+    /**
+     * Used to add query params when populating
+     */
+    populateFactory?: (ids: IdType[], path: string) => { [key: string]: string | string[] };
 }
 
 export interface CrudCollectionOptions<T = any> extends StoreOptions<T> {
