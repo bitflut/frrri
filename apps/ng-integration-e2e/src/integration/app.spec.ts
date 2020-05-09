@@ -1,6 +1,6 @@
 import { getGreeting } from '../support/app.po';
 
-describe('ng9', () => {
+describe('ng-integration', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
@@ -8,6 +8,6 @@ describe('ng9', () => {
     cy.login('my-email@something.com', 'myPassword');
 
     // Function helper example, see `../support/app.po.ts` file
-    getGreeting().contains('Welcome to ng9!');
+    getGreeting().contains('Welcome to ng-integration!');
   });
 });

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { EntityIdType } from '@ngxs-labs/data/typings/public_api';
-import { untilDestroyed } from 'ngx-take-until-destroy';
-import { Observable } from 'rxjs';
+import { EntityIdType } from '@ngxs-labs/data/typings';
+import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PaginatedCrudCollectionState } from '../paginated-crud-collection-state/paginated-crud-collection.state';
 import { StatesRegistryService } from '../states-registry/states-registry.service';
 
@@ -12,6 +12,8 @@ import { StatesRegistryService } from '../states-registry/states-registry.servic
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CollectionComponent implements OnInit, OnDestroy {
+
+    private unsubscribe$ = new Subject<boolean>();
 
     @Input() path: string;
     protected facade: PaginatedCrudCollectionState;
@@ -41,14 +43,14 @@ export class CollectionComponent implements OnInit, OnDestroy {
             throw new Error(`<lya-collection> could not find path \`${this.path}\` in registered states`);
         }
 
-        this.all$ = this.facade.all$.pipe(untilDestroyed(this));
-        this.loading$ = this.facade.loadingMany$.pipe(untilDestroyed(this));
-        this.loadingFirst$ = this.facade.loadingFirst$.pipe(untilDestroyed(this));
-        this.loadingNext$ = this.facade.loadingNext$.pipe(untilDestroyed(this));
-        this.error$ = this.facade.errorMany$.pipe(untilDestroyed(this));
-        this.empty$ = this.facade.empty$.pipe(untilDestroyed(this));
-        this.next$ = this.facade.next$.pipe(untilDestroyed(this));
-        this.activeId$ = this.facade.activeId$.pipe(untilDestroyed(this));
+        this.all$ = this.facade.all$.pipe(this.untilDestroyed());
+        this.loading$ = this.facade.loadingMany$.pipe(this.untilDestroyed());
+        this.loadingFirst$ = this.facade.loadingFirst$.pipe(this.untilDestroyed());
+        this.loadingNext$ = this.facade.loadingNext$.pipe(this.untilDestroyed());
+        this.error$ = this.facade.errorMany$.pipe(this.untilDestroyed());
+        this.empty$ = this.facade.empty$.pipe(this.untilDestroyed());
+        this.next$ = this.facade.next$.pipe(this.untilDestroyed());
+        this.activeId$ = this.facade.activeId$.pipe(this.untilDestroyed());
     }
 
     loadNext() {
@@ -68,6 +70,15 @@ export class CollectionComponent implements OnInit, OnDestroy {
         };
     }
 
-    ngOnDestroy() { }
+    private untilDestroyed<In>() {
+        return pipe(
+            takeUntil(this.unsubscribe$),
+        ) as UnaryFunction<Observable<In>, Observable<In>>;
+    }
+
+    ngOnDestroy() {
+        this.unsubscribe$.next();
+        this.unsubscribe$.complete();
+    }
 
 }

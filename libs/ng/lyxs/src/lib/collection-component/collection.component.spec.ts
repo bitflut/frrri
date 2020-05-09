@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Cache, CacheState, CrudCollection, CrudCollectionState, PaginatedCrudCollectionState, PaginationInterceptor } from '@lya/ng/lyxs';
+import { Cache, CacheState, CrudCollection, CrudCollectionState, PaginatedCrudCollectionState, PaginationInterceptor } from '@lyxs/ng/lyxs';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';

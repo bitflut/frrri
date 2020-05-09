@@ -4,7 +4,7 @@ exports[`routeData function should generate active route 1`] = `
 Object {
   "await": true,
   "param": "id",
-  "type": "activate",
+  "type": "getActive",
 }
 `;
 
