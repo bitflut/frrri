@@ -1,6 +1,6 @@
 {
   "$schema": "../../../../node_modules/ng-packagr/package.schema.json",
-  "name": "@lyxs/ng",
+  "name": "@lyxs/angular",
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
