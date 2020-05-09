@@ -7,7 +7,7 @@
             <lyxs-one path="entities.users" [id]="post.userId" #oneUser>
                 <ng-container *ngIf="oneUser.one$ | async as user">
                     <div class="mt-3">
-                        &mdash; {{ user.name }} {{ user.email }}
+                        &mdash; {{ user.name }} &lt;{{ user.email }}&gt;
                     </div>
                 </ng-container>
             </lyxs-one>
@@ -19,9 +19,9 @@
     </lyxs-active>
 </div>
 
-<div class="mt-6">
+<div class="mt-12">
     <lyxs-collection path="entities.comments" #comments>
-        <div class="border-l-4 border-gray-600 pl-3 -my-3 text-gray-600" *ngIf="comments.loaded$ | async">
+        <div class="border-l border-gray-600 pl-3 -my-3 text-gray-600" *ngIf="comments.loaded$ | async">
             <div class="mb-3">Comments:</div>
             <ng-container *ngFor="let comment of comments.all$ | async; trackBy:comments.trackByKey()">
                 <ng-container *ngIf="comment.postId === (activePostComponent.activeId$ | async)">

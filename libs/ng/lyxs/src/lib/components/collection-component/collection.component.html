@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<ng-container *ngIf="next$ | async">
+<ng-container *ngIf="(loaded$ | async) && (next$ | async)">
     <ng-container *ngTemplateOutlet="loadMoreTemplate"></ng-container>
 </ng-container>
 
