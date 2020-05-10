@@ -1,4 +1,4 @@
-# Installation
+# Quick start
 
 To get started, install @lyxs/angular and its peer dependencies.
 

@@ -1,5 +1,5 @@
 # Table of contents
 
 * [Introduction](introduction.md)
-* [Installation](installation.md)
+* [Quick start](installation.md)
 
