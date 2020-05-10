@@ -7,7 +7,9 @@
                         <a class="block py-2"
                             [class.text-blue-600]="(posts.activeId$ | async)?.toString() == post.id.toString()"
                             [routerLink]="post.id">
-                            <div class="font-bold">{{ post.title }}</div>
+                            <div class="font-bold">
+                                #{{ post.id }} {{ post.title }}
+                            </div>
                             <div>{{ post.body | slice:0:20 }}...</div>
                             <lyxs-one path="entities.users" [id]="post.userId" #oneUser>
                                 <ng-container *ngIf="oneUser.one$ | async as user">

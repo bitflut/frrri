@@ -35,7 +35,7 @@
 </ng-template>
 
 <ng-template #loadMoreTemplate>
-    <ng-container *ngIf="!(loadingNext$ | async); else loadingNextTemplate">
+    <ng-container *ngIf="(loadingNext$ | async) !== true; else loadingNextTemplate">
         <div class="load-more-content">
             <div (click)="loadNext()">
                 <div #loadMoreContent>
