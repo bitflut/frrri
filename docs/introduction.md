@@ -1,6 +1,6 @@
 # Introduction
 
-## What is LYXS
+**LYXS** will become a collection of libraries for Angular and NestJS to simplify CRUD for API and angular frontends. The **@lyxs/angular** library is ready for preview now.
 
-LYXS is a collection of extensions simplifying state management of entity data for API communication via NGXS.
+See [Quick start](lyxs-angular/quick-start.md) for minimal setup instructions.
 
