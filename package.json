@@ -11,7 +11,7 @@
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
     "build:libs": "npm run build:lyxs-angular",
-    "build:lyxs-angular": "ng-packagr -p libs/ng/lyxs/src/package.json",
+    "build:lyxs-angular": "ng-packagr -p libs/ng/lyxs/package.json",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
