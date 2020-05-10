@@ -3,4 +3,4 @@
 
 LYXS will become a collection of libraries for Angular and NestJS to streamline CRUD for API and frontend. The @lyxs/angular library is ready for preview now.
 
-See [![Quick start](https://bitflut.gitbook.io/lyxs/)] for minimal setup instructions.
+See [Quick start](https://bitflut.gitbook.io/lyxs/) for minimal setup instructions.
