@@ -1,6 +1,6 @@
 <div class="flex flex-row -mx-6">
     <div class="w-1/3 px-6 h-screen overflow-y-auto py-16">
-        <lyxs-collection path="entities.posts" #posts>
+        <lyxs-many path="entities.posts" #posts>
             <ng-container *ngIf="posts.loaded$ | async">
                 <div class="-my-2">
                     <ng-container *ngFor="let post of posts.all$ | async; trackBy: posts.trackByKey()">
@@ -34,7 +34,7 @@
                     Loading more...
                 </a>
             </div>
-        </lyxs-collection>
+        </lyxs-many>
     </div>
     <div class="w-2/3 px-6 h-screen overflow-y-auto py-16">
         <router-outlet></router-outlet>

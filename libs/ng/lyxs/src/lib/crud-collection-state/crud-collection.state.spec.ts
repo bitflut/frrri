@@ -360,7 +360,7 @@ describe('CrudCollectionState', () => {
         postsState: PostsEntitiesState,
     ) => {
         postsState.getActive(1).toPromise();
-        expect(postsState.snapshot.active).toEqual(undefined);
+        expect(postsState.snapshot.active).toEqual({ id: 1 });
         expect(postsState.snapshot.ids).toEqual([]);
 
         const req = httpMock.expectOne(`${getCollectionUrl(postsState)}/${1}`);

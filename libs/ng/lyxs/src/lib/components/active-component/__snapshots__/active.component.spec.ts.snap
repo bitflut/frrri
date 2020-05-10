@@ -42,14 +42,11 @@ exports[`ActiveComponent should show contents correctly: loading 1`] = `
     <div
       class="loading-content"
     >
-      <div>
-        <div
-          class="loading"
-        >
-          mock-loading
-        </div>
+      <div
+        class="loading"
+      >
+        mock-loading
       </div>
-      
     </div>
     <div
       class="content"

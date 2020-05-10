@@ -20,7 +20,7 @@
 </div>
 
 <div class="mt-12">
-    <lyxs-collection path="entities.comments" #comments>
+    <lyxs-many path="entities.comments" #comments>
         <div class="border-l border-gray-600 pl-3 -my-3 text-gray-600" *ngIf="comments.loaded$ | async">
             <div class="mb-3">Comments:</div>
             <ng-container *ngFor="let comment of comments.all$ | async; trackBy:comments.trackByKey()">
@@ -32,5 +32,5 @@
                 </ng-container>
             </ng-container>
         </div>
-    </lyxs-collection>
+    </lyxs-many>
 </div>

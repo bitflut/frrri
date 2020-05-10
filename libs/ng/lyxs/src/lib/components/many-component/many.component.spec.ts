@@ -8,8 +8,8 @@ import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
-import { CollectionComponent } from './collection.component';
-import { LyxsCollectionModule } from './collection.module';
+import { ManyComponent } from './many.component';
+import { LyxsManyModule } from './many.module';
 
 interface Post {
     userId: number;
@@ -78,7 +78,7 @@ const page2Data = {
         title: 'testing Angular4',
     }],
     headers: {
-        Link: 'link: </api/v1/admin/stores/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5cffc130c82fe51c5afe0a9e>; rel="next"',
+        Link: '</api/v1/admin/stores/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5cffc130c82fe51c5afe0a9e>; rel="next"',
     },
 };
 
@@ -92,9 +92,9 @@ const page3Data = {
     headers: {},
 };
 
-describe('CollectionComponent', () => {
-    let component: CollectionComponent;
-    let fixture: ComponentFixture<CollectionComponent>;
+describe('ManyComponent', () => {
+    let component: ManyComponent;
+    let fixture: ComponentFixture<ManyComponent>;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -102,7 +102,7 @@ describe('CollectionComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCacheState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                LyxsCollectionModule,
+                LyxsManyModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,
@@ -112,17 +112,17 @@ describe('CollectionComponent', () => {
         }).compileComponents();
 
         fixture = MockRender(`
-            <lyxs-collection path="cache.posts">
+            <lyxs-many path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
                 <div class="loading-first">mock-first-load</div>
                 <div class="load-more">mock-more</div>
-            </lyxs-collection>
+            </lyxs-many>
         `);
 
         component = fixture.debugElement
-            .query(By.directive(CollectionComponent))
-            .componentInstance as CollectionComponent;
+            .query(By.directive(ManyComponent))
+            .componentInstance as ManyComponent;
     });
 
     it('should create and initialize', async () => {
@@ -157,7 +157,7 @@ describe('CollectionComponent', () => {
 
         // PAGE 2/3
         postsEntities.getNext().toPromise();
-        const req2 = httpMock.expectOne(`${postsEntities.requestOptions.collectionUrlFactory()}?sort=name&pageSize=20&next%5B$or%5D%5B0%5D%5Bname%5D%5B$gt%5D=Forum%20Mannheim&next%5B$or%5D%5B1%5D%5Bname%5D%5B$gte%5D=Forum%20Mannheim&next%5B$or%5D%5B1%5D%5B_id%5D%5B$gt%5D=5e4d2901871f09a8d0fc4bef`);
+        const req2 = httpMock.expectOne(postsEntities.snapshot.next);
         fixture.detectChanges();
 
         // PAGE 2/3 - LOADING
@@ -170,7 +170,7 @@ describe('CollectionComponent', () => {
 
         // PAGE 3/3 (LAST PAGE)
         postsEntities.getNext().toPromise();
-        const req3 = httpMock.expectOne(`${postsEntities.requestOptions.collectionUrlFactory()}?sort=name&pageSize=20&next%5B$or%5D%5B0%5D%5Bname%5D%5B$gt%5D=LARI%20LUKE&next%5B$or%5D%5B1%5D%5Bname%5D%5B$gte%5D=LARI%20LUKE&next%5B$or%5D%5B1%5D%5B_id%5D%5B$gt%5D=5cffc130c82fe51c5afe0a9e`);
+        const req3 = httpMock.expectOne(postsEntities.snapshot.next);
         fixture.detectChanges();
 
         // PAGE 3/3 LOADING

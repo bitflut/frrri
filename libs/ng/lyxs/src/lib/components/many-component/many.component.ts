@@ -6,12 +6,12 @@ import { PaginatedCrudCollectionState } from '../../paginated-crud-collection-st
 import { StatesRegistryService } from '../../states-registry/states-registry.service';
 
 @Component({
-    selector: 'lyxs-collection',
-    templateUrl: './collection.component.html',
-    styleUrls: ['./collection.component.css'],
+    selector: 'lyxs-many',
+    templateUrl: './many.component.html',
+    styleUrls: ['./many.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CollectionComponent implements OnInit, OnDestroy {
+export class ManyComponent implements OnInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
 
@@ -34,14 +34,14 @@ export class CollectionComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         if (!this.path) {
-            throw new Error('Missing input `path` (<lya-collection path="cache.posts">)');
+            throw new Error('Missing input `path` (<lya-many path="cache.posts">)');
         }
 
         try {
             this.facade = this.statesRegistryService.getByPath(this.path);
             if (!this.facade) { throw new Error(); }
         } catch (e) {
-            throw new Error(`<lya-collection> could not find path \`${this.path}\` in registered states`);
+            throw new Error(`<lya-many> could not find path \`${this.path}\` in registered states`);
         }
 
         this.all$ = this.facade.all$.pipe(this.untilDestroyed());

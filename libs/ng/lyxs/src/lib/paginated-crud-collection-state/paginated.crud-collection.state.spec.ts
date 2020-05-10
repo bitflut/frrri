@@ -55,7 +55,7 @@ const page2Data = {
     ],
     headers: {
         Link:
-            'link: </api/v1/admin/stores/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5cffc130c82fe51c5afe0a9e>; rel="next"',
+            '</api/v1/admin/stores/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5cffc130c82fe51c5afe0a9e>; rel="next"',
     },
 };
 
@@ -112,15 +112,9 @@ describe('PaginatedCollectionState', () => {
                 headers: page1Data.headers,
             });
             expect(postsState.snapshot.ids).toEqual([1, 2]);
-            expect(postsState.snapshot.next).toMatchInlineSnapshot(`
-                Object {
-                  "next[$or][0][name][$gt]": "Forum Mannheim",
-                  "next[$or][1][_id][$gt]": "5e4d2901871f09a8d0fc4bef",
-                  "next[$or][1][name][$gte]": "Forum Mannheim",
-                  "pageSize": "20",
-                  "sort": "name",
-                }
-            `);
+            expect(postsState.snapshot.next).toMatchInlineSnapshot(
+                '"/api/v1/admin/posts/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=Forum%20Mannheim&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=Forum%20Mannheim&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5e4d2901871f09a8d0fc4bef"',
+            );
         },
     ));
 
@@ -137,35 +131,21 @@ describe('PaginatedCollectionState', () => {
                 headers: page1Data.headers,
             });
             expect(postsState.snapshot.ids).toEqual([1, 2]);
-            expect(postsState.snapshot.next).toMatchInlineSnapshot(`
-                Object {
-                  "next[$or][0][name][$gt]": "Forum Mannheim",
-                  "next[$or][1][_id][$gt]": "5e4d2901871f09a8d0fc4bef",
-                  "next[$or][1][name][$gte]": "Forum Mannheim",
-                  "pageSize": "20",
-                  "sort": "name",
-                }
-            `);
+            expect(postsState.snapshot.next).toMatchInlineSnapshot(
+                '"/api/v1/admin/posts/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=Forum%20Mannheim&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=Forum%20Mannheim&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5e4d2901871f09a8d0fc4bef"',
+            );
 
             postsState.getNext().toPromise();
 
-            const req2 = httpMock.expectOne(
-                `${postsState.requestOptions.collectionUrlFactory()}?sort=name&pageSize=20&next%5B$or%5D%5B0%5D%5Bname%5D%5B$gt%5D=Forum%20Mannheim&next%5B$or%5D%5B1%5D%5Bname%5D%5B$gte%5D=Forum%20Mannheim&next%5B$or%5D%5B1%5D%5B_id%5D%5B$gt%5D=5e4d2901871f09a8d0fc4bef`,
-            );
+            const req2 = httpMock.expectOne(postsState.snapshot.next);
             expect(req2.request.method).toEqual('GET');
             req2.flush(page2Data.body, {
                 headers: page2Data.headers,
             });
             expect(postsState.snapshot.ids).toEqual([1, 2, 3, 4]);
-            expect(postsState.snapshot.next).toMatchInlineSnapshot(`
-                Object {
-                  "next[$or][0][name][$gt]": "LARI LUKE",
-                  "next[$or][1][_id][$gt]": "5cffc130c82fe51c5afe0a9e",
-                  "next[$or][1][name][$gte]": "LARI LUKE",
-                  "pageSize": "20",
-                  "sort": "name",
-                }
-            `);
+            expect(postsState.snapshot.next).toMatchInlineSnapshot(
+                '"/api/v1/admin/stores/?sort=name&pageSize=20&next%5B%24or%5D%5B0%5D%5Bname%5D%5B%24gt%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5Bname%5D%5B%24gte%5D=LARI%20LUKE&next%5B%24or%5D%5B1%5D%5B_id%5D%5B%24gt%5D=5cffc130c82fe51c5afe0a9e"',
+            );
         },
     ));
 

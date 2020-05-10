@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`CollectionComponent should show contents correctly: init 1`] = `
+exports[`ManyComponent should show contents correctly: init 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -18,55 +18,13 @@ exports[`CollectionComponent should show contents correctly: init 1`] = `
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show contents correctly: loaded-page-1-of-3 1`] = `
+exports[`ManyComponent should show contents correctly: loaded-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
-    path="cache.posts"
-  >
-    <div
-      class="content"
-    >
-       My content 
-    </div>
-    
-    
-    
-    
-    
-    
-    
-    
-    <div
-      class="load-more-content"
-    >
-      <div>
-        <div>
-          <div
-            class="load-more"
-          >
-            mock-more
-          </div>
-        </div>
-        
-      </div>
-    </div>
-    
-    
-    
-    
-    
-    
-  </lyxs-collection>
-</mock-render>
-`;
-
-exports[`CollectionComponent should show contents correctly: loaded-page-2-of-3 1`] = `
-<mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -102,13 +60,13 @@ exports[`CollectionComponent should show contents correctly: loaded-page-2-of-3 
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show contents correctly: loaded-page-3-of-3 1`] = `
+exports[`ManyComponent should show contents correctly: loaded-page-2-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -124,13 +82,55 @@ exports[`CollectionComponent should show contents correctly: loaded-page-3-of-3 
     
     
     
-  </lyxs-collection>
+    <div
+      class="load-more-content"
+    >
+      <div>
+        <div>
+          <div
+            class="load-more"
+          >
+            mock-more
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show contents correctly: loading-page-1-of-3 1`] = `
+exports[`ManyComponent should show contents correctly: loaded-page-3-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
+    path="cache.posts"
+  >
+    <div
+      class="content"
+    >
+       My content 
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+  </lyxs-many>
+</mock-render>
+`;
+
+exports[`ManyComponent should show contents correctly: loading-page-1-of-3 1`] = `
+<mock-render>
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -156,13 +156,13 @@ exports[`CollectionComponent should show contents correctly: loading-page-1-of-3
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show contents correctly: loading-page-2-of-3 1`] = `
+exports[`ManyComponent should show contents correctly: loading-page-2-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -203,13 +203,13 @@ exports[`CollectionComponent should show contents correctly: loading-page-2-of-3
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show contents correctly: loading-page-3-of-3 1`] = `
+exports[`ManyComponent should show contents correctly: loading-page-3-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -250,13 +250,13 @@ exports[`CollectionComponent should show contents correctly: loading-page-3-of-3
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show errors: error-page-1-of-3 1`] = `
+exports[`ManyComponent should show errors: error-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -284,13 +284,13 @@ exports[`CollectionComponent should show errors: error-page-1-of-3 1`] = `
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show errors: init 1`] = `
+exports[`ManyComponent should show errors: init 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -306,13 +306,13 @@ exports[`CollectionComponent should show errors: init 1`] = `
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;
 
-exports[`CollectionComponent should show errors: loading-page-1-of-3 1`] = `
+exports[`ManyComponent should show errors: loading-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-collection
+  <lyxs-many
     path="cache.posts"
   >
     <div
@@ -338,6 +338,6 @@ exports[`CollectionComponent should show errors: loading-page-1-of-3 1`] = `
     
     
     
-  </lyxs-collection>
+  </lyxs-many>
 </mock-render>
 `;

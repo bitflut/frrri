@@ -2,7 +2,7 @@
 
 exports[`routeData function should generate active route 1`] = `
 Object {
-  "await": true,
+  "await": false,
   "param": "id",
   "type": "getActive",
 }
@@ -10,7 +10,7 @@ Object {
 
 exports[`routeData function should generate collection route 1`] = `
 Object {
-  "await": true,
+  "await": false,
   "params": Object {},
   "type": "getMany",
 }
@@ -18,7 +18,7 @@ Object {
 
 exports[`routeData function should generate collection route with parameters 1`] = `
 Object {
-  "await": true,
+  "await": false,
   "params": Object {
     "filter[type][$eq]": "comedy",
     "sort": "startAt",
