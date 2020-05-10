@@ -4,7 +4,7 @@ To get started, install @lyxs/angular and its peer dependencies.
 
 ```bash
 # dependencies
-npm install @ngxs/store @ngrx-labs/data --save
+npm install @ngxs/store @ngxs-labs/data --save
 
 # @lyxs/angular
 npm install @lyxs/angular --save
