@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CrudCollection, PaginatedCrudCollectionState } from '@lyxs/angular';
+import { PaginatedCrudCollection, PaginatedCrudCollectionState } from '@lyxs/angular/pagination';
 
-@CrudCollection({
+@PaginatedCrudCollection({
     name: 'comments',
 })
 @Injectable()
