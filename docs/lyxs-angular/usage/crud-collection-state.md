@@ -1,4 +1,4 @@
-# Crud Collection State
+# Crud Collection
 
 By extending your State with **CrudCollectionState** and adding the **@CrudCollection** decorator, you are all set to communicate with your api via the provided defaults `/api/{collection name}` .
 
