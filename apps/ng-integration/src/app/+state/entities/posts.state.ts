@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CrudCollection, PaginatedCrudCollectionState } from '@lyxs/ng/lyxs';
+import { CrudCollection, PaginatedCrudCollectionState } from '@lyxs/angular';
 
 @CrudCollection({
     name: 'posts',

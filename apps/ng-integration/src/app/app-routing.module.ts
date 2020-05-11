@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { crudRoutes } from '@lyxs/ng/lyxs';
+import { crudRoutes } from '@lyxs/angular';
 
 const routes: Routes = [
     {

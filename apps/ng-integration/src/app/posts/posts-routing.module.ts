@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { clear, crudRouteInstructions, crudRoutes, deactivate, getActive, getMany, populate, PopulationStrategy } from '@lyxs/ng/lyxs';
+import { clear, crudRouteInstructions, crudRoutes, deactivate, getActive, getMany, populate, PopulationStrategy } from '@lyxs/angular';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 

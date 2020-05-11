@@ -1,7 +1,7 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { PaginationInterceptor } from '@lyxs/ng/lyxs';
+import { PaginationInterceptor } from '@lyxs/angular';
 import { AppRoutingModule } from './app-routing.module';
 import { AppStateModule } from './app-state.module';
 import { AppComponent } from './app.component';
