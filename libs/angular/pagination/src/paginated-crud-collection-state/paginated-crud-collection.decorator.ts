@@ -9,7 +9,7 @@ export function PaginatedCrudCollection<T = CrudCollectionReducer>(options: Pagi
     options = {
         ...options,
         defaults: {
-            next: {},
+            next: undefined,
             ...options.defaults,
         },
     };

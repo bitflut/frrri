@@ -56,7 +56,7 @@ export class ManyComponent implements OnInit, OnDestroy {
     }
 
     loadNext() {
-        const canLoadNext = this.facade.hasOwnProperty('getNext');
+        const canLoadNext = this.facade.getNext;
         if (!canLoadNext) {
             throw new Error(`The state provided for path \`${this.path}\` does not support \`getNext()\`. Consider extending your state with \`PaginatedCrudCollectionState\` instead.`);
         }

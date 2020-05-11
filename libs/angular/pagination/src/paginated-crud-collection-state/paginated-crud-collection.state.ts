@@ -38,6 +38,7 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
 
     @DataAction()
     public getAll(@Payload('options') options: GetManyOptions = {}) {
+        this.ctx.patchState({ loaded: false } as any);
         return this.paginatedService.getAll(this.requestOptions.collectionUrlFactory(), { ...options, size: this.pageSize })
             .pipe(
                 this.requestOptionsPipe(OperationContext.Many),
