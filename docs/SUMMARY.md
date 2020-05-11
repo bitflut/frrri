@@ -2,7 +2,6 @@
 
 * [Introduction](introduction.md)
 * [@lyxs/angular](lyxs-angular/README.md)
-  * [Quick start](lyxs-angular/quick-start.md)
   * [Usage](lyxs-angular/usage/README.md)
     * [Crud Collection](lyxs-angular/usage/crud-collection-state.md)
     * [Crud Entities](lyxs-angular/usage/crud-entities.md)
@@ -11,4 +10,5 @@
       * [LyxsManyComponent](lyxs-angular/usage/ui-components/lyxsmanycomponent.md)
       * [LyxsOneComponent](lyxs-angular/usage/ui-components/lyxsonecomponent.md)
       * [LyxsActiveComponent](lyxs-angular/usage/ui-components/lyxsactivecomponent.md)
+  * [Quick start](lyxs-angular/quick-start.md)
 
