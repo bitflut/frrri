@@ -34,5 +34,7 @@ const routes: Routes = [
 export class PostsRoutingModule { }
 ```
 
+It's important to wrap the routes provided to **RouterModule** with our **crudRoutes\(\)** function, so our resolver will run for every route.
+
 Have a look at [posts-routing.module.ts](https://github.com/bitflut/lyxs/blob/master/apps/ng-integration/src/app/posts/posts-routing.module.ts) in the **ng-intergation example** on GitHub for more examples.
 
