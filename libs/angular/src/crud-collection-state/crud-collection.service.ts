@@ -1,17 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { EntityIdType } from '@ngxs-labs/data/typings';
+import { GetManyOptions } from '@lyxs/angular/internal';
 import { Observable } from 'rxjs';
-
-export interface GetManyOptions {
-    [key: string]: any;
-    params?: { [key: string]: string | string[] };
-}
 
 @Injectable({
     providedIn: 'root',
 })
-export class CrudCollectionService<V, K extends EntityIdType = EntityIdType> {
+export class CrudCollectionService<V> {
 
     protected http = this.injector.get(HttpClient);
 

@@ -1,17 +1,16 @@
 import { Injectable, Injector } from '@angular/core';
-import { CrudCollectionState } from '@lyxs/angular';
-import { NGXS_STATE_FACTORY } from '@ngxs/store/internals';
+import { NGXS_STATE_FACTORY, StateClass } from '@ngxs/store/internals';
 import { StateFactory } from '@ngxs/store/src/internal/state-factory';
 
 @Injectable({
     providedIn: 'root',
 })
-export class StatesRegistryService<StateClass = CrudCollectionState<any>> {
+export class StatesRegistryService<State extends StateClass> {
     constructor(
         protected injector: Injector,
     ) { }
 
-    getByPath(path: string): StateClass {
+    getByPath(path: string): State {
         try {
             const stateFactory = this.injector.get<StateFactory>(NGXS_STATE_FACTORY);
             const state = stateFactory.states

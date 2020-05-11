@@ -8,7 +8,9 @@
     "@angular/common": "^9.1.0",
     "@angular/core": "^9.1.0",
     "@ngxs/store": "^3.6.2",
-    "@ngxs-labs/data": "^3.0.4"
+    "@ngxs-labs/data": "^3.0.4",
+    "lodash": "^4.17.15",
+    "parse-link-header": "^1.0.1"
   },
   "keywords": [
     "Angular",
@@ -34,7 +36,8 @@
         "@ngxs-labs/data/utils": "@ngxs-labs/data/utils",
         "@ngxs/store": "@ngxs/store",
         "@ngxs/store/internals": "@ngxs/store/internals",
-        "lodash": "lodash"
+        "lodash": "lodash",
+        "parse-link-header": "parse-link-header"
       }
     },
     "dest": "../../../dist/@lyxs/angular"

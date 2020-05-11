@@ -6,7 +6,7 @@ import { StateClass } from '@ngxs/store/internals';
 import { StoreOptions } from '@ngxs/store/src/symbols';
 import { CrudCollectionReducer } from './crud-collection.state';
 
-export interface CrudCollectionRequestOptions<IdType = EntityIdType> {
+interface CrudCollectionRequestOptions<IdType = EntityIdType> {
     delay?: number;
     timeout?: number;
     /**

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { StatesRegistryService } from '@lyxs/angular';
 import { PaginatedCrudCollectionState } from '@lyxs/angular/pagination';
+import { StatesRegistryService } from '@lyxs/angular/registry';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

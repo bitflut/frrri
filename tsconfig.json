@@ -19,7 +19,6 @@
       "@lyxs/angular": ["libs/angular/src/public_api.ts"],
       "@lyxs/angular/routing": ["libs/angular/routing/src/public_api.ts"],
       "@lyxs/angular/ui": ["libs/angular/ui/src/public_api.ts"],
-      "@lyxs/angular/types": ["libs/angular/types/src/public_api.ts"],
       "@lyxs/angular/pagination": ["libs/angular/pagination/src/public_api.ts"],
       "@lyxs/angular/registry": ["libs/angular/registry/src/public_api.ts"],
       "@lyxs/angular/internal": ["libs/angular/internal/src/public_api.ts"]

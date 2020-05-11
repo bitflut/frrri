@@ -1,4 +1,4 @@
-import { OperationContext } from '@lyxs/angular/types';
+import { OperationContext } from '@lyxs/angular/internal';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { CRUD_ROUTE_DATA } from './constants';
 

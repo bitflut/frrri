@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectFlags, Injector } from '@angular/core';
+import { GetManyOptions, OperationContext } from '@lyxs/angular/internal';
 import { StatesRegistryService } from '@lyxs/angular/registry';
 import { populate, PopulationOptions, PopulationStrategy } from '@lyxs/angular/routing';
-import { OperationContext } from '@lyxs/angular/types';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';
@@ -22,15 +22,11 @@ export type CrudCollectionReducer<Entity = {}, IdType extends EntityIdType = Ent
     active: Entity;
 };
 
-export interface GetManyOptions {
-    params?: { [key: string]: string | string[] };
-}
-
 @Injectable()
 export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = string, Reducer extends CrudCollectionReducer<Entity, IdType> = CrudCollectionReducer<Entity, IdType>>
     extends NgxsDataEntityCollectionsRepository<Entity, IdType, Reducer> {
 
-    private service = this.injector.get<CrudCollectionService<Entity, IdType>>(CrudCollectionService);
+    private service = this.injector.get<CrudCollectionService<Entity>>(CrudCollectionService);
     private statesRegistry = this.injector.get<StatesRegistryService>(StatesRegistryService);
     private populations: Array<PopulationOptions>;
     protected http = this.injector.get(HttpClient);

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { CrudCollectionReducer, CrudCollectionState, GetManyOptions } from '@lyxs/angular';
-import { OperationContext } from '@lyxs/angular/types';
+import { CrudCollectionReducer, CrudCollectionState } from '@lyxs/angular';
+import { GetManyOptions, OperationContext } from '@lyxs/angular/internal';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe } from 'rxjs';

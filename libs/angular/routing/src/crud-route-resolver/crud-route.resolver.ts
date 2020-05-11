@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { StatesRegistryService } from '@lyxs/angular';
-import { OperationContext } from '@lyxs/angular/types';
+import { OperationContext } from '@lyxs/angular/internal';
+import { StatesRegistryService } from '@lyxs/angular/registry';
 import { CRUD_ROUTE_DATA } from '../crud-route-data/constants';
 import { PopulateRouteData, RouteData, RouteInstructionType } from '../crud-route-data/route-data';
 
