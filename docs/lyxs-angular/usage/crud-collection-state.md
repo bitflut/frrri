@@ -1,0 +1,41 @@
+# Crud Collection State
+
+By extending your State with **CrudCollectionState** and adding the **@CrudCollection** decorator, you are all set to communicate with your api via the provided defaults `/api/{collection name}` .
+
+```typescript
+import { Injectable } from '@angular/core';
+import { CrudCollection, CrudCollectionState } from '@lyxs/angular';
+
+interface Post {
+    id: string;
+    body: string;
+    title: string;
+}
+
+@CrudCollection({ name: 'posts' })
+@Injectable()
+export class PostsState extends CrudCollectionState<Post, Post['id']> { }
+
+```
+
+You can fully customise the baseUrl, endpoint and other relevant things via the **@CrudCollection** decorator's options, or globally for all collections by providing **CRUD\_COLLECTION\_OPTIONS\_TOKEN** anywhere in your module.
+
+Overriding defaults for **@CrudCollection** globally:
+
+```typescript
+...
+@NgModule({
+    ...
+    providers: [
+        ...
+        {
+            provide: CRUD_COLLECTION_OPTIONS_TOKEN,
+            useValue: {
+                baseUrl: 'http://localhost:3000',
+            } as CrudCollectionOptionsProvider,
+        }
+    ],
+})
+export class StateModule { }
+```
+

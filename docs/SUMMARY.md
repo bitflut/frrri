@@ -4,6 +4,7 @@
 * [@lyxs/angular](lyxs-angular/README.md)
   * [Quick start](lyxs-angular/quick-start.md)
   * [Usage](lyxs-angular/usage/README.md)
+    * [Crud Collection State](lyxs-angular/usage/crud-collection-state.md)
     * [Routing Instructions](lyxs-angular/usage/routing-instructions.md)
     * [UI Components](lyxs-angular/usage/ui-components/README.md)
       * [LyxsManyComponent](lyxs-angular/usage/ui-components/lyxsmanycomponent.md)
