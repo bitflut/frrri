@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { clear, crudRouteInstructions, crudRoutes, deactivate, getActive, getMany, populate, PopulationStrategy } from '@lyxs/angular/routing';
+import { clear, deactivate, getActive, getMany, instructions, lyxsRoutes, populate, PopulationStrategy } from '@lyxs/angular/routing';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 
@@ -13,7 +13,7 @@ const routes: Routes = [
     {
         path: 'all',
         component: PostsIndexComponent,
-        data: crudRouteInstructions({
+        data: instructions({
             'entities': clear(),
             'entities.posts': [
                 deactivate(),
@@ -23,7 +23,7 @@ const routes: Routes = [
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: crudRouteInstructions({
+            data: instructions({
                 'entities.posts': getActive(),
             }),
         }],
@@ -31,7 +31,7 @@ const routes: Routes = [
     {
         path: 'paginated',
         component: PostsIndexComponent,
-        data: crudRouteInstructions({
+        data: instructions({
             'entities': clear(),
             'entities.posts': [
                 deactivate(),
@@ -41,7 +41,7 @@ const routes: Routes = [
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: crudRouteInstructions({
+            data: instructions({
                 'entities.posts': getActive(),
             }),
         }],
@@ -49,7 +49,7 @@ const routes: Routes = [
     {
         path: 'with-comments',
         component: PostsIndexComponent,
-        data: crudRouteInstructions({
+        data: instructions({
             'entities': clear(),
             'entities.posts': [
                 deactivate(),
@@ -59,7 +59,7 @@ const routes: Routes = [
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: crudRouteInstructions({
+            data: instructions({
                 'entities.comments': clear(),
                 'entities.posts': [
                     getActive(),
@@ -75,7 +75,7 @@ const routes: Routes = [
     {
         path: 'with-user',
         component: PostsIndexComponent,
-        data: crudRouteInstructions({
+        data: instructions({
             'entities': clear(),
             'entities.posts': [
                 deactivate(),
@@ -89,7 +89,7 @@ const routes: Routes = [
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: crudRouteInstructions({
+            data: instructions({
                 'entities.comments': clear(),
                 'entities.posts': [
                     getActive(),
@@ -111,7 +111,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            crudRoutes(routes),
+            lyxsRoutes(routes),
         ),
     ],
     exports: [RouterModule],

@@ -5,19 +5,19 @@
 ```typescript
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { crudRouteInstructions, crudRoutes, getActive, getMany } from '@lyxs/angular/routing';
+import { instructions, lyxsRoutes, getActive, getMany } from '@lyxs/angular/routing';
 
 const routes: Routes = [
     {
         path: '',
-        data: crudRouteInstructions({
+        data: instructions({
             'entities': clear(), // Clear all entities when entering the route
             'entities.posts': getMany() // Then get posts
         })
     },
     {
         path: ':id',
-        data: crudRouteInstructions({
+        data: instructions({
             'entities.posts': getActive() // Get active post (defaults to set param :id active)
         })
     }
@@ -26,7 +26,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            crudRoutes(routes) // Important so route instructions can be resolved
+            lyxsRoutes(routes) // Important so route instructions can be resolved
         )
     ],
     exports: [RouterModule]

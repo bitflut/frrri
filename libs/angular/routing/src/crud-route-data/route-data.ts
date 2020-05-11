@@ -147,7 +147,7 @@ export type RouteData =
     | ReturnType<typeof deactivate>
     | PopulationOptions;
 
-export function crudRouteInstructions(data: { [key: string]: RouteData | Array<RouteData> }) {
+export function instructions(data: { [key: string]: RouteData | Array<RouteData> }) {
     return {
         [CRUD_ROUTE_DATA]: data,
     };

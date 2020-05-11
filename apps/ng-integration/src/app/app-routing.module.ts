@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { crudRoutes } from '@lyxs/angular/routing';
+import { lyxsRoutes } from '@lyxs/angular/routing';
 
 const routes: Routes = [
     {
@@ -20,7 +20,7 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forRoot(
-            crudRoutes(routes),
+            lyxsRoutes(routes),
             { initialNavigation: 'enabled' },
         ),
     ],
