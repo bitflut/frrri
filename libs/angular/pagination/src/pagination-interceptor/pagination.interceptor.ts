@@ -1,8 +1,9 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import parseLinkHeader from 'parse-link-header';
+import * as parseLinkHeaderNs from 'parse-link-header';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+const parseLinkHeader = parseLinkHeaderNs;
 
 @Injectable()
 export class PaginationInterceptor implements HttpInterceptor {

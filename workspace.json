@@ -223,5 +223,5 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "ng-lyxs"
+  "defaultProject": "angular"
 }

@@ -103,7 +103,7 @@ describe('StatesRegistry', () => {
         StatesRegistryService,
     ], async (
         httpMock: HttpTestingController,
-        collectionRegistry: StatesRegistryService,
+        collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
     ) => {
         const postsState = collectionRegistry.getByPath('cache.posts');
         expect(postsState).toBeDefined();
