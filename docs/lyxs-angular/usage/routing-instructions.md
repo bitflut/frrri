@@ -5,7 +5,7 @@
 ```typescript
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { instructions, lyxsRoutes, getActive, getMany } from '@lyxs/angular/routing';
+import { lyxsRoutes, instructions, getActive, getMany } from '@lyxs/angular/routing';
 
 const routes: Routes = [
     {
