@@ -3,7 +3,7 @@ import { State } from '@ngxs/store';
 import { StateClass } from '@ngxs/store/internals';
 import { StoreOptions } from '@ngxs/store/src/symbols';
 
-export function Cache<T>(options: StoreOptions<T>) {
+export function CrudEntities<T>(options: StoreOptions<T>) {
     const stateFn = State(options);
     const stateRepositoryFn = StateRepository();
     return function (target: StateClass) {

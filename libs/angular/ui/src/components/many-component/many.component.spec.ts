@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { Cache, CacheState, CrudCollection, CrudCollectionState } from '@lyxs/angular';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@lyxs/angular';
 import { PaginatedCrudCollectionState, PaginationInterceptor } from '@lyxs/angular/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -41,13 +41,13 @@ interface Comment {
 @Injectable()
 class CommentsEntitiesState extends CrudCollectionState<Comment, number> { }
 
-@Cache({
+@CrudEntities({
     name: 'cache',
     defaults: {},
     children: [PostsEntitiesState, CommentsEntitiesState],
 })
 @Injectable()
-class EntityCacheState extends CacheState<any> { }
+class EntityCrudEntitiesState extends CrudEntitiesState<any> { }
 
 const page1Data = {
     body: [{
@@ -101,7 +101,7 @@ describe('ManyComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
-                NgxsModule.forRoot([EntityCacheState, PostsEntitiesState, CommentsEntitiesState]),
+                NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
                 LyxsManyModule,
             ],

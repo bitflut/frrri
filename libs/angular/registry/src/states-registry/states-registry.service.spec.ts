@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable, NgModule } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { Cache, CacheState, CrudCollection, CrudCollectionState } from '@lyxs/angular';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@lyxs/angular';
 import { PaginatedCrudCollectionState } from '@lyxs/angular/pagination';
 import { StatesRegistryService } from '@lyxs/angular/registry';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
@@ -36,13 +36,13 @@ interface Comment {
 @Injectable()
 class CommentsEntitiesState extends CrudCollectionState<Comment, number> { }
 
-@Cache({
+@CrudEntities({
     name: 'cache',
     defaults: {},
     children: [PostsEntitiesState, CommentsEntitiesState],
 })
 @Injectable()
-class EntityCacheState extends CacheState<any> { }
+class EntityCrudEntitiesState extends CrudEntitiesState<any> { }
 
 const postsData = [{
     userId: 1,
@@ -77,7 +77,7 @@ describe('StatesRegistry', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
-                NgxsModule.forRoot([EntityCacheState, PostsEntitiesState, CommentsEntitiesState]),
+                NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
                 FeatureModule,
             ],
@@ -86,16 +86,16 @@ describe('StatesRegistry', () => {
 
     it('should register states', inject([
         PostsEntitiesState,
-        EntityCacheState,
+        EntityCrudEntitiesState,
         StatesRegistryService,
     ], (
         postsState: PostsEntitiesState,
-        entityCacheState: EntityCacheState,
+        entityCrudEntitiesState: EntityCrudEntitiesState,
         collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
     ) => {
         expect(collectionRegistry.getByPath('cache.posts').requestOptions.collectionUrlFactory).toBeDefined();
         expect(postsState).toBe(collectionRegistry.getByPath('cache.posts'));
-        expect(entityCacheState).toBe(collectionRegistry.getByPath('cache'));
+        expect(entityCrudEntitiesState).toBe(collectionRegistry.getByPath('cache'));
     }));
 
     it('should reset all states', inject([

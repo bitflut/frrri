@@ -9,7 +9,7 @@ interface Resettable {
 }
 
 @Injectable()
-export class CacheState<T> extends NgxsDataRepository<T> {
+export class CrudEntitiesState<T> extends NgxsDataRepository<T> {
 
     private statesRegistry = this.injector.get<StatesRegistryService<Resettable>>(StatesRegistryService);
 

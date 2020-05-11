@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Cache, CacheState } from '@lyxs/angular';
+import { CrudEntities, CrudEntitiesState } from '@lyxs/angular';
 import { CommentsState } from './entities/comments.state';
 import { PostsState } from './entities/posts.state';
 import { UsersState } from './entities/users.state';
 
-@Cache({
+@CrudEntities({
     name: 'entities',
     children: [
         PostsState,
@@ -13,4 +13,4 @@ import { UsersState } from './entities/users.state';
     ],
 })
 @Injectable()
-export class EntitiesState extends CacheState<any> { }
+export class EntitiesState extends CrudEntitiesState<any> { }
