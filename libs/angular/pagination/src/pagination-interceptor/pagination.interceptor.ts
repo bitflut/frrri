@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import * as parseLinkHeader from 'parse-link-header';
+import parseLinkHeader from 'parse-link-header';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

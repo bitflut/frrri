@@ -5,12 +5,12 @@ import { StateFactory } from '@ngxs/store/src/internal/state-factory';
 @Injectable({
     providedIn: 'root',
 })
-export class StatesRegistryService<State extends StateClass> {
+export class StatesRegistryService<State = StateClass> {
     constructor(
         protected injector: Injector,
     ) { }
-
-    getByPath(path: string): State {
+    T;
+    getByPath<T = State>(path: string): T {
         try {
             const stateFactory = this.injector.get<StateFactory>(NGXS_STATE_FACTORY);
             const state = stateFactory.states

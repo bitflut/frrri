@@ -27,7 +27,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     extends NgxsDataEntityCollectionsRepository<Entity, IdType, Reducer> {
 
     private service = this.injector.get<CrudCollectionService<Entity>>(CrudCollectionService);
-    private statesRegistry = this.injector.get<StatesRegistryService>(StatesRegistryService);
+    private statesRegistry = this.injector.get<StatesRegistryService<CrudCollectionState>>(StatesRegistryService);
     private populations: Array<PopulationOptions>;
     protected http = this.injector.get(HttpClient);
     readonly requestOptions: CrudCollectionOptions['requestOptions'];

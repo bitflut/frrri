@@ -36,10 +36,10 @@
         "@ngxs-labs/data/utils": "@ngxs-labs/data/utils",
         "@ngxs/store": "@ngxs/store",
         "@ngxs/store/internals": "@ngxs/store/internals",
-        "lodash": "lodash",
-        "parse-link-header": "parse-link-header"
+        "parse-link-header": "parse-link-header",
+        "lodash": "lodash"
       }
     },
-    "dest": "../../../dist/@lyxs/angular"
+    "dest": "../../dist/@lyxs/angular"
   }
 }
