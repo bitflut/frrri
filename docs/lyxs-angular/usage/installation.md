@@ -19,12 +19,13 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
+import { EntitiesState } from './entities.state'; // <-- we will add this next
 import { PostsState } from './posts.state'; // <-- we will add this next
 
 @NgModule({
   imports: [
     HttpClientModule,
-    NgxsModule.forRoot([PostsState], {
+    NgxsModule.forRoot([EntitiesState, PostsState], {
       developmentMode: !environment.production
     }),
     NgxsDataPluginModule.forRoot(),
