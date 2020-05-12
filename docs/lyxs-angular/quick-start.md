@@ -14,14 +14,12 @@ Then set up **ngxs** and **nxgs-data** in `app.module.ts` like so \(see [https:/
 
 ```typescript
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
 import { NgxsModule } from '@ngxs/store';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { PostsState } from './posts.state'; // <-- we will add this next
 
 @NgModule({
   imports: [
-    HttpClientModule,
     NgxsModule.forRoot([PostsState], {
       developmentMode: !environment.production
     }),

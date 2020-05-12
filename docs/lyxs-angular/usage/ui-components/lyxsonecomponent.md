@@ -4,7 +4,6 @@ Displays one entity in a collection by the provided **id**.
 
 The path **entities.users** defined in the example below is the corresponding collection's state path. See [States Registry](../../recipes/states-registry.md) for more information.
 
-{% code title="posts-show.component.html" %}
 ```markup
 <lyxs-one path="entities.users" [id]="post.userId" #oneUserComponent>
     <ng-container *ngIf="oneUserComponent.one$ | async as user">
@@ -12,7 +11,6 @@ The path **entities.users** defined in the example below is the corresponding co
     </ng-container>
 </lyxs-one>
 ```
-{% endcode %}
 
 
 
