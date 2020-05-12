@@ -8,7 +8,7 @@ LYXS is designed to cache a copy of all entities needed by your current route to
 })
 export class PostsState extends CrudCollectionState { }
 
-@CrudEntities({
+@Cache({
     name: 'entities',
     children: [PostsState]
 })

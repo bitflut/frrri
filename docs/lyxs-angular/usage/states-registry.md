@@ -1,6 +1,6 @@
 # States Registry
 
-As you might have noticed by now, [routing instructions](routing-instructions.md) and [ui components](ui-components/) use a state path to specify a collection.
+As you might have noticed by now, [routing instructions](routing-instructions.md) and [ui components](ui-components/) use state paths to specify a collection.
 
 ```typescript
 @CrudCollection({
@@ -15,7 +15,7 @@ export class PostsState extends CrudCollectionState { }
 export class EntitiesState extends CrudEntitiesState { }
 ```
 
-The PostsState collection can now be access via `entities.posts`. Retrieving the correct state is handled by the StatesRegistryService.
+The **PostsState** collection can now be access via the path `entities.posts`. Retrieving the correct state is handled by the **StatesRegistryService**.
 
 ### StatesRegistryService
 
