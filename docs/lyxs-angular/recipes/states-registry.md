@@ -1,6 +1,6 @@
 # States Registry
 
-As you might have noticed by now, [routing instructions](routing-instructions.md) and [ui components](ui-components/) use state paths to specify a collection.
+As you might have noticed by now, [routing instructions](../usage/routing-instructions.md) and [ui components](../usage/ui-components/) use state paths to specify a collection.
 
 ```typescript
 @CrudCollection({
