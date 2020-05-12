@@ -75,6 +75,6 @@ export class AppComponent {
 ```
 
 {% hint style="info" %}
-We recommend using [Routing Instructions](usage/routing-instructions.md) to resolve data.
+We recommend using [Routing Instructions](routing-instructions.md) to resolve data.
 {% endhint %}
 

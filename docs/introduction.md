@@ -10,5 +10,5 @@
 
 We suggest reading through the [Usage chapter](lyxs-angular/usage/) in order to understand all basic intentions of @lyxs/angular.
 
-See [Installation](lyxs-angular/installation.md) for minimal setup instructions.
+See [Installation](lyxs-angular/usage/installation.md) for minimal setup instructions.
 

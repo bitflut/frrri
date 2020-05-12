@@ -2,8 +2,8 @@
 
 * [Introduction](introduction.md)
 * [@lyxs/angular](lyxs-angular/README.md)
-  * [Installation](lyxs-angular/installation.md)
   * [Usage](lyxs-angular/usage/README.md)
+    * [Installation](lyxs-angular/usage/installation.md)
     * [Crud Collection](lyxs-angular/usage/crud-collection-state.md)
     * [Crud Entities](lyxs-angular/usage/crud-entities.md)
     * [Routing Instructions](lyxs-angular/usage/routing-instructions.md)
