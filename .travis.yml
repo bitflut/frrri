@@ -15,3 +15,7 @@ script:
     - npm run affected:build
     - npm run affected:e2e
     - npm run affected:test
+
+branches:
+  only:
+    - master
