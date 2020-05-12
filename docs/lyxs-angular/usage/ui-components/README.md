@@ -2,7 +2,7 @@
 
 ## Streamline your view layer
 
-To streamline your view layer **@lyxs/angular provides three components** to show __**all entities** of a collection, a **single entity** of a collection, or the **active entity** of the collection.
+To streamline your view layer **@lyxs/angular/ui** provides ****three components to show __**all entities** of a collection, a **single entity** of a collection, or the **active entity** of the collection.
 
 * \*\*\*\*[**All entities**: LyxsManyComponent &lt;lyxs-many&gt;](lyxsmanycomponent.md)
 * \*\*\*\*[**Single entity**: LyxsOneComponent &lt;lyxs-one&gt;](lyxsonecomponent.md)
