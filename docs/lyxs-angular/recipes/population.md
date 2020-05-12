@@ -1,7 +1,11 @@
 # Population
 
+## Comments of a post of user 1
+
 #### Imagine the following scenario:
 
+{% tabs %}
+{% tab title="interfaces.ts" %}
 ```typescript
 interface Post {
     id: number;
@@ -21,6 +25,12 @@ interface User {
     id: number;
     name: string;
 }
+```
+{% endtab %}
+
+{% tab title="states.ts" %}
+```typescript
+import { Post, Comment, User } from './interfaces';
 
 @CrudCollection({ name: 'posts' })
 @Injectable()
@@ -45,6 +55,8 @@ export class UsersState extends CrudCollectionState<User, User['id']> { }
 @Injectable()
 export class EntitiesState extends CrudEntitiesState { }
 ```
+{% endtab %}
+{% endtabs %}
 
 Now if you want to display the user's name for every post in your list, you can use `populate()` to instruct the lyxs resolver to fetch every post's user.
 
