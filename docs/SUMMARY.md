@@ -15,4 +15,5 @@
     * [Pagination](lyxs-angular/recipes/pagination.md)
     * [Population](lyxs-angular/recipes/population.md)
     * [States Registry](lyxs-angular/recipes/states-registry.md)
+    * [SSR](lyxs-angular/recipes/ssr.md)
 
