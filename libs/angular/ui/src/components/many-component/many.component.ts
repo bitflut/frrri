@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { CrudCollectionState } from '@lyxs/angular';
 import { PaginatedCrudCollectionState } from '@lyxs/angular/pagination';
 import { StatesRegistryService } from '@lyxs/angular/registry';
 import { EntityIdType } from '@ngxs-labs/data/typings';
@@ -16,7 +17,7 @@ export class ManyComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
     @Input() path: string;
-    protected facade: PaginatedCrudCollectionState;
+    protected facade: CrudCollectionState | PaginatedCrudCollectionState;
 
     all$: Observable<any[]>;
     loaded$: Observable<boolean>;
@@ -29,7 +30,7 @@ export class ManyComponent implements OnInit, OnDestroy {
     activeId$?: Observable<EntityIdType | undefined>;
 
     constructor(
-        private statesRegistryService: StatesRegistryService<PaginatedCrudCollectionState>,
+        private statesRegistryService: StatesRegistryService<CrudCollectionState | PaginatedCrudCollectionState>,
     ) { }
 
     ngOnInit(): void {
@@ -47,20 +48,23 @@ export class ManyComponent implements OnInit, OnDestroy {
         this.all$ = this.facade.all$.pipe(this.untilDestroyed());
         this.loaded$ = this.facade.loaded$.pipe(this.untilDestroyed());
         this.loading$ = this.facade.loadingMany$.pipe(this.untilDestroyed());
-        this.loadingFirst$ = this.facade.loadingFirst$.pipe(this.untilDestroyed());
-        this.loadingNext$ = this.facade.loadingNext$.pipe(this.untilDestroyed());
         this.error$ = this.facade.errorMany$.pipe(this.untilDestroyed());
         this.empty$ = this.facade.empty$.pipe(this.untilDestroyed());
-        this.next$ = this.facade.next$.pipe(this.untilDestroyed());
         this.activeId$ = this.facade.activeId$.pipe(this.untilDestroyed());
+        this.loadingNext$ = this.facade.loadingNext$.pipe(this.untilDestroyed());
+        this.loadingFirst$ = this.facade.loadingFirst$.pipe(this.untilDestroyed());
+
+        if ('next$' in this.facade) {
+            this.next$ = this.facade.next$.pipe(this.untilDestroyed());
+        }
     }
 
     loadNext() {
-        const canLoadNext = this.facade.getNext;
-        if (!canLoadNext) {
+        if ('getNext' in this.facade) {
+            this.facade.getNext().toPromise();
+        } else {
             throw new Error(`The state provided for path \`${this.path}\` does not support \`getNext()\`. Consider extending your state with \`PaginatedCrudCollectionState\` instead.`);
         }
-        this.facade.getNext().toPromise();
     }
 
     activate(id: any) {
