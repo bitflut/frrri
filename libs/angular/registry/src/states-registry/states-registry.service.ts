@@ -6,10 +6,11 @@ import { StateFactory } from '@ngxs/store/src/internal/state-factory';
     providedIn: 'root',
 })
 export class StatesRegistryService<State = StateClass> {
+
     constructor(
         protected injector: Injector,
     ) { }
-    T;
+
     getByPath<T = State>(path: string): T {
         try {
             const stateFactory = this.injector.get<StateFactory>(NGXS_STATE_FACTORY);
@@ -21,4 +22,5 @@ export class StatesRegistryService<State = StateClass> {
             throw new Error(`StatesRegistryService could not get \`${path}\``);
         }
     }
+
 }
