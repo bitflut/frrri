@@ -2,5 +2,5 @@
 
 ## What is @lyxs/angular
 
-**@lyxs/angular** is a collection of extensions simplifying state management of entity data for CRUD API built on top of [@ngxs](https://ngxs.io) and [@ngxs-labs/data](https://github.com/ngxs-labs/data).
+**@lyxs/angular** is a collection of concepts simplifying state management of entity data for CRUD APIs. It is built on top of [@ngxs](https://ngxs.io) and [@ngxs-labs/data](https://github.com/ngxs-labs/data).
 
