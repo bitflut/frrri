@@ -1,4 +1,6 @@
 # Usage
 
-There are quite a few concepts to be explained. Please see the [integration example in the GitHub repository](https://github.com/bitflut/lyxs/tree/master/apps/ng-integration) until documentation catches up.
+This chapter will guide you through basic usage of @lyxs/angular. It aims to make working with entity data easy.
+
+Please see the [integration example in the GitHub repository](https://github.com/bitflut/lyxs/tree/master/apps/ng-integration) if any of the examples need more context.
 
