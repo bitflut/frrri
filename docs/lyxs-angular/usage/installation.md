@@ -60,6 +60,10 @@ export class PostsState extends CrudCollectionState { }
 
 In your `app.component.ts` you can retrieve data from your API:
 
+{% hint style="info" %}
+We recommend using [Routing Instructions](routing-instructions.md) to resolve data instead of calling posts.getMany\(\) directly in your components.
+{% endhint %}
+
 ```typescript
 import { Store } from '@ngxs/store';
 import { PostsState } from './posts.state';
@@ -73,8 +77,4 @@ export class AppComponent {
   }
 }
 ```
-
-{% hint style="info" %}
-We recommend using [Routing Instructions](routing-instructions.md) to resolve data.
-{% endhint %}
 
