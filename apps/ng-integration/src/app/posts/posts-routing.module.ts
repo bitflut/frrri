@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { activeMeta, staticMeta } from '@lyxs/angular/meta';
-import { deactivate, getActive, getMany, instructions, lyxsRoutes, populate, PopulationStrategy, reset } from '@lyxs/angular/routing';
+import { compose, deactivate, getActive, getMany, instructions, lyxsRoutes, populate, PopulationStrategy, reset } from '@lyxs/angular/routing';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 
@@ -76,8 +76,8 @@ const routes: Routes = [
     {
         path: 'with-user',
         component: PostsIndexComponent,
-        data: {
-            ...instructions({
+        data: compose(
+            instructions({
                 'entities': reset(),
                 'entities.posts': [
                     deactivate(),
@@ -88,15 +88,15 @@ const routes: Routes = [
                     }),
                 ],
             }),
-            ...staticMeta({
+            staticMeta({
                 title: 'Posts with user',
             }),
-        },
+        ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: {
-                ...instructions({
+            data: compose(
+                instructions({
                     'entities.comments': reset(),
                     'entities.posts': [
                         getActive(),
@@ -111,15 +111,13 @@ const routes: Routes = [
                         }),
                     ],
                 }),
-                ...activeMeta({
+                activeMeta({
                     statePath: 'entities.posts',
-                    factory: data => {
-                        return {
-                            title: `THE POST - ${data.title}`,
-                        };
-                    },
+                    factory: data => ({
+                        title: data.title,
+                    }),
                 }),
-            },
+            ),
         }],
     },
 ];

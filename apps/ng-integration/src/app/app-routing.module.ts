@@ -21,7 +21,10 @@ const routes: Routes = [
         CommonModule,
         RouterModule.forRoot(
             lyxsRoutes(routes),
-            { initialNavigation: 'enabled' },
+            {
+                initialNavigation: 'enabled',
+                urlUpdateStrategy: 'eager',
+            },
         ),
     ],
     exports: [

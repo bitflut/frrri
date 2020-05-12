@@ -1,13 +1,11 @@
 import { META_INSTRUCTION } from '../constants';
 import { MetaInstructionType } from './meta-instruction.enum';
-import { staticMeta } from './static-meta.instruction';
-
-type FactoryReturnType = Omit<ReturnType<typeof staticMeta>[typeof META_INSTRUCTION], 'type'>;
+import { StaticMeta } from './static-meta.instruction';
 
 export interface Options<T> {
     /** Path of state containing active entity */
     statePath: string;
-    factory: (data: T) => FactoryReturnType;
+    factory: (data: T) => StaticMeta;
 }
 
 export function activeMeta<T = any>(
@@ -20,3 +18,5 @@ export function activeMeta<T = any>(
         },
     };
 }
+
+export type ActiveMeta = ReturnType<typeof activeMeta>[typeof META_INSTRUCTION];

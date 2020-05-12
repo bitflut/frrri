@@ -3,6 +3,7 @@ import { MetaInstructionType } from './meta-instruction.enum';
 
 interface Options {
     title?: string;
+    keywords?: string;
     description?: string;
     image?: string;
 }
@@ -17,3 +18,5 @@ export function staticMeta(
         },
     };
 }
+
+export type StaticMeta = Omit<ReturnType<typeof staticMeta>[typeof META_INSTRUCTION], 'type'>;

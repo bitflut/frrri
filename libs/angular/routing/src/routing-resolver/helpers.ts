@@ -1,19 +1,19 @@
-import { ActivatedRouteSnapshot } from '@angular/router';
+import { Data } from '@angular/router';
 import { OperationContext, RouteInstructionType } from '@lyxs/angular/internal';
 import { ROUTING_INSTRUCTION } from '../routing-instructions/constants';
 import { PopulateInstruction } from '../routing-instructions/instructions/populate.instruction';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
 
-export function getRouteInstructions(route: ActivatedRouteSnapshot): { [key: string]: RouteInstruction } {
-    const data = route.data[ROUTING_INSTRUCTION];
+export function getRouteInstructions(routeData: Data): { [key: string]: RouteInstruction } {
+    const data = routeData[ROUTING_INSTRUCTION];
     if (!data) {
         throw new Error('Configure CrudRouteResolver via route.data');
     }
     return data;
 }
 
-export function hasRouteInstructions(route: ActivatedRouteSnapshot): boolean {
-    const data = route.data[ROUTING_INSTRUCTION];
+export function hasRouteInstructions(routeData: Data): boolean {
+    const data = routeData[ROUTING_INSTRUCTION];
     return Object.keys(data ?? {}).length > 0;
 }
 

@@ -29,21 +29,19 @@ export class RoutingInstructionsResolver<T = any> implements Resolve<T> {
             const facade = this.statesRegistry.getByPath(statePath);
             instructions = Array.isArray(instructions) ? instructions : [instructions];
 
-            // reset()
-            const shouldReset = instructions.findIndex(data => data.type === RouteInstructionType.Reset) > -1;
-            if (shouldReset) { facade.reset(); }
+            if (facade.reset) {
+                // reset()
+                const shouldReset = instructions.findIndex(data => data.type === RouteInstructionType.Reset) > -1;
+                if (shouldReset) { facade.reset(); }
+            }
+
+            if (facade.setPopulations) {
+                // populate()
+                facade.setPopulations(extractPopulations(instructions));
+            }
 
             // CrudEntitiesState does not support getMany
             if (!facade.getMany) { return; }
-
-            // deactivate()
-            const shouldDeactivate = instructions.findIndex(data => data.type === RouteInstructionType.Deactivate) > -1;
-            if (shouldDeactivate) { facade.deactivate(); }
-
-            // populate()
-            if (facade.setPopulations) {
-                facade.setPopulations(extractPopulations(instructions));
-            }
 
             return Promise.all(
                 instructions.map(routeData => {
@@ -65,8 +63,8 @@ export class RoutingInstructionsResolver<T = any> implements Resolve<T> {
     }
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<T> {
-        if (!hasRouteInstructions(route)) { return; }
-        const collections = getRouteInstructions(route);
+        if (!hasRouteInstructions(route.data)) { return; }
+        const collections = getRouteInstructions(route.data);
         return Promise.all(
             Object.entries(collections)
                 .map(this.resolveInstructions(route, state)),

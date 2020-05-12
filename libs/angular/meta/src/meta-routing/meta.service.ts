@@ -1,43 +1,52 @@
 import { Injectable, Injector } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { CrudCollectionState } from '@lyxs/angular';
 import { StatesRegistryService } from '@lyxs/angular/registry';
 import { EMPTY } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
 import { META_INSTRUCTION } from '../constants';
-import { activeMeta } from '../instructions/active-meta.instruction';
+import { ActiveMeta } from '../instructions/active-meta.instruction';
 import { MetaInstructionType } from '../instructions/meta-instruction.enum';
-import { staticMeta } from '../instructions/static-meta.instruction';
+import { MetaInstruction } from '../instructions/meta-instruction.type';
+import { StaticMeta } from '../instructions/static-meta.instruction';
 
 @Injectable({
     providedIn: 'root',
 })
-export class MetaResolver implements Resolve<any> {
+export class MetaService {
 
     protected registryService = this.injector.get(StatesRegistryService);
     protected metaService = this.injector.get(Meta);
     protected titleService = this.injector.get(Title);
+    private defaultTitle = this.titleService.getTitle();
 
     constructor(protected injector: Injector) { }
 
-    async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        const meta = route.data[META_INSTRUCTION];
-        if (!meta) { return; }
+    async update(data: MetaInstruction) {
+        const meta = data[META_INSTRUCTION];
+
+        if (!meta) {
+            this.defaultMeta();
+            return;
+        }
 
         switch (meta.type) {
             case MetaInstructionType.Static:
-                return this.staticMeta(meta);
+                return this.renderMeta(meta);
             case MetaInstructionType.Active:
                 return this.activeMeta(meta);
         }
     }
 
-    private staticMeta(meta: Omit<ReturnType<typeof staticMeta>[typeof META_INSTRUCTION], 'type'>) {
+    private defaultMeta() {
+        this.renderMeta({ title: this.defaultTitle });
+    }
+
+    private renderMeta(meta: StaticMeta) {
         this.titleService.setTitle(meta.title);
     }
 
-    private async activeMeta(meta: ReturnType<typeof activeMeta>[typeof META_INSTRUCTION]) {
+    private async activeMeta(meta: ActiveMeta) {
         const facade = this.registryService.getByPath<CrudCollectionState>(meta.statePath);
         const active = await facade.active$
             .pipe(
@@ -51,8 +60,8 @@ export class MetaResolver implements Resolve<any> {
                 }),
             ).toPromise();
 
-        const result = meta.factory(active);
-        this.staticMeta(result);
+        const staticMeta = meta.factory(active);
+        this.renderMeta(staticMeta);
     }
 
 }

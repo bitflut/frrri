@@ -1,3 +1,5 @@
+export { compose } from './compose';
+export { LyxsRoutingModule } from './lyxs-routing.module';
 export { ROUTING_INSTRUCTION } from './routing-instructions/constants';
 export { instructions } from './routing-instructions/instructions-wrapper';
 export { deactivate } from './routing-instructions/instructions/deactivate.instruction';
