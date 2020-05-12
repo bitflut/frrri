@@ -1,4 +1,5 @@
-import { Injectable, Injector } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { OperationContext } from '@lyxs/angular/internal';
 import { StatesRegistryService } from '@lyxs/angular/registry';
@@ -24,10 +25,16 @@ function hasRouteInstructions(route: ActivatedRouteSnapshot): boolean {
 export class CrudRouteResolver<T = any> implements Resolve<T> {
 
     protected statesRegistry = this.injector.get(StatesRegistryService);
-    constructor(protected injector: Injector) { }
+    protected isPlatformServer: boolean;
+
+    constructor(protected injector: Injector) {
+        const platformId = this.injector.get(PLATFORM_ID);
+        this.isPlatformServer = isPlatformServer(platformId);
+    }
 
     returnRoutePromise(routeData: RouteData & { await?: boolean }, promise$: Promise<any>): Promise<any> {
-        return routeData.await ? promise$ : Promise.resolve();
+        const awaitDecisionKey = this.isPlatformServer ? 'awaitPlatformServer' : 'await';
+        return routeData[awaitDecisionKey] ? promise$ : Promise.resolve();
     }
 
     resolveRouteInstructions(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
