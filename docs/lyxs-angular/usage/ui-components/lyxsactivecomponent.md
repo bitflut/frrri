@@ -4,6 +4,7 @@ Display's the currently active entity of a collection
 
 The path **entities.posts** defined in the example below is the corresponding collection's state path. See [States Registry](../../recipes/states-registry.md) for more information.
 
+{% code title="posts-show.component.html" %}
 ```markup
 <lyxs-active path="entities.posts" #activePostComponent>
     <ng-container *ngIf="activePostComponent.active$ | async as post">
@@ -16,6 +17,7 @@ The path **entities.posts** defined in the example below is the corresponding co
     </div>
 </lyxs-active>
 ```
+{% endcode %}
 
 
 

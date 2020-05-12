@@ -8,6 +8,7 @@ The component exposes multiple selectors and has common scenarios like loading p
 
 The path **entities.posts** defined in the example below is the corresponding collection's state path. See [States Registry](../../recipes/states-registry.md) for more information.
 
+{% code title="posts-index.component.html" %}
 ```markup
 <lyxs-many path="entities.posts" #posts>
     <!-- Loop through all posts -->
@@ -21,10 +22,13 @@ The path **entities.posts** defined in the example below is the corresponding co
     </div>
 </lyxs-many>
 ```
+{% endcode %}
 
 #### Provided &lt;ng-content&gt; selectors
 
-Note: If the default order of these components is not like you wish, we suggest you use css to set lyxs-many display to flex and order the as wanted. 
+{% hint style="info" %}
+If the default order of these selectors is not like you wish, we suggest you use css to set lyxs-many display to flex and order the children as wanted. 
+{% endhint %}
 
 * **.loading:** Shown while the collection is loading.
 * **.loading-first**: If provided, will show this instead of .loading when loading the first page of a collection.
