@@ -1,6 +1,6 @@
 # Population
 
-### Imagine the following scenario:
+#### Imagine the following scenario:
 
 ```typescript
 interface Post {
@@ -21,15 +21,38 @@ interface User {
     id: number;
     name: string;
 }
+
+@CrudCollection({ name: 'posts' })
+@Injectable()
+export class PostsState extends CrudCollectionState<Post, Post['id']> { }
+
+@CrudCollection({ name: 'comments' })
+@Injectable()
+export class CommentsState extends CrudCollectionState<Comment, Comment['id']> { }
+
+@CrudCollection({ name: 'users' })
+@Injectable()
+export class UsersState extends CrudCollectionState<User, User['id']> { }
+
+@CrudEntities({
+    name: 'users',
+    children: [
+        PostsState,
+        CommentsState,
+        UsersState
+    ],
+})
+@Injectable()
+export class EntitiesState extends CrudEntitiesState { }
 ```
 
 Now if you want to display the user's name for every post in your list, you can use `populate()` to instruct the lyxs resolver to fetch every post's user.
 
 You can also fetch all comments for a post and then every user for every comment.
 
-## The populate\(\) route instruction
+### The populate\(\) route instruction
 
-### Getting every post's user
+#### Getting every post's user
 
 ```typescript
 const routes: Routes = [
@@ -53,7 +76,7 @@ const routes: Routes = [
 
 When opening `/posts-with-user`, it will load all posts and then all users of the loaded posts. If you are using _PaginatedCrudCollection_, it will do so for every page you load.
 
-### Getting one post's comments \(via PopulationStrategy.ForeignId\)
+#### Getting one post's comments \(via PopulationStrategy.ForeignId\)
 
 ```typescript
 const routes: Routes = [
