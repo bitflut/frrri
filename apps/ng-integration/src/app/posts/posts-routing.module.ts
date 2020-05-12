@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { deactivate, getActive, getMany, instructions, lyxsRoutes, populate, PopulationStrategy, reset } from '@lyxs/angular/routing';
+import { deactivate, getActive, getMany, instructions, lyxsRoutes, meta, populate, PopulationStrategy, reset } from '@lyxs/angular/routing';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 
@@ -93,6 +93,11 @@ const routes: Routes = [
                 'entities.comments': reset(),
                 'entities.posts': [
                     getActive(),
+                    meta({
+                        title: 'My title',
+                        description: 'My description',
+                        image: 'An image',
+                    }),
                     populate({
                         idPath: 'postId',
                         strategy: PopulationStrategy.ForeignId,

@@ -28,7 +28,9 @@ export class RoutingInstructionsResolver<T = any> implements Resolve<T> {
 
     async resolveMetaData(promise$: Promise<any>, instructions: RouteInstruction[], route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> {
         const data = await promise$;
-        await this.metaResolver.resolveWithData(data, instructions, route, state);
+        if (data) {
+            await this.metaResolver.resolveWithData(data, instructions, route, state);
+        }
         return data;
     }
 
