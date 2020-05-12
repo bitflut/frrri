@@ -10,6 +10,7 @@
       * [LyxsManyComponent](lyxs-angular/usage/ui-components/lyxsmanycomponent.md)
       * [LyxsOneComponent](lyxs-angular/usage/ui-components/lyxsonecomponent.md)
       * [LyxsActiveComponent](lyxs-angular/usage/ui-components/lyxsactivecomponent.md)
+    * [States Registry](lyxs-angular/usage/states-registry.md)
   * [Recipes](lyxs-angular/recipes/README.md)
     * [Pagination](lyxs-angular/recipes/pagination.md)
     * [Population](lyxs-angular/recipes/population.md)

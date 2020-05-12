@@ -2,10 +2,12 @@
 
 **@lyxs/angular/routing** aims at making it easy to configure your components data layer via the **angular router**. This way, your components are highly reusable and can display different sets of data for different routes easily.
 
+**entities.posts** defined in the example below is the corresponding collection's state path. See [States Registry](states-registry.md) for more information.
+
 ```typescript
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { lyxsRoutes, instructions, getActive, getMany } from '@lyxs/angular/routing';
+import { lyxsRoutes, instructions, getActive, getMany, reset } from '@lyxs/angular/routing';
 
 const routes: Routes = [
     {
