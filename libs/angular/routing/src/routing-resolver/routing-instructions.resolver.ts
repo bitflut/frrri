@@ -2,7 +2,6 @@ import { isPlatformServer } from '@angular/common';
 import { Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { RouteInstructionType } from '@lyxs/angular/internal';
-import { MetaResolver } from '@lyxs/angular/meta';
 import { StatesRegistryService } from '@lyxs/angular/registry';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
 import { extractPopulations, getRouteInstructions, hasRouteInstructions } from './helpers';
@@ -13,7 +12,6 @@ import { extractPopulations, getRouteInstructions, hasRouteInstructions } from '
 export class RoutingInstructionsResolver<T = any> implements Resolve<T> {
 
     protected statesRegistry = this.injector.get(StatesRegistryService);
-    protected metaResolver = this.injector.get(MetaResolver);
     protected isPlatformServer: boolean;
 
     constructor(protected injector: Injector) {
@@ -24,14 +22,6 @@ export class RoutingInstructionsResolver<T = any> implements Resolve<T> {
     returnData(instruction: RouteInstruction & { await?: boolean }, promise$: Promise<any>): Promise<any> {
         const awaitDecisionKey = this.isPlatformServer ? 'awaitPlatformServer' : 'await';
         return instruction[awaitDecisionKey] ? promise$ : Promise.resolve();
-    }
-
-    async resolveMetaData(promise$: Promise<any>, instructions: RouteInstruction[], route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<any> {
-        const data = await promise$;
-        if (data) {
-            await this.metaResolver.resolveWithData(data, instructions, route, state);
-        }
-        return data;
     }
 
     resolveInstructions(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -68,11 +58,7 @@ export class RoutingInstructionsResolver<T = any> implements Resolve<T> {
                         }
                     })();
 
-                    return this.returnData(
-                        routeData,
-                        // Resolve metadata once data is loaded
-                        this.resolveMetaData(promise$, instructions as RouteInstruction[], route, state),
-                    );
+                    return this.returnData(routeData, promise$);
                 }),
             );
         };

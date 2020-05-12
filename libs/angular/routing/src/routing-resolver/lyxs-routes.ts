@@ -1,16 +1,24 @@
 import { Routes } from '@angular/router';
-import { RESOLVED_ROUTING_INSTRUCTION_KEY } from './constants';
+import { MetaResolver } from '@lyxs/angular/meta';
 import { RoutingInstructionsResolver } from './routing-instructions.resolver';
 
-export function lyxsRoutes(routes: Routes, name = RESOLVED_ROUTING_INSTRUCTION_KEY): Routes {
+export function lyxsRoutes(
+    routes: Routes,
+    options: { meta?: boolean; } = { meta: true },
+): Routes {
     return routes.map(route => {
+        const resolveMeta = options.meta
+            ? { ['RESOLVED_ROUTING_META']: MetaResolver }
+            : undefined;
+
         route.resolve = {
-            [name]: RoutingInstructionsResolver,
+            ['RESOLVED_ROUTING_INSTRUCTION']: RoutingInstructionsResolver,
+            ...resolveMeta,
             ...route.resolve,
         };
 
         route.children = route.children
-            ? lyxsRoutes(route.children, name)
+            ? lyxsRoutes(route.children, options)
             : undefined;
 
         return route;
