@@ -1,8 +1,12 @@
 # Pagination
 
-**@lyxs/angular/pagination** exposes functions for pagination via **PaginatedCrudCollection** and a **PaginationInterceptor**. The current implementation is an endless pagination relying on the server to respond with a Link-header specifying the next page's url in a _rel="next"_ tag.
+## @lyxs/angular/pagination
 
-Note: Should you require a different pagination mechanism, we suggest to look at `paginated-crud-collection.state.ts` and write your own implementation.
+@lyxs/angular/pagination exposes functions for pagination via **PaginatedCrudCollection** and a **PaginationInterceptor**. The current implementation is an endless pagination relying on the server to respond with a Link-header specifying the next page's url in a _rel="next"_ tag.
+
+{% hint style="info" %}
+Should you require a different pagination mechanism, we suggest to look at `paginated-crud-collection.state.ts` and write your own implementation.
+{% endhint %}
 
 To get started using pagination, first add the **PaginationInterceptor** to your AppModule.
 
