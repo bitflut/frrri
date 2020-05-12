@@ -1,6 +1,7 @@
-import { getActive, getMany } from './route-data';
+import { getActive } from './instructions/get-active.instruction';
+import { getMany } from './instructions/get-many.instruction';
 
-describe('routeData function', () => {
+describe('instruction function', () => {
     it('should generate collection route', () => {
         const route = getMany();
         expect(route).toMatchSnapshot();

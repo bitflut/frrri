@@ -1,1 +1,0 @@
-export const CRUD_ROUTE_RESOLVE_KEY = 'CRUD_ROUTE';

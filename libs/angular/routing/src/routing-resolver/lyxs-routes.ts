@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { CRUD_ROUTE_RESOLVE_KEY } from './constants';
-import { CrudRouteResolver } from './crud-route.resolver';
+import { RESOLVED_ROUTING_INSTRUCTION_KEY } from './constants';
+import { RoutingInstructionsResolver } from './routing-instructions.resolver';
 
-export function lyxsRoutes(routes: Routes, name = CRUD_ROUTE_RESOLVE_KEY): Routes {
+export function lyxsRoutes(routes: Routes, name = RESOLVED_ROUTING_INSTRUCTION_KEY): Routes {
     return routes.map(route => {
         route.resolve = {
-            [name]: CrudRouteResolver,
+            [name]: RoutingInstructionsResolver,
             ...route.resolve,
         };
 
