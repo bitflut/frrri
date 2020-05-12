@@ -1,6 +1,6 @@
 # Population
 
-Imagine the following scenario:
+### Imagine the following scenario:
 
 ```typescript
 interface Post {

@@ -1,7 +1,5 @@
 # Crud Collection
 
-In order to let your collections make requests, please add **HttpClientModule** to your **AppModule**.
-
 By extending your State with **CrudCollectionState** and adding the **@CrudCollection** decorator, you are all set to communicate with your api via the provided defaults `/api/{collection name}` .
 
 ```typescript
