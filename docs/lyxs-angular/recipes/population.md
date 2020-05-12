@@ -37,7 +37,7 @@ const routes: Routes = [
         path: 'posts-with-user',
         component: PostsIndexComponent,
         data: instructions({
-            'entities': clear(), // Resets all entities upon entering the route
+            'entities': reset(), // Resets all entities upon entering the route
             'entities.posts': [
                 deactivate(), // Deactivates entity, if any was active
                 getMany(),
@@ -61,7 +61,7 @@ const routes: Routes = [
         path: ':id',
         component: PostsShowComponent,
         data: instructions({
-            'entities.comments': clear(), // Reset comments
+            'entities.comments': reset(), // Reset comments
             'entities.posts': [
                 getActive(), // Activates a comment via the routes :id param
                 populate({

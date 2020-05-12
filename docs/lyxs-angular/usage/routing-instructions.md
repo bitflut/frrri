@@ -11,7 +11,7 @@ const routes: Routes = [
     {
         path: '',
         data: instructions({
-            'entities': clear(), // Clear all entities when entering the route
+            'entities': reset(), // Reset all entities when entering the route
             'entities.posts': getMany() // Then get posts
         })
     },

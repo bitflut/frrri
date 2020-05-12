@@ -35,7 +35,7 @@ export class CrudRouteResolver<T = any> implements Resolve<T> {
             const facade = this.statesRegistry.getByPath(statePath);
             routeDataArray = Array.isArray(routeDataArray) ? routeDataArray : [routeDataArray];
 
-            const shouldReset = routeDataArray.findIndex(data => data.type === RouteInstructionType.Clear) > -1;
+            const shouldReset = routeDataArray.findIndex(data => data.type === RouteInstructionType.Reset) > -1;
             if (shouldReset) { facade.reset(); }
             if (!facade.getMany) { return; }
 

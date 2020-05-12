@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { clear, deactivate, getActive, getMany, instructions, lyxsRoutes, populate, PopulationStrategy } from '@lyxs/angular/routing';
+import { deactivate, getActive, getMany, instructions, lyxsRoutes, populate, PopulationStrategy, reset } from '@lyxs/angular/routing';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 
@@ -14,7 +14,7 @@ const routes: Routes = [
         path: 'all',
         component: PostsIndexComponent,
         data: instructions({
-            'entities': clear(),
+            'entities': reset(),
             'entities.posts': [
                 deactivate(),
                 getMany(),
@@ -32,7 +32,7 @@ const routes: Routes = [
         path: 'paginated',
         component: PostsIndexComponent,
         data: instructions({
-            'entities': clear(),
+            'entities': reset(),
             'entities.posts': [
                 deactivate(),
                 getMany({ params: { _page: '1', _limit: '5' } }),
@@ -50,7 +50,7 @@ const routes: Routes = [
         path: 'with-comments',
         component: PostsIndexComponent,
         data: instructions({
-            'entities': clear(),
+            'entities': reset(),
             'entities.posts': [
                 deactivate(),
                 getMany({ params: { _page: '1', _limit: '5' } }),
@@ -60,7 +60,7 @@ const routes: Routes = [
             path: ':id',
             component: PostsShowComponent,
             data: instructions({
-                'entities.comments': clear(),
+                'entities.comments': reset(),
                 'entities.posts': [
                     getActive(),
                     populate({
@@ -76,7 +76,7 @@ const routes: Routes = [
         path: 'with-user',
         component: PostsIndexComponent,
         data: instructions({
-            'entities': clear(),
+            'entities': reset(),
             'entities.posts': [
                 deactivate(),
                 getMany({ params: { _page: '1', _limit: '5' } }),
@@ -90,7 +90,7 @@ const routes: Routes = [
             path: ':id',
             component: PostsShowComponent,
             data: instructions({
-                'entities.comments': clear(),
+                'entities.comments': reset(),
                 'entities.posts': [
                     getActive(),
                     populate({

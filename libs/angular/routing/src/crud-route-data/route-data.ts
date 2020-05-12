@@ -13,8 +13,8 @@ export enum RouteInstructionType {
     Deactivate = 'deactivate',
     /** Sets populate instruction */
     Populate = 'populate',
-    /** Clears this state and all its children */
-    Clear = 'clear',
+    /** Resets this state and all its children */
+    Reset = 'reset',
 }
 
 interface RouteOptions {
@@ -132,9 +132,9 @@ export function deactivate() {
     };
 }
 
-export function clear() {
+export function reset() {
     return {
-        type: RouteInstructionType.Clear as RouteInstructionType.Clear,
+        type: RouteInstructionType.Reset as RouteInstructionType.Reset,
     };
 }
 
@@ -143,7 +143,7 @@ export type RouteData =
     ReturnType<typeof getActive>
     | ReturnType<typeof getMany>
     | ReturnType<typeof getOne>
-    | ReturnType<typeof clear>
+    | ReturnType<typeof reset>
     | ReturnType<typeof deactivate>
     | PopulationOptions;
 
