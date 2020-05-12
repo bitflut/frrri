@@ -1,9 +1,8 @@
 # Crud Collection
 
-In order to let your collections make requests, please add **HttpClientModule** to your **AppModule**.
-
 By extending your State with **CrudCollectionState** and adding the **@CrudCollection** decorator, you are all set to communicate with your api via the provided defaults `/api/{collection name}` .
 
+{% code title="posts.state.ts" %}
 ```typescript
 import { Injectable } from '@angular/core';
 import { CrudCollection, CrudCollectionState } from '@lyxs/angular';
@@ -19,11 +18,15 @@ interface Post {
 export class PostsState extends CrudCollectionState<Post, Post['id']> { }
 
 ```
+{% endcode %}
+
+### Global customisation
 
 You can fully customise the baseUrl, endpoint and other relevant things via the **@CrudCollection** decorator's options, or globally for all collections by providing **CRUD\_COLLECTION\_OPTIONS\_TOKEN** anywhere in your module.
 
-Overriding defaults for **@CrudCollection** globally:
+Overriding defaults for every **@CrudCollection** globally:
 
+{% code title="state.module.ts" %}
 ```typescript
 ...
 @NgModule({
@@ -40,4 +43,5 @@ Overriding defaults for **@CrudCollection** globally:
 })
 export class StateModule { }
 ```
+{% endcode %}
 
