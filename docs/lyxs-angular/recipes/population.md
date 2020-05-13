@@ -1,7 +1,13 @@
 # Population
 
+## Comments of a post of a user
+
+**@lyxs/angular/populate** exposes a populate\(\) instruction.
+
 #### Imagine the following scenario:
 
+{% tabs %}
+{% tab title="interfaces.ts" %}
 ```typescript
 interface Post {
     id: number;
@@ -21,6 +27,12 @@ interface User {
     id: number;
     name: string;
 }
+```
+{% endtab %}
+
+{% tab title="states.ts" %}
+```typescript
+import { Post, Comment, User } from './interfaces';
 
 @CrudCollection({ name: 'posts' })
 @Injectable()
@@ -45,6 +57,8 @@ export class UsersState extends CrudCollectionState<User, User['id']> { }
 @Injectable()
 export class EntitiesState extends CrudEntitiesState { }
 ```
+{% endtab %}
+{% endtabs %}
 
 Now if you want to display the user's name for every post in your list, you can use `populate()` to instruct the lyxs resolver to fetch every post's user.
 
@@ -55,6 +69,8 @@ You can also fetch all comments for a post and then every user for every comment
 #### Getting every post's user
 
 ```typescript
+import { populate } from '@lyxs/angular/populate';
+
 const routes: Routes = [
     {
         path: 'posts-with-user',
