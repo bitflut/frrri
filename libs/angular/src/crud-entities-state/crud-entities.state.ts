@@ -23,7 +23,7 @@ export class CrudEntitiesState<T = any> extends NgxsDataRepository<T> {
         const meta = this.constructor as DataStateClass;
         for (const child of meta.NGXS_META.children) {
             const childFacade = this.statesRegistry.getByPath(child.NGXS_META.path);
-            if (childFacade.hasOwnProperty('resetPopulations')) {
+            if (typeof childFacade.resetPopulations === 'function') {
                 childFacade.resetPopulations();
             }
         }

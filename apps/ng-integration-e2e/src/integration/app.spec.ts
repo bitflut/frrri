@@ -45,4 +45,19 @@ describe('ng-integration', () => {
         cy.get('app-posts-show').contains('Sincere@april.biz').should('exist');
         cy.get('app-posts-show').get('lyxs-many').contains('Christine@ayana.info').should('exist');
     });
+
+    it('should clear populations after switching routes', () => {
+        cy.get('a').contains('With comments').click();
+        cy.contains('#10').should('not.exist');
+        cy.contains('#5').should('exist');
+        cy.contains('#5').click();
+        cy.wait(2000);
+        cy.get('app-posts-show').get('lyxs-many').contains('Noemie@marques.me').should('exist');
+
+        cy.get('a').contains('Posts').click();
+        cy.contains('#4').click();
+        cy.wait(2000);
+        cy.get('app-posts-show').contains('#4').should('exist');
+        cy.get('app-posts-show').get('lyxs-many').contains('Christine@ayana.info').should('not.exist');
+    });
 });

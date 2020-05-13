@@ -143,7 +143,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @Computed()
     public get active$(): Observable<Entity> {
-        return this.state$.pipe(map((value: Reducer) => value.active));
+        return this.state$.pipe(map((value: Reducer) => (Object.keys(value.active ?? {}).length > 1 || undefined) && value.active));
     }
 
     @DataAction()
