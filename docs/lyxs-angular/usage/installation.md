@@ -12,7 +12,7 @@ npm install @lyxs/angular --save
 npm install @ngxs/store @ngxs-labs/data --save
 ```
 
-Then set up **ngxs/store** and **nxgs-labs/data** in `app.module.ts` like so \(see [https://www.ngxs.io/getting-started/installation](https://www.ngxs.io/getting-started/installation) for more information\):
+Set up NgxsModule**,** NgxsDataPluginModule, and HttpClientModule in `app.module.ts` 
 
 ```typescript
 import { NgModule } from '@angular/core';

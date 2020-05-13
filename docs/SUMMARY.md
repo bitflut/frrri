@@ -16,4 +16,5 @@
     * [Population](lyxs-angular/recipes/population.md)
     * [States Registry](lyxs-angular/recipes/states-registry.md)
     * [SSR](lyxs-angular/recipes/ssr.md)
+    * [SEO & Meta](lyxs-angular/recipes/seo-and-meta.md)
 
