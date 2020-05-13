@@ -10,9 +10,7 @@ import { MetaInstructionType } from '../instructions/meta-instruction.enum';
 import { MetaInstruction } from '../instructions/meta-instruction.type';
 import { StaticMeta } from '../instructions/static-meta.instruction';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class MetaService {
 
     protected registryService = this.injector.get(StatesRegistryService);

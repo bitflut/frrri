@@ -15,8 +15,8 @@ import { AppComponent } from './app.component';
         HttpClientModule,
         AppRoutingModule,
         AppStateModule,
-        LyxsMetaModule,
-        LyxsRoutingModule,
+        LyxsMetaModule.forRoot(),
+        LyxsRoutingModule.forRoot(),
     ],
     providers: [
         {

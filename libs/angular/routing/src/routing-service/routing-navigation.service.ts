@@ -7,9 +7,7 @@ import { concatMapTo, filter, take } from 'rxjs/operators';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
 import { getRouteInstructions, hasRouteInstructions } from '../routing-resolver/helpers';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class RoutingNavigationService {
 
     constructor(

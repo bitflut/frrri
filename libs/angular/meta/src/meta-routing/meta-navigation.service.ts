@@ -3,9 +3,7 @@ import { ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { concatMapTo, filter, take } from 'rxjs/operators';
 import { MetaService } from './meta.service';
 
-@Injectable({
-    providedIn: 'root',
-})
+@Injectable()
 export class MetaNavigationService {
 
     constructor(

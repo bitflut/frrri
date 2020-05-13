@@ -10,7 +10,6 @@ export class LyxsMetaModule {
 
     constructor(
         navigationService: MetaNavigationService,
-        metaService: MetaService,
     ) { }
 
     static forRoot(): ModuleWithProviders {
