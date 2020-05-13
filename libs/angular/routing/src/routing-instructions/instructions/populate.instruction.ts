@@ -1,5 +1,5 @@
 import { OperationContext, RouteInstructionType } from '@lyxs/angular/internal';
-import { EntityIdType } from '@ngxs-labs/data/typings/public_api';
+import { EntityIdType } from '@ngxs-labs/data/typings';
 import { PopulationStrategy } from './population-strategy.enum';
 
 export interface PopulateInstruction<IdType = EntityIdType> {

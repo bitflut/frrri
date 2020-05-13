@@ -40,6 +40,6 @@
         "lodash": "lodash"
       }
     },
-    "dest": "../../dist/@lyxs/angular"
+    "dest": "../../dist/npm-libs/@lyxs/angular"
   }
 }
