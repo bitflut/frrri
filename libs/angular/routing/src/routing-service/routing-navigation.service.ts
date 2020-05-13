@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivationEnd, Data, NavigationStart, Router } from '@angular/router';
+import { ActivationEnd, NavigationStart, Router } from '@angular/router';
 import { RouteInstructionType } from '@lyxs/angular/internal';
 import { PaginatedCrudCollectionState } from '@lyxs/angular/pagination';
 import { StatesRegistryService } from '@lyxs/angular/registry';
@@ -39,7 +39,7 @@ export class RoutingNavigationService {
         };
     }
 
-    async resolve(data: Data) {
+    async resolve(data: { [name: string]: any }) {
         if (!hasRouteInstructions(data)) { return; }
         const collections = getRouteInstructions(data);
         // tslint:disable-next-line: no-unused-expression

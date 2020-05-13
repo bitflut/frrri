@@ -22,6 +22,7 @@
       "@lyxs/angular/pagination": ["libs/angular/pagination/src/public_api.ts"],
       "@lyxs/angular/registry": ["libs/angular/registry/src/public_api.ts"],
       "@lyxs/angular/internal": ["libs/angular/internal/src/public_api.ts"],
+      "@lyxs/angular/populate": ["libs/angular/populate/src/public_api.ts"],
       "@lyxs/angular/meta": ["libs/angular/meta/src/public_api.ts"]
     }
   },

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectFlags, Injector } from '@angular/core';
 import { GetManyOptions, OperationContext } from '@lyxs/angular/internal';
+import { PopulateInstruction, PopulationStrategy } from '@lyxs/angular/populate';
 import { StatesRegistryService } from '@lyxs/angular/registry';
-import { populate, PopulationOptions, PopulationStrategy } from '@lyxs/angular/routing';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';
@@ -28,7 +28,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     private service = this.injector.get<CrudCollectionService<Entity>>(CrudCollectionService);
     private statesRegistry = this.injector.get<StatesRegistryService<CrudCollectionState>>(StatesRegistryService);
-    private populations: Array<PopulationOptions>;
+    private populations: Array<PopulateInstruction>;
     protected http = this.injector.get(HttpClient);
     readonly requestOptions: CrudCollectionOptions['requestOptions'];
     readonly idKey: string;
@@ -61,7 +61,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         this.populations = undefined;
     }
 
-    public setPopulations(data: Array<ReturnType<typeof populate>>) {
+    public setPopulations(data: Array<PopulateInstruction>) {
         this.populations = uniq([
             ...this.populations ?? [],
             ...data,
@@ -419,7 +419,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         ) as UnaryFunction<Observable<In>, Observable<Out>>;
     }
 
-    private populate<In extends Array<any>>(entities: In, population: PopulationOptions) {
+    private populate<In extends Array<any>>(entities: In, population: PopulateInstruction) {
         const facade = this.statesRegistry.getByPath(population.statePath);
         let ownIdKey: string;
         let foreignIdKey: string;

@@ -1,8 +1,8 @@
+import { PopulateInstruction } from '@lyxs/angular/populate';
 import { deactivate } from './deactivate.instruction';
 import { getActive } from './get-active.instruction';
 import { getMany } from './get-many.instruction';
 import { getOne } from './get-one.instruction';
-import { PopulationOptions } from './population-options.type';
 import { reset } from './reset.instruction';
 
 export type RouteInstruction =
@@ -11,4 +11,4 @@ export type RouteInstruction =
     | ReturnType<typeof getOne>
     | ReturnType<typeof reset>
     | ReturnType<typeof deactivate>
-    | PopulationOptions;
+    | PopulateInstruction;

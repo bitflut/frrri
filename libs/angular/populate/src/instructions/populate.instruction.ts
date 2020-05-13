@@ -2,7 +2,7 @@ import { OperationContext, RouteInstructionType } from '@lyxs/angular/internal';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { PopulationStrategy } from './population-strategy.enum';
 
-export interface PopulateInstruction<IdType = EntityIdType> {
+export interface PopulateOptions<IdType = EntityIdType> {
     /** Path to `id` in entity */
     idPath: string;
     /** StatePath that will be populated */
@@ -26,7 +26,7 @@ export interface PopulateInstruction<IdType = EntityIdType> {
     populatFactory?: (ids: IdType[], path: string) => any;
 }
 
-export function populate<IdType = EntityIdType>(options: PopulateInstruction<IdType>) {
+export function populate<IdType = EntityIdType>(options: PopulateOptions<IdType>) {
     return {
         type: RouteInstructionType.Populate as RouteInstructionType.Populate,
         strategy: options.strategy ?? PopulationStrategy.Id,
@@ -34,3 +34,5 @@ export function populate<IdType = EntityIdType>(options: PopulateInstruction<IdT
         ...options,
     };
 }
+
+export type PopulateInstruction = ReturnType<typeof populate>;
