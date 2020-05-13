@@ -1,5 +1,5 @@
 import { StateRepository } from '@ngxs-labs/data/decorators';
-import { EntityIdType } from '@ngxs-labs/data/typings/public_api';
+import { EntityIdType } from '@ngxs-labs/data/typings';
 import { createEntityCollections } from '@ngxs-labs/data/utils';
 import { State } from '@ngxs/store';
 import { StateClass } from '@ngxs/store/internals';

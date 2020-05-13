@@ -1,8 +1,11 @@
-import { Data } from '@angular/router';
 import { OperationContext, RouteInstructionType } from '@lyxs/angular/internal';
+import { PopulateInstruction } from '@lyxs/angular/populate';
 import { ROUTING_INSTRUCTION } from '../routing-instructions/constants';
-import { PopulateInstruction } from '../routing-instructions/instructions/populate.instruction';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
+
+interface Data {
+    [name: string]: any;
+}
 
 export function getRouteInstructions(routeData: Data): { [key: string]: RouteInstruction } {
     const data = routeData[ROUTING_INSTRUCTION];
