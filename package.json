@@ -12,6 +12,8 @@
     "e2e": "nx e2e",
     "build:libs": "npm run build:libs:angular",
     "build:libs:angular": "ng-packagr -p libs/angular/package.json",
+    "publish:libs": "npm run publish:libs:angular",
+    "publish:libs:angular": "cd dist/@lyxs-angular && npm publish --access=public",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",
