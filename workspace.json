@@ -197,8 +197,8 @@
     "nest-integration": {
       "root": "apps/nest-integration",
       "sourceRoot": "apps/nest-integration/src",
-      "prefix": "nest-integration",
       "projectType": "application",
+      "prefix": "nest-integration",
       "schematics": {},
       "architect": {
         "build": {
@@ -226,15 +226,12 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "nest-integration:build",
-            "port": 7777
+            "buildTarget": "nest-integration:build"
           }
         },
         "lint": {
-          "builder": "@nrwl/linter:lint",
+          "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "linter": "eslint",
-            "config": "apps/nest-integration/.eslintrc",
             "tsConfig": [
               "apps/nest-integration/tsconfig.app.json",
               "apps/nest-integration/tsconfig.spec.json"

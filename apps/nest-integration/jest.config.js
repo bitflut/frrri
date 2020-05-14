@@ -1,5 +1,5 @@
 module.exports = {
-  name: 'nest-integration',
+  name: 'api',
   preset: '../../jest.config.js',
-  coverageDirectory: '../../coverage/apps/nest-integration'
+  coverageDirectory: '../../coverage/apps/api'
 };
