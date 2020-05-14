@@ -31,6 +31,24 @@ const routes: Routes = [
         }],
     },
     {
+        path: 'await',
+        component: PostsIndexComponent,
+        data: instructions({
+            'entities': reset(),
+            'entities.posts': [
+                deactivate(),
+                getMany({ await: true }),
+            ],
+        }),
+        children: [{
+            path: ':id',
+            component: PostsShowComponent,
+            data: instructions({
+                'entities.posts': getActive({ await: true }),
+            }),
+        }],
+    },
+    {
         path: 'paginated',
         component: PostsIndexComponent,
         data: instructions({

@@ -50,7 +50,11 @@ const newPostData = {
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
 @Injectable()
-class PostsEntitiesState extends CrudCollectionState<Post, number> { }
+class PostsEntitiesState extends CrudCollectionState<Post, number> {
+
+    afterSuccess(data: Post | Post[]) { }
+
+}
 
 @CrudCollection<CrudCollectionReducer>({
     name: 'mongodbPosts',
@@ -368,6 +372,23 @@ describe('CrudCollectionState', () => {
         req.flush(postsData[0]);
         expect(postsState.snapshot.ids).toEqual([]);
         expect(postsState.snapshot.active.id).toEqual(1);
+    }));
+
+    it('should call afterSuccess', inject([
+        HttpTestingController,
+        PostsEntitiesState,
+    ], (
+        httpMock: HttpTestingController,
+        postsState: PostsEntitiesState,
+    ) => {
+        const spy = spyOn(postsState, 'afterSuccess');
+        postsState.getMany().toPromise();
+
+        const req = httpMock.expectOne(getCollectionUrl(postsState));
+        expect(req.request.method).toEqual('GET');
+        req.flush(postsData);
+
+        expect(spy).toHaveBeenCalled();
     }));
 
     afterEach(inject([HttpTestingController], (httpMock: HttpTestingController) => {
