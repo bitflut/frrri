@@ -414,7 +414,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
             options.success ? tap(result => options.success(result)) : tap(),
             mergeMap(result => {
                 if (typeof this['afterSuccess'] === 'function') {
-                    const source = this['afterSuccess']();
+                    const source = this['afterSuccess'](result, options.context);
                     if (source && isObservable(source)) {
                         return source.pipe(mapTo(result));
                     }
