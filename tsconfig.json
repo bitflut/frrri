@@ -24,7 +24,7 @@
       "@lyxs/angular/internal": ["libs/angular/internal/src/public_api.ts"],
       "@lyxs/angular/populate": ["libs/angular/populate/src/public_api.ts"],
       "@lyxs/angular/meta": ["libs/angular/meta/src/public_api.ts"],
-      "@lyxs/nest": ["libs/nest/src/index.ts"]
+      "@lyxs/nest": ["libs/nest/src/public_api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
