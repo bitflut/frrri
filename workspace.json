@@ -181,16 +181,6 @@
             "tsConfig": "libs/nest/tsconfig.spec.json",
             "passWithNoTests": true
           }
-        },
-        "build": {
-          "builder": "@nrwl/node:package",
-          "options": {
-            "outputPath": "dist/libs/nest",
-            "tsConfig": "libs/nest/tsconfig.lib.json",
-            "packageJson": "libs/nest/package.json",
-            "main": "libs/nest/src/index.ts",
-            "assets": ["libs/nest/*.md"]
-          }
         }
       }
     },
