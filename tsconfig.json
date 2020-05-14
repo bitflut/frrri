@@ -23,7 +23,8 @@
       "@lyxs/angular/registry": ["libs/angular/registry/src/public_api.ts"],
       "@lyxs/angular/internal": ["libs/angular/internal/src/public_api.ts"],
       "@lyxs/angular/populate": ["libs/angular/populate/src/public_api.ts"],
-      "@lyxs/angular/meta": ["libs/angular/meta/src/public_api.ts"]
+      "@lyxs/angular/meta": ["libs/angular/meta/src/public_api.ts"],
+      "@lyxs/nest": ["libs/nest/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

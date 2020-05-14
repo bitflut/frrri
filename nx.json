@@ -28,6 +28,9 @@
     },
     "angular": {
       "tags": []
+    },
+    "nest": {
+      "tags": []
     }
   }
 }
