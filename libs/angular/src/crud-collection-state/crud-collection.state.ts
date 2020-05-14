@@ -7,8 +7,8 @@ import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';
 import { flatten, uniq } from 'lodash';
-import { EMPTY, forkJoin, Observable, of, pipe, throwError, UnaryFunction } from 'rxjs';
-import { catchError, delay, map, mapTo, switchMap, tap, timeout } from 'rxjs/operators';
+import { EMPTY, forkJoin, isObservable, Observable, of, pipe, throwError, UnaryFunction } from 'rxjs';
+import { catchError, delay, map, mapTo, mergeMap, switchMap, tap, timeout } from 'rxjs/operators';
 import { CRUD_COLLECTION_OPTIONS_TOKEN } from './constants';
 import { CrudCollectionOptions } from './crud-collection.decorator';
 import { CrudCollectionService } from './crud-collection.service';
@@ -412,6 +412,15 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
             options.prepend ? options.prepend() : tap(),
             options.populate ? this.populationPipe() : tap(),
             options.success ? tap(result => options.success(result)) : tap(),
+            mergeMap(result => {
+                if (typeof this['afterSuccess'] === 'function') {
+                    const source = this['afterSuccess']();
+                    if (source && isObservable(source)) {
+                        return source.pipe(mapTo(result));
+                    }
+                }
+                return of(result);
+            }),
             options.optimisticUndo ? this.catchOptimistcUndoPipe(() => options.optimisticUndo()) : tap(),
             this.catchErrorPipe(options.context),
         ) as UnaryFunction<Observable<In>, Observable<Out>>;
