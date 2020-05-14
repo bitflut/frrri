@@ -27,12 +27,11 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
     public getMany(@Payload('options') options: GetManyOptions = {}) {
         return this.paginatedService.getMany(this.requestOptions.collectionUrlFactory(), { ...options, size: this.pageSize })
             .pipe(
-                this.requestOptionsPipe(OperationContext.Many),
-                tap(paginated => this.setNext(paginated)),
-                this.unwindPaginationPipe(),
-                this.populationPipe(),
-                tap(resources => this.getManySuccess(resources)),
-                this.catchErrorPipe(OperationContext.Many),
+                this.requestPipe<Paginated<Entity[]>, Entity[]>({
+                    context: OperationContext.Many,
+                    success: resources => this.getManySuccess(resources),
+                    prepend: () => this.paginationPipe(),
+                }),
             );
     }
 
@@ -41,10 +40,10 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
         this.ctx.patchState({ loaded: false } as any);
         return this.paginatedService.getAll(this.requestOptions.collectionUrlFactory(), { ...options, size: this.pageSize })
             .pipe(
-                this.requestOptionsPipe(OperationContext.Many),
-                this.populationPipe(),
-                tap(resources => this.getAllSuccess(resources)),
-                this.catchErrorPipe(OperationContext.Many),
+                this.requestPipe({
+                    context: OperationContext.Many,
+                    success: resources => this.getAllSuccess(resources),
+                }),
             );
     }
 
@@ -55,7 +54,7 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
     }
 
     @DataAction()
-    protected setNext(@Payload('response') response: Paginated<Entity[]>) {
+    protected setNext(@Payload('response') response: Paginated) {
         if (!response.pagination?.data) {
             console.warn(
                 'Pagination data not found. Did you add `PaginationInterceptor` to HTTP_INTERCEPTORS?',
@@ -71,11 +70,11 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
         const url = this.snapshot.next;
         return this.paginatedService.getNext(url)
             .pipe(
-                this.requestOptionsPipe<Paginated<Entity[]>>(OperationContext.Many),
-                tap<Paginated<Entity[]>>(paginated => this.setNext(paginated)),
-                this.unwindPaginationPipe<Paginated<Entity[]>, Entity[]>(),
-                this.populationPipe<Entity[]>(),
-                tap<Entity[]>(resources => this.getNextSuccess(resources)),
+                this.requestPipe<Paginated<Entity[]>, Entity[]>({
+                    context: OperationContext.Many,
+                    success: resources => this.getNextSuccess(resources),
+                    prepend: () => this.paginationPipe(),
+                }),
             );
     }
 
@@ -85,8 +84,13 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
         this.onSuccess(OperationContext.Many);
     }
 
-    protected unwindPaginationPipe<In, Out = In>() {
+    protected paginationPipe<In, Out = In>() {
         return pipe(
+            tap<In | Paginated<In>>(response => {
+                if ('pagination' in response) {
+                    this.setNext(response);
+                }
+            }),
             map<In | Paginated<In>, Out>(response => 'pagination' in response
                 ? response.pagination.data as unknown as Out
                 : response as unknown as Out,

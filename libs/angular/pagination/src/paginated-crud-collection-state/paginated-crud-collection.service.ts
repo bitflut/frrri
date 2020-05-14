@@ -4,7 +4,7 @@ import { GetManyOptions } from '@lyxs/angular/internal';
 import { EMPTY, Observable } from 'rxjs';
 import { expand, reduce } from 'rxjs/operators';
 
-export interface Paginated<T> {
+export interface Paginated<T = {}> {
     pagination: {
         data: T,
         next: string,

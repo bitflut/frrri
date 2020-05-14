@@ -197,10 +197,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         this.ctx.patchState({ active: { [this.primaryKey]: id } } as any);
         return this.service.getOne(this.requestOptions.resourceUrlFactory(id))
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                tap(resource => this.getActiveSuccess(resource)),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    success: resource => this.getActiveSuccess(resource),
+                }),
             );
     }
 
@@ -214,14 +214,14 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public getMany(@Payload('options') options: GetManyOptions = {}) {
         return this.service.getMany(this.requestOptions.collectionUrlFactory(), options)
             .pipe(
-                this.requestOptionsPipe(OperationContext.Many),
-                this.populationPipe(),
-                tap(resources => this.getManySuccess(resources)),
-                this.catchErrorPipe(OperationContext.Many),
+                this.requestPipe({
+                    context: OperationContext.Many,
+                    success: resource => this.getManySuccess(resource),
+                }),
             );
     }
 
-    /** Used in RouteResolver's population for potentially paginated collections */
+    /** Used for population */
     public getAll(options: GetManyOptions = {}) {
         return this.getMany(options);
     }
@@ -236,10 +236,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public getOne(@Payload('id') id: IdType) {
         return this.service.getOne(this.requestOptions.resourceUrlFactory(id))
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                tap(resource => this.getOneSuccess(resource)),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    success: resource => this.getOneSuccess(resource),
+                }),
             );
     }
 
@@ -253,10 +253,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public patchOne(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
         return this.service.patchOne(this.requestOptions.resourceUrlFactory(update.id), update.changes)
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                tap(resource => this.patchOneSuccess({ id: update.id, changes: resource })),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    success: resource => this.patchOneSuccess({ id: update.id, changes: resource }),
+                }),
             );
     }
 
@@ -272,10 +272,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         this.updateOne({ id: update.id, changes: update.changes });
         return this.service.patchOne(this.requestOptions.resourceUrlFactory(update.id), update.changes)
             .pipe(
-                this.catchOptimistcUndoPipe(() => this.patchOneOptimisticUndo({ id: update.id, changes: original })),
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    optimisticUndo: () => this.patchOneOptimisticUndo({ id: update.id, changes: original }),
+                }),
             );
     }
 
@@ -289,10 +289,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public putOne(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
         return this.service.putOne(this.requestOptions.resourceUrlFactory(update.id), update.changes)
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                tap(resource => this.putOneSuccess({ id: update.id, changes: resource })),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    success: resource => this.putOneSuccess({ id: update.id, changes: resource }),
+                }),
             );
     }
 
@@ -306,10 +306,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public postOne(@Payload('entity') entity: Partial<Entity>) {
         return this.service.postOne(this.requestOptions.collectionUrlFactory(), entity)
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                tap(resource => this.addEntityOne(resource)),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    success: resource => this.addEntityOne(resource),
+                }),
             );
     }
 
@@ -327,10 +327,10 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         this.addEntityOne(entity);
         return this.service.postOne(this.requestOptions.collectionUrlFactory(), entity)
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                this.populationPipe(),
-                this.catchOptimistcUndoPipe(() => this.postOneOptimisticUndo(entity[this.primaryKey])),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    optimisticUndo: () => this.postOneOptimisticUndo(entity[this.primaryKey]),
+                }),
             );
     }
 
@@ -344,10 +344,11 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public deleteOne(@Payload('id') id: IdType) {
         return this.service.deleteOne(this.requestOptions.resourceUrlFactory(id))
             .pipe(
-                this.requestOptionsPipe(OperationContext.One),
-                // this.populationPipe(),
-                tap(() => this.deleteOneSuccess(id)),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    populate: false,
+                    success: data => this.deleteOneSuccess(id),
+                }),
             );
     }
 
@@ -363,10 +364,11 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         this.removeEntitiesMany([id]);
         return this.service.deleteOne(this.requestOptions.resourceUrlFactory(id))
             .pipe(
-                this.catchOptimistcUndoPipe(() => this.deleteOneOptimisticUndo(original)),
-                this.requestOptionsPipe(OperationContext.One),
-                // this.populationPipe(),
-                this.catchErrorPipe(OperationContext.One),
+                this.requestPipe({
+                    context: OperationContext.One,
+                    populate: false,
+                    optimisticUndo: () => this.deleteOneOptimisticUndo(original),
+                }),
             );
     }
 
@@ -388,6 +390,31 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
             },
             loaded: true,
         } as any);
+    }
+
+    protected requestPipe<In, Out = In>(options: {
+        context: OperationContext,
+        /** Defaults to true */
+        populate?: boolean,
+        /** A pipe to prepend (e.g. `() => this.paginationPipe()`) */
+        prepend?: () => UnaryFunction<Observable<Out>, Observable<Out>>,
+        /** Function to run if optimistic action failed */
+        optimisticUndo?: () => void,
+        success?: (data: Out) => void,
+    }) {
+        options = {
+            populate: true,
+            ...options,
+        };
+
+        return pipe(
+            this.requestOptionsPipe<In, Out>(options.context),
+            options.prepend ? options.prepend() : tap(),
+            options.populate ? this.populationPipe() : tap(),
+            options.success ? tap(result => options.success(result)) : tap(),
+            options.optimisticUndo ? this.catchOptimistcUndoPipe(() => options.optimisticUndo()) : tap(),
+            this.catchErrorPipe(options.context),
+        ) as UnaryFunction<Observable<In>, Observable<Out>>;
     }
 
     protected catchOptimistcUndoPipe<In, Out = In>(undoFn: () => void) {
