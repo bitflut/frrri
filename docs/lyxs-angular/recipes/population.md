@@ -64,7 +64,7 @@ Now if you want to display the user's name for every post in your list, you can 
 
 You can also fetch all comments for a post and then every user for every comment.
 
-### The populate\(\) route instruction
+## The populate\(\) route instruction
 
 #### Getting every post's user
 
