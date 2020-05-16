@@ -1,8 +1,11 @@
-import { Crud } from '@lyxs/nest';
+import { Crud, CrudMethod } from '@lyxs/nest';
 import { Controller } from '@nestjs/common';
 
 @Controller('posts')
 @Crud({
-    methods: ['getMany', 'getOne', 'updateOne', 'createOne', 'deleteOne'],
+    methods: [
+        CrudMethod.GetMany,
+        CrudMethod.GetOne,
+    ],
 })
 export class PostsController { }
