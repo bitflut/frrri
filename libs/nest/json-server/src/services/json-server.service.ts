@@ -1,8 +1,9 @@
 import { HttpService, Injectable } from '@nestjs/common';
+import { AxiosResponse } from 'axios';
 import { Observable, pipe, UnaryFunction } from 'rxjs';
-import { map, mapTo } from 'rxjs/operators';
-import { ClassType } from '../interfaces/class.interface';
-import { CrudResponse } from '../interfaces/crud-response.interface';
+import { map, mapTo, tap } from 'rxjs/operators';
+import { ParsedRequest } from '../interfaces/parsed-request.interface';
+import { ClassType } from '../types/class.type';
 
 export function JsonServerOptions(options: {
     collection: string;
@@ -39,54 +40,63 @@ export class JsonServerService<Entity = any, PaginatedEntity = Entity> {
     ) { }
 
     private composeUrl(...parts: string[]) {
-        return [this.apiUrl, this.collection, ...parts].filter(p => !!p).join('/');
+        return [this.apiUrl, this.collection, ...parts].filter(p => typeof p !== 'undefined').join('/');
     }
 
-    getMany() {
+    getMany(req: ParsedRequest) {
         return this.http.get<PaginatedEntity[]>(
             this.composeUrl(),
-        ).pipe(this.responsePipe());
+            { params: req.query },
+        ).pipe(this.responsePipe(req));
     }
 
-    getOne(id: string) {
+    getOne(req: ParsedRequest, id: string) {
         return this.http.get<Entity>(
             this.composeUrl(id),
-        ).pipe(this.responsePipe());
+            { params: req.query },
+        ).pipe(this.responsePipe(req));
     }
 
-    patchOne(id: string) {
+    patchOne(req: ParsedRequest, id: string) {
         return this.http.patch<Entity>(
             this.composeUrl(id),
-        ).pipe(this.responsePipe());
+            { params: req.query },
+        ).pipe(this.responsePipe(req));
     }
 
-    putOne(id: string, data: any) {
+    putOne(req: ParsedRequest, id: string, data: any) {
         return this.http.put<Entity>(
             this.composeUrl(id),
             data,
-        ).pipe(this.responsePipe());
+            { params: req.query },
+        ).pipe(this.responsePipe(req));
     }
 
-    postOne(data: any) {
+    postOne(req: ParsedRequest, data: any) {
         return this.http.post<Entity>(
             this.composeUrl(),
             data,
-        ).pipe(this.responsePipe());
+            { params: req.query },
+        ).pipe(this.responsePipe(req));
     }
 
-    deleteOne(id: string) {
+    deleteOne(req: ParsedRequest, id: string) {
         return this.http.delete<void>(
             this.composeUrl(id),
+            { params: req.query },
         ).pipe(
-            this.responsePipe(),
+            this.responsePipe(req),
             mapTo(undefined),
         );
     }
 
-    private responsePipe<In extends CrudResponse<any>>() {
+    private responsePipe<In extends AxiosResponse>(req: ParsedRequest) {
         return pipe(
-            map(response => response.data as CrudResponse<In['data']>),
-        ) as UnaryFunction<Observable<In>, Observable<CrudResponse<In['data']>>>;
+            tap(response => {
+                req.response.set('link', response.headers['link']);
+            }),
+            map(response => response.data as In['data']),
+        ) as UnaryFunction<Observable<In>, Observable<In['data']>>;
     }
 
 }

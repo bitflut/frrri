@@ -238,6 +238,32 @@
           }
         }
       }
+    },
+    "nest-json-server": {
+      "root": "libs/nest-json-server",
+      "sourceRoot": "libs/nest-json-server/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/nest-json-server/tsconfig.lib.json",
+              "libs/nest-json-server/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/nest-json-server/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/nest-json-server/jest.config.js",
+            "tsConfig": "libs/nest-json-server/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

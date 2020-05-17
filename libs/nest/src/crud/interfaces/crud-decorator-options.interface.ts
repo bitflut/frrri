@@ -4,6 +4,6 @@ export interface CrudDecoratorOptions {
     /** The endpoints you want to expose. Defaults to exposing all CRUD endpoints. */
     endpoints?: CrudEndpoint[];
 
-    /** Static conditions for your controller */
-    conditions?: { [key: string]: any };
+    /** Query params for your controller */
+    query?: { [key: string]: any };
 }

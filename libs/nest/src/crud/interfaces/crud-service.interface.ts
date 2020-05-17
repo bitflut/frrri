@@ -1,13 +1,12 @@
-import { CrudResponse } from './crud-response.interface';
+import { ParsedRequest } from '@lyxs/nest/common';
+import { IdType } from '../types/id.type';
 import { Defferable } from './deferrable.interface';
 
-interface CrudServiceTemplate<Entity = any, PaginatedEntity = Entity> {
-    getMany(): Defferable<CrudResponse<PaginatedEntity[]>>;
-    getOne(id: string): Defferable<CrudResponse<Entity>>;
-    deleteOne(id: string): Defferable<CrudResponse<void>>;
-    postOne(id: string, data: Partial<Entity>): Defferable<CrudResponse<Entity>>;
-    patchOne(id: string, data: Partial<Entity>): Defferable<CrudResponse<Entity>>;
-    putOne(id: string, data: Partial<Entity>): Defferable<CrudResponse<Entity>>;
+export interface CrudService<Entity = any, PaginatedEntity = Entity> {
+    getMany?(req: ParsedRequest, ...args: any[]): Defferable<PaginatedEntity[]>;
+    getOne?(req: ParsedRequest, id: IdType, ...args: any[]): Defferable<Entity>;
+    deleteOne?(req: ParsedRequest, id: IdType, ...args: any[]): Defferable<void>;
+    patchOne?(req: ParsedRequest, id: IdType, data: Partial<Entity>, ...args: any[]): Defferable<Entity>;
+    putOne?(req: ParsedRequest, id: IdType, data: Partial<Entity>, ...args: any[]): Defferable<Entity>;
+    postOne?(req: ParsedRequest, id: IdType, data: Partial<Entity>, ...args: any[]): Defferable<Entity>;
 }
-
-export type CrudService<Entity = any, PaginatedEntity = Entity> = Partial<CrudServiceTemplate<Entity, PaginatedEntity>>;
