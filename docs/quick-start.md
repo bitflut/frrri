@@ -1,13 +1,13 @@
 # Quick start
 
-To get started, install @lyxs/angular and its peer dependencies.
+To get started, install @lyxs/ngxs-crud and its peer dependencies.
 
 ```bash
 # dependencies
 npm install @ngxs/store @ngrx-labs/data --save
 
-# @lyxs/angular
-npm install @lyxs/angular --save
+# @lyxs/ngxs-crud
+npm install @lyxs/ngxs-crud --save
 ```
 
 Then set up **ngxs** and **nxgs-data** in `app.module.ts` like so \(see [https://www.ngxs.io/getting-started/installation](https://www.ngxs.io/getting-started/installation) for more information\):

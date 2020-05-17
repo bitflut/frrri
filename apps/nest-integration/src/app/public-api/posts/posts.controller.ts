@@ -1,4 +1,4 @@
-import { Crud } from '@lyxs/nest';
+import { Crud } from '@lyxs/nest-crud';
 import { Controller } from '@nestjs/common';
 
 @Crud()

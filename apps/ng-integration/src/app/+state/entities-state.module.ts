@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CrudCollectionOptionsProvider, CRUD_COLLECTION_OPTIONS_TOKEN } from '@lyxs/angular';
+import { CrudCollectionOptionsProvider, CRUD_COLLECTION_OPTIONS_TOKEN } from '@lyxs/ngxs-crud';
 import { NgxsModule } from '@ngxs/store';
 import { EntitiesState } from './entities.state';
 import { CommentsState } from './entities/comments.state';

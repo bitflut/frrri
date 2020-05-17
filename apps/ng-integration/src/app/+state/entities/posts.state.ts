@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { AfterSuccess } from '@lyxs/angular';
-import { OperationContext } from '@lyxs/angular/internal';
-import { PaginatedCrudCollection, PaginatedCrudCollectionState } from '@lyxs/angular/pagination';
+import { AfterSuccess } from '@lyxs/ngxs-crud';
+import { OperationContext } from '@lyxs/ngxs-crud/internal';
+import { PaginatedCrudCollection, PaginatedCrudCollectionState } from '@lyxs/ngxs-crud/pagination';
 import { Observable } from 'rxjs';
 
 interface Post {
