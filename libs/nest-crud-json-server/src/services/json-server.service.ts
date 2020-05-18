@@ -5,7 +5,7 @@ import { AxiosResponse } from 'axios';
 import { Observable, pipe, UnaryFunction } from 'rxjs';
 import { map, mapTo, tap } from 'rxjs/operators';
 
-export function JsonServerOptions(options: {
+export function JsonServerServiceOptions(options: {
     collection: string;
     apiUrl?: string;
     validate?: boolean;

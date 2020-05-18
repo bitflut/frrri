@@ -3,7 +3,7 @@ import { Controller, HttpModule } from '@nestjs/common';
 import { NestApplication } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
 import * as supertest from 'supertest';
-import { JsonServerOptions, JsonServerService } from './json-server.service';
+import { JsonServerService, JsonServerServiceOptions } from './json-server.service';
 
 interface Post {
     id: number;
@@ -22,7 +22,7 @@ describe('JsonServerService', () => {
         let $: supertest.SuperTest<supertest.Test>;
 
         beforeAll(async () => {
-            @JsonServerOptions({ collection })
+            @JsonServerServiceOptions({ collection })
             class PostsService extends JsonServerService<Post> { }
 
             @Crud({ query, endpoints })
@@ -61,7 +61,7 @@ describe('JsonServerService', () => {
         let $: supertest.SuperTest<supertest.Test>;
 
         beforeAll(async () => {
-            @JsonServerOptions({ collection })
+            @JsonServerServiceOptions({ collection })
             class PostsService extends JsonServerService<Post> { }
 
             @Crud({ query, endpoints })

@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import { Document, Model } from 'mongoose';
 import * as supertest from 'supertest';
-import { MongooseOptions, MongooseService } from './mongoose.service';
+import { MongooseService, MongooseServiceOptions } from './mongoose.service';
 
 @Schema()
 class User {
@@ -73,7 +73,7 @@ const postsDbData: Post[] = [
     },
 ];
 
-@MongooseOptions({ modelToken: 'Post' })
+@MongooseServiceOptions({ modelToken: 'Post' })
 @Injectable()
 class PostsService extends MongooseService<Post & Document> { }
 

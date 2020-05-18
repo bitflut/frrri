@@ -7,7 +7,7 @@ import { from, Observable, pipe, UnaryFunction } from 'rxjs';
 import { mapTo } from 'rxjs/operators';
 import { ParsedMongooseRequest } from '../interfaces/parsed-mongoose-request.interface';
 
-export function MongooseOptions(options: {
+export function MongooseServiceOptions(options: {
     modelToken: string;
     validate?: boolean;
 }) {
