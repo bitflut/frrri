@@ -1,5 +1,5 @@
 import { ClassType } from '@lyxs/nest-crud/internal';
-import { Param, UseInterceptors } from '@nestjs/common';
+import { Body, Param, UseInterceptors } from '@nestjs/common';
 import { INTERCEPTORS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { CrudEndpoint } from '../enums/crud-endpoint.enum';
 import { CrudRequestInterceptor } from '../interceptors/crud-request.interceptor';
@@ -9,6 +9,10 @@ import { ParsedRequest } from './parsed-request.decorator';
 
 function isIdRoute(endpoint: CrudEndpoint) {
     return ![CrudEndpoint.GetMany, CrudEndpoint.PostOne].includes(endpoint);
+}
+
+function isBodyRoute(endpoint: CrudEndpoint) {
+    return [CrudEndpoint.PatchOne, CrudEndpoint.PostOne, CrudEndpoint.PutOne].includes(endpoint);
 }
 
 export function Crud(options: CrudDecoratorOptions = {}) {
@@ -33,9 +37,30 @@ export function Crud(options: CrudDecoratorOptions = {}) {
             Reflect.defineMetadata(METHOD_METADATA, config.request.method, target.prototype[endpoint]);
 
             // Configure param decorators
-            ParsedRequest()(target.prototype, endpoint, 0);
+            let parameterIndex = 0;
+            ParsedRequest()(target.prototype, endpoint, parameterIndex);
+
             if (isIdRoute(endpoint)) {
-                Param('id')(target.prototype, endpoint, 1);
+                parameterIndex++;
+                Param('id')(target.prototype, endpoint, parameterIndex);
+            }
+
+            if (isBodyRoute(endpoint)) {
+                parameterIndex++;
+                Body()(target.prototype, endpoint, parameterIndex);
+
+                const dto = options?.dtos?.[endpoint] ?? options.dto;
+                if (dto) {
+                    const paramTypes = Array(parameterIndex);
+                    paramTypes[parameterIndex] = dto;
+
+                    Reflect.defineMetadata(
+                        'design:paramtypes',
+                        paramTypes,
+                        target.prototype,
+                        endpoint,
+                    );
+                }
             }
         }
     };

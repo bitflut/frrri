@@ -1,14 +1,12 @@
+import { ClassType } from '@lyxs/nest-crud/internal';
 import { Controller } from '@nestjs/common';
 import { CrudEndpoint } from '../enums/crud-endpoint.enum';
 import { CrudDecoratorOptions } from '../interfaces/crud-decorator-options.interface';
 import { Crud } from './crud.decorator';
 
-interface Post {
-    id: number;
-    userId: number;
-    body: string;
-    title: string;
-}
+class Dto { }
+class PostDto { }
+class PatchDto { }
 
 describe('@Crud', () => {
 
@@ -40,6 +38,38 @@ describe('@Crud', () => {
 
         // Does not define any unprovided endpoints
         expect(Ctrl.prototype[CrudEndpoint.DeleteOne]).not.toBeDefined();
+    });
+
+    it('should compile with dto', () => {
+        @Crud({ dto: Dto })
+        @Controller()
+        class Ctrl { }
+
+        const paramTypes: any[] = Reflect.getMetadata('design:paramtypes', Ctrl.prototype, CrudEndpoint.PostOne);
+        const isPostDtoDefined = paramTypes.findIndex(t => t === Dto) > -1;
+        expect(isPostDtoDefined).toBeTruthy();
+    });
+
+    it('should compile with custom dtos alongside default dto', () => {
+        @Crud({
+            dto: Dto,
+            dtos: {
+                [CrudEndpoint.PostOne]: PostDto,
+                [CrudEndpoint.PatchOne]: PatchDto,
+            },
+        })
+        @Controller()
+        class Ctrl { }
+
+        const validateDto = (endpoint: CrudEndpoint, dto: ClassType) => {
+            const paramTypes: any[] = Reflect.getMetadata('design:paramtypes', Ctrl.prototype, endpoint);
+            const isDtoDefined = paramTypes.findIndex(t => t === dto) > -1;
+            expect(isDtoDefined).toBeTruthy();
+        };
+
+        validateDto(CrudEndpoint.PutOne, Dto);
+        validateDto(CrudEndpoint.PatchOne, PatchDto);
+        validateDto(CrudEndpoint.PostOne, PostDto);
     });
 
 });

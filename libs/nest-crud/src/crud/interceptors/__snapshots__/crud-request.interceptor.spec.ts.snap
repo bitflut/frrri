@@ -40,3 +40,17 @@ Object {
   "userId": 1,
 }
 `;
+
+exports[`CrudRequestInterceptor should be provided: patch(1) 1`] = `
+Object {
+  "body": "asdf",
+  "title": "asdf",
+}
+`;
+
+exports[`CrudRequestInterceptor should be provided: post(1) 1`] = `
+Object {
+  "body": "asdf",
+  "title": "asdf",
+}
+`;
