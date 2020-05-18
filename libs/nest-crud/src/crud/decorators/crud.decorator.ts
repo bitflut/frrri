@@ -4,6 +4,7 @@ import { INTERCEPTORS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/c
 import { CrudEndpoint } from '../enums/crud-endpoint.enum';
 import { CrudRequestInterceptor } from '../interceptors/crud-request.interceptor';
 import { CrudDecoratorOptions } from '../interfaces/crud-decorator-options.interface';
+import { EndpointDefinition } from '../interfaces/endpoint-definition.interface';
 import { endpointConfigurations } from './endpoint-configurations';
 import { ParsedRequest } from './parsed-request.decorator';
 
@@ -22,7 +23,7 @@ export function Crud(options: CrudDecoratorOptions = {}) {
             ...options,
         };
 
-        // Prepend request interceptor
+        // Prepend CrudRequestInterceptor
         const interceptors = Reflect.getMetadata(INTERCEPTORS_METADATA, target) || [];
         UseInterceptors(CrudRequestInterceptor, ...interceptors)(target);
 
@@ -32,34 +33,55 @@ export function Crud(options: CrudDecoratorOptions = {}) {
             // Add controller method
             target.prototype[endpoint] = config.factory(options);
 
-            // Configure request
-            Reflect.defineMetadata(PATH_METADATA, config.request.path, target.prototype[endpoint]);
-            Reflect.defineMetadata(METHOD_METADATA, config.request.method, target.prototype[endpoint]);
-
-            // Configure param decorators
-            const paramTypes = [];
-            let parameterIndex = 0;
-            ParsedRequest()(target.prototype, endpoint, parameterIndex);
-            paramTypes.push(undefined);
-
-            if (isIdRoute(endpoint)) {
-                parameterIndex++;
-                Param('id')(target.prototype, endpoint, parameterIndex);
-                paramTypes.push(options.idType);
-            }
-
-            if (isBodyRoute(endpoint)) {
-                parameterIndex++;
-                Body()(target.prototype, endpoint, parameterIndex);
-
-                const dto = options?.dtos?.[endpoint] ?? options.dto;
-                if (dto) {
-                    paramTypes.push(dto);
-                }
-            }
-
-            // Add paramtypes to endpoint for validation
-            Reflect.defineMetadata('design:paramtypes', paramTypes, target.prototype, endpoint);
+            configureRequest(config, target, endpoint);
+            configureParams(target, endpoint);
         }
     };
+
+    /**
+     * Add nest request decorator
+     * ```typescript
+     * \@Get(':id')
+     * ```
+     */
+    function configureRequest(config: EndpointDefinition, target: ClassType, endpoint: CrudEndpoint) {
+        Reflect.defineMetadata(PATH_METADATA, config.request.path, target.prototype[endpoint]);
+        Reflect.defineMetadata(METHOD_METADATA, config.request.method, target.prototype[endpoint]);
+    }
+
+    /**
+     * Add nest method param decorators
+     * ```typescript
+     * patchOne(
+     *     \@ParsedRequest() req: any,
+     *     \@Param('id') id: IdType,
+     *     \@Body() body: Dto,
+     * ) {}
+     * ```
+     */
+    function configureParams(target: ClassType, endpoint: CrudEndpoint) {
+        const paramTypes = [];
+        let parameterIndex = 0;
+        ParsedRequest()(target.prototype, endpoint, parameterIndex);
+        paramTypes.push(undefined);
+
+        if (isIdRoute(endpoint)) {
+            parameterIndex++;
+            Param('id')(target.prototype, endpoint, parameterIndex);
+            paramTypes.push(options.idType);
+        }
+
+        if (isBodyRoute(endpoint)) {
+            parameterIndex++;
+            Body()(target.prototype, endpoint, parameterIndex);
+
+            const dto = options?.dtos?.[endpoint] ?? options.dto;
+            if (dto) {
+                paramTypes.push(dto);
+            }
+        }
+
+        // Add paramtypes to endpoint for validation
+        Reflect.defineMetadata('design:paramtypes', paramTypes, target.prototype, endpoint);
+    }
 }
