@@ -44,6 +44,9 @@
     },
     "nest-crud-json-server": {
       "tags": []
+    },
+    "nest-crud-mongoose": {
+      "tags": []
     }
   }
 }

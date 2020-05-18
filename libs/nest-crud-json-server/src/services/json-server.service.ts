@@ -29,11 +29,10 @@ export function JsonServerOptions(options: {
 }
 
 @Injectable()
-export class JsonServerService<Entity = any, PaginatedEntity = Entity> {
+export class JsonServerService<Entity = any, PaginatedEntity = Entity[]> {
 
     collection: string;
     apiUrl: string;
-    responseHeaders: any;
 
     constructor(
         private http: HttpService,
@@ -44,7 +43,7 @@ export class JsonServerService<Entity = any, PaginatedEntity = Entity> {
     }
 
     getMany(req: ParsedRequest) {
-        return this.http.get<PaginatedEntity[]>(
+        return this.http.get<PaginatedEntity>(
             this.composeUrl(),
             { params: req.query },
         ).pipe(this.responsePipe(req));

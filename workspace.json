@@ -288,6 +288,35 @@
           }
         }
       }
+    },
+    "nest-crud-mongoose": {
+      "root": "libs/nest-crud-mongoose",
+      "sourceRoot": "libs/nest-crud-mongoose/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/nest-crud-mongoose/tsconfig.lib.json",
+              "libs/nest-crud-mongoose/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/nest-crud-mongoose/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/nest-crud-mongoose/jest.config.js",
+            "tsConfig": "libs/nest-crud-mongoose/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
