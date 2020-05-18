@@ -1,5 +1,6 @@
 import { ClassType } from '@lyxs/nest-crud/internal';
 import { Controller } from '@nestjs/common';
+import { ObjectId } from 'mongodb';
 import { CrudEndpoint } from '../enums/crud-endpoint.enum';
 import { CrudDecoratorOptions } from '../interfaces/crud-decorator-options.interface';
 import { Crud } from './crud.decorator';
@@ -24,7 +25,7 @@ describe('@Crud', () => {
         }
     });
 
-    it('should compile with certain endpoints', () => {
+    it('should provide certain endpoints', () => {
         const endpoints = [CrudEndpoint.GetMany, CrudEndpoint.GetOne] as CrudDecoratorOptions['endpoints'];
 
         @Crud({ endpoints })
@@ -40,7 +41,7 @@ describe('@Crud', () => {
         expect(Ctrl.prototype[CrudEndpoint.DeleteOne]).not.toBeDefined();
     });
 
-    it('should compile with dto', () => {
+    it('should use dto', () => {
         @Crud({ dto: Dto })
         @Controller()
         class Ctrl { }
@@ -50,7 +51,7 @@ describe('@Crud', () => {
         expect(isPostDtoDefined).toBeTruthy();
     });
 
-    it('should compile with custom dtos alongside default dto', () => {
+    it('should set custom dtos alongside default dto', () => {
         @Crud({
             dto: Dto,
             dtos: {
@@ -70,6 +71,16 @@ describe('@Crud', () => {
         validateDto(CrudEndpoint.PutOne, Dto);
         validateDto(CrudEndpoint.PatchOne, PatchDto);
         validateDto(CrudEndpoint.PostOne, PostDto);
+    });
+
+    it('should set provided id type', () => {
+        @Crud({ idType: ObjectId })
+        @Controller()
+        class Ctrl { }
+
+        const paramTypes: any[] = Reflect.getMetadata('design:paramtypes', Ctrl.prototype, CrudEndpoint.GetOne);
+        const isIdTypeDefined = paramTypes.findIndex(t => t === ObjectId) > -1;
+        expect(isIdTypeDefined).toBeTruthy();
     });
 
 });

@@ -17,4 +17,7 @@ export interface CrudDecoratorOptions {
         [CrudEndpoint.PutOne]?: ClassType;
         [CrudEndpoint.PatchOne]?: ClassType;
     };
+
+    /** If provided, nest will convert the `id` to the provided primitive or ClassType */
+    idType?: any;
 }

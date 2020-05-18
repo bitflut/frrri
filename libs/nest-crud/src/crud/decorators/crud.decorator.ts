@@ -37,12 +37,15 @@ export function Crud(options: CrudDecoratorOptions = {}) {
             Reflect.defineMetadata(METHOD_METADATA, config.request.method, target.prototype[endpoint]);
 
             // Configure param decorators
+            const paramTypes = [];
             let parameterIndex = 0;
             ParsedRequest()(target.prototype, endpoint, parameterIndex);
+            paramTypes.push(undefined);
 
             if (isIdRoute(endpoint)) {
                 parameterIndex++;
                 Param('id')(target.prototype, endpoint, parameterIndex);
+                paramTypes.push(options.idType);
             }
 
             if (isBodyRoute(endpoint)) {
@@ -51,17 +54,12 @@ export function Crud(options: CrudDecoratorOptions = {}) {
 
                 const dto = options?.dtos?.[endpoint] ?? options.dto;
                 if (dto) {
-                    const paramTypes = Array(parameterIndex);
-                    paramTypes[parameterIndex] = dto;
-
-                    Reflect.defineMetadata(
-                        'design:paramtypes',
-                        paramTypes,
-                        target.prototype,
-                        endpoint,
-                    );
+                    paramTypes.push(dto);
                 }
             }
+
+            // Add paramtypes to endpoint for validation
+            Reflect.defineMetadata('design:paramtypes', paramTypes, target.prototype, endpoint);
         }
     };
 }
