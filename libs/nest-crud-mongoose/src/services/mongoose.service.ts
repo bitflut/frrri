@@ -1,9 +1,10 @@
 import { ClassType } from '@lyxs/nest-crud/internal';
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { getModelToken } from '@nestjs/mongoose';
 import { Document, DocumentQuery, FilterQuery, Model } from 'mongoose';
 import { from, Observable, pipe, UnaryFunction } from 'rxjs';
+import { mapTo } from 'rxjs/operators';
 import { ParsedMongooseRequest } from '../interfaces/parsed-mongoose-request.interface';
 
 export function MongooseOptions(options: {
@@ -27,7 +28,7 @@ export function MongooseOptions(options: {
 }
 
 @Injectable()
-export class MongooseService<Entity extends Document = Document, PaginatedEntity = Entity[]> {
+export class MongooseService<Entity extends Document = Document, PaginatedEntity = Entity[]> implements OnModuleInit {
 
     modelToken: string;
     model: Model<Entity>;
@@ -38,7 +39,10 @@ export class MongooseService<Entity extends Document = Document, PaginatedEntity
         if (!this.modelToken) {
             throw new Error(`Please add \`@MongooseOptions()\` to \`${this.constructor.name}\`.`);
         }
-        this.model = this.moduleRef.get(getModelToken(this.modelToken));
+    }
+
+    onModuleInit() {
+        this.model = this.moduleRef.get(getModelToken(this.modelToken), { strict: false });
     }
 
     getMany(req: ParsedMongooseRequest) {
@@ -61,15 +65,54 @@ export class MongooseService<Entity extends Document = Document, PaginatedEntity
     }
 
     patchOne(req: ParsedMongooseRequest, id: string) {
+        // TODO: Implementation
+        const conditions = {
+            ...req.query.conditions,
+            _id: id,
+        } as FilterQuery<any>;
+
+        return this.query(
+            this.model.findOne(conditions),
+            req,
+        );
     }
 
     putOne(req: ParsedMongooseRequest, id: string, data: any) {
+        // TODO: Implementation
+        const conditions = {
+            ...req.query.conditions,
+            _id: id,
+        } as FilterQuery<any>;
+
+        return this.query(
+            this.model.findOne(conditions),
+            req,
+        );
     }
 
     postOne(req: ParsedMongooseRequest, data: any) {
+        // TODO: Implementation
+        const conditions = {
+            ...req.query.conditions,
+        } as FilterQuery<any>;
+
+        return this.query(
+            this.model.findOne(conditions),
+            req,
+        );
     }
 
     deleteOne(req: ParsedMongooseRequest, id: string) {
+        // TODO: Implementation
+        const conditions = {
+            ...req.query.conditions,
+            _id: id,
+        } as FilterQuery<any>;
+
+        return this.query(
+            this.model.findOne(conditions),
+            req,
+        ).pipe(mapTo(undefined));
     }
 
     protected query<Many, One extends Document>(query: DocumentQuery<Many, One>, req: ParsedMongooseRequest) {
