@@ -1,5 +1,5 @@
 {
-  "npmScope": "lyxs",
+  "npmScope": "frrri",
   "implicitDependencies": {
     "workspace.json": "*",
     "package.json": {

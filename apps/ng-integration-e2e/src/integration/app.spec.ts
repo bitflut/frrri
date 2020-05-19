@@ -31,19 +31,19 @@ describe('ng-integration', () => {
         cy.contains('#5').should('exist');
         cy.contains('#5').click();
 
-        cy.get('app-posts-show').get('lyxs-many').contains('Noemie@marques.me').should('exist');
+        cy.get('app-posts-show').get('ngxs-crud-many').contains('Noemie@marques.me').should('exist');
     });
 
     it('should populate & display users & comments', () => {
         cy.get('a').contains('With user & comments').click();
         cy.contains('#10').should('not.exist');
         cy.contains('#4').should('exist');
-        cy.get('lyxs-many').contains('Leanne Graham').should('exist');
+        cy.get('ngxs-crud-many').contains('Leanne Graham').should('exist');
         cy.contains('#4').click();
         cy.wait(2000);
 
         cy.get('app-posts-show').contains('Sincere@april.biz').should('exist');
-        cy.get('app-posts-show').get('lyxs-many').contains('Christine@ayana.info').should('exist');
+        cy.get('app-posts-show').get('ngxs-crud-many').contains('Christine@ayana.info').should('exist');
     });
 
     it('should clear populations after switching routes', () => {
@@ -52,12 +52,12 @@ describe('ng-integration', () => {
         cy.contains('#5').should('exist');
         cy.contains('#5').click();
         cy.wait(2000);
-        cy.get('app-posts-show').get('lyxs-many').contains('Noemie@marques.me').should('exist');
+        cy.get('app-posts-show').get('ngxs-crud-many').contains('Noemie@marques.me').should('exist');
 
         cy.get('a').contains('Posts').click();
         cy.contains('#4').click();
         cy.wait(2000);
         cy.get('app-posts-show').contains('#4').should('exist');
-        cy.get('app-posts-show').get('lyxs-many').contains('Christine@ayana.info').should('not.exist');
+        cy.get('app-posts-show').get('ngxs-crud-many').contains('Christine@ayana.info').should('not.exist');
     });
 });

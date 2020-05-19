@@ -5,7 +5,7 @@ import { RoutingNavigationService } from './routing-service/routing-navigation.s
 @NgModule({
     imports: [CommonModule],
 })
-export class LyxsRoutingModule {
+export class NgxsCrudRoutingModule {
 
     constructor(
         service: RoutingNavigationService,
@@ -13,7 +13,7 @@ export class LyxsRoutingModule {
 
     static forRoot(): ModuleWithProviders {
         return {
-            ngModule: LyxsRoutingModule,
+            ngModule: NgxsCrudRoutingModule,
             providers: [
                 RoutingNavigationService,
             ],

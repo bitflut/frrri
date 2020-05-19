@@ -6,7 +6,7 @@ import { BehaviorSubject, combineLatest, Observable, pipe, Subject, UnaryFunctio
 import { map, takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'lyxs-one',
+    selector: 'ngxs-crud-one',
     templateUrl: './one.component.html',
     styleUrls: ['./one.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -7,4 +7,4 @@ import { ManyComponent } from './many.component';
     declarations: [ManyComponent],
     exports: [ManyComponent],
 })
-export class LyxsManyModule { }
+export class NgxsCrudManyModule { }

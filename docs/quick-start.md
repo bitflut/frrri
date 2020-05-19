@@ -33,7 +33,7 @@ Now add an entity collection for **Posts** extending `CrudCollectionState`:
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { CrudCollection, CrudCollectionState } from '@frrri/ng/lyxs';
+import { CrudCollection, CrudCollectionState } from '@frrri/ng/frrri';
 
 interface Post {
     id: string;

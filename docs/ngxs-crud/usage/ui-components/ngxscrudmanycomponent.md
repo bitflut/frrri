@@ -1,15 +1,15 @@
 ---
-description: <lyxs-many>
+description: <ngxs-crud-many>
 ---
 
-# LyxsManyComponent
+# NgxsCrudManycomponent
 
 The component exposes multiple selectors and has common scenarios like loading prepared via `<ng-content>` selectors.
 
 The path **entities.posts** defined in the example below is the corresponding collection's state path. See [States Registry](../../recipes/states-registry.md) for more information.
 
 ```markup
-<lyxs-many path="entities.posts" #posts>
+<ngxs-crud-many path="entities.posts" #posts>
     <!-- Loop through all posts -->
     <ng-container *ngFor="let post of posts.all$ | async; trackBy:posts.trackByKey('id')">
         {{ post | json }}
@@ -19,12 +19,12 @@ The path **entities.posts** defined in the example below is the corresponding co
     <div class="loading">
         Loading posts...
     </div>
-</lyxs-many>
+</ngxs-crud-many>
 ```
 
 #### Provided &lt;ng-content&gt; selectors
 
-Note: If the default order of these components is not like you wish, we suggest you use css to set lyxs-many display to flex and order the as wanted. 
+Note: If the default order of these components is not like you wish, we suggest you use css to set ngxs-crud-many display to flex and order the as wanted. 
 
 * **.loading:** Shown while the collection is loading.
 * **.loading-first**: If provided, will show this instead of .loading when loading the first page of a collection.
