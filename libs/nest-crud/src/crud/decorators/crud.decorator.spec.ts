@@ -34,7 +34,7 @@ describe('@Crud', () => {
 
         // Defines endpoints provided
         for (const endpoint of endpoints) {
-            expect(Ctrl.prototype[endpoint]).toBeDefined();
+            expect(Ctrl.prototype[endpoint as CrudEndpoint]).toBeDefined();
         }
 
         // Does not define any unprovided endpoints
@@ -53,17 +53,24 @@ describe('@Crud', () => {
 
     it('should set custom dtos alongside default dto', () => {
         @Crud({
+            endpoints: [
+                CrudEndpoint.PutOne,
+                {
+                    endpoint: CrudEndpoint.PostOne,
+                    dto: PostDto,
+                },
+                {
+                    endpoint: CrudEndpoint.PatchOne,
+                    dto: PatchDto,
+                },
+            ],
             dto: Dto,
-            dtos: {
-                [CrudEndpoint.PostOne]: PostDto,
-                [CrudEndpoint.PatchOne]: PatchDto,
-            },
         })
         @Controller()
         class Ctrl { }
 
         const validateDto = (endpoint: CrudEndpoint, dto: ClassType) => {
-            const paramTypes: any[] = Reflect.getMetadata('design:paramtypes', Ctrl.prototype, endpoint);
+            const paramTypes: any[] = Reflect.getMetadata('design:paramtypes', Ctrl.prototype, endpoint) || [];
             const isDtoDefined = paramTypes.findIndex(t => t === dto) > -1;
             expect(isDtoDefined).toBeTruthy();
         };

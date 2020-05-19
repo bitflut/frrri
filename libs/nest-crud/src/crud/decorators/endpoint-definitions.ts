@@ -1,65 +1,67 @@
 import { RequestMethod } from '@nestjs/common';
 import { CrudEndpoint } from '../enums/crud-endpoint.enum';
-import { CrudDecoratorOptions } from '../interfaces/crud-decorator-options.interface';
+import { EndpointConfig } from '../interfaces/crud-endpoint-config.interface';
 import { EndpointDefinition } from '../interfaces/endpoint-definition.interface';
 import { ParsedRequest } from '../interfaces/parsed-request.interface';
 
-function endpointFactory(method: CrudEndpoint, options: CrudDecoratorOptions) {
+function endpointFactory(config: EndpointConfig) {
     return function (req: ParsedRequest, ...args: any) {
         if (!req) {
-            throw new Error(`Provide \`ParsedRequest\` as first argument to \`${method}()\``);
+            throw new Error(`Provide \`ParsedRequest\` as first argument to \`${config.endpoint}()\``);
         }
 
         req.query = {
             ...req.query,
-            ...options.query,
+            ...config.query,
         };
 
-        return this.service[method](req, ...args);
+        return this.service[config.endpoint](req, ...args);
     };
 }
 
-export const endpointConfigurations: { [key in CrudEndpoint]: EndpointDefinition } = {
+const defaultFactory = (config: EndpointConfig) => endpointFactory(config);
+
+export const endpointDefinitions: { [key in CrudEndpoint]: EndpointDefinition } = {
     [CrudEndpoint.GetMany]: {
         request: {
             method: RequestMethod.GET,
             path: '',
         },
-        factory: (options: CrudDecoratorOptions) => endpointFactory(CrudEndpoint.GetMany, options),
+        factory: defaultFactory,
     },
     [CrudEndpoint.GetOne]: {
         request: {
             method: RequestMethod.GET,
             path: ':id',
         },
-        factory: (options: CrudDecoratorOptions) => endpointFactory(CrudEndpoint.GetOne, options),
+        factory: defaultFactory,
     },
     [CrudEndpoint.DeleteOne]: {
         request: {
             method: RequestMethod.DELETE,
             path: ':id',
         },
-        factory: (options: CrudDecoratorOptions) => endpointFactory(CrudEndpoint.DeleteOne, options),
+        factory: defaultFactory,
     },
     [CrudEndpoint.PatchOne]: {
         request: {
             method: RequestMethod.PATCH,
             path: ':id',
         },
-        factory: (options: CrudDecoratorOptions) => endpointFactory(CrudEndpoint.PatchOne, options),
+        factory: defaultFactory,
     },
     [CrudEndpoint.PostOne]: {
         request: {
             method: RequestMethod.POST,
             path: '',
         },
-        factory: (options: CrudDecoratorOptions) => endpointFactory(CrudEndpoint.PostOne, options),
+        factory: defaultFactory,
     },
     [CrudEndpoint.PutOne]: {
         request: {
             method: RequestMethod.PUT,
             path: ':id',
         },
-        factory: (options: CrudDecoratorOptions) => endpointFactory(CrudEndpoint.PutOne, options),
+        factory: defaultFactory,
     },
 };

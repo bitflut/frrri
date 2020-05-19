@@ -19,7 +19,7 @@ interface Post {
 }
 
 @Exclude()
-class DefaultPostDto {
+class DefaultDto {
     @Expose()
     @IsString()
     @IsOptional()
@@ -35,7 +35,7 @@ class DefaultPostDto {
 }
 
 @Exclude()
-class CreatePostDto {
+class PostOneDto {
     @Expose()
     @IsString()
     body: string;
@@ -91,10 +91,16 @@ describe('CrudRequestInterceptor', () => {
     let app: NestApplication;
 
     @Crud({
-        dto: DefaultPostDto,
-        dtos: {
-            [CrudEndpoint.PostOne]: CreatePostDto,
-        },
+        endpoints: [
+            CrudEndpoint.GetMany,
+            CrudEndpoint.GetOne,
+            CrudEndpoint.PatchOne,
+            {
+                endpoint: CrudEndpoint.PostOne,
+                dto: PostOneDto,
+            },
+        ],
+        dto: DefaultDto,
     })
     @Controller('posts')
     class PostsController implements CrudController<Post> {
