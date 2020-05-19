@@ -6,7 +6,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
 import * as supertest from 'supertest';
 import { Crud } from '../decorators/crud.decorator';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
+import { Endpoint } from '../enums/endpoint.enum';
 import { CrudController } from '../interfaces/crud-controller.interface';
 import { CrudService } from '../interfaces/crud-service.interface';
 import { ParsedRequest } from '../interfaces/parsed-request.interface';
@@ -92,11 +92,11 @@ describe('CrudRequestInterceptor', () => {
 
     @Crud({
         endpoints: [
-            CrudEndpoint.GetMany,
-            CrudEndpoint.GetOne,
-            CrudEndpoint.PatchOne,
+            Endpoint.GetMany,
+            Endpoint.GetOne,
+            Endpoint.PatchOne,
             {
-                endpoint: CrudEndpoint.PostOne,
+                endpoint: Endpoint.PostOne,
                 dto: PostOneDto,
             },
         ],

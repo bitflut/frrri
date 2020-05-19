@@ -1,39 +1,39 @@
 import { ClassType } from '@lyxs/nest-crud/internal';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
+import { Endpoint } from '../enums/endpoint.enum';
 
 interface DefaultOptions {
-    endpoint: CrudEndpoint;
+    endpoint: Endpoint;
     query?: { [key: string]: any };
 }
 
 interface GetManyOptions extends DefaultOptions {
-    endpoint: CrudEndpoint.GetMany;
+    endpoint: Endpoint.GetMany;
 }
 
 interface GetOneOptions extends DefaultOptions {
-    endpoint: CrudEndpoint.GetOne;
+    endpoint: Endpoint.GetOne;
     idType?: any;
 }
 
 interface PatchOneOptions extends DefaultOptions {
-    endpoint: CrudEndpoint.PatchOne;
+    endpoint: Endpoint.PatchOne;
     idType?: any;
     dto?: ClassType;
 }
 
 interface PutOneOptions extends DefaultOptions {
-    endpoint: CrudEndpoint.PutOne;
+    endpoint: Endpoint.PutOne;
     idType?: any;
     dto?: ClassType;
 }
 
 interface PostOneOptions extends DefaultOptions {
-    endpoint: CrudEndpoint.PostOne;
+    endpoint: Endpoint.PostOne;
     idType?: any;
     dto?: ClassType;
 }
 
-export type CrudEndpointOptions =
+export type EndpointOptions =
     DefaultOptions
     | GetManyOptions
     | GetOneOptions

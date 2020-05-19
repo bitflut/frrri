@@ -1,4 +1,4 @@
-export enum CrudEndpoint {
+export enum Endpoint {
     GetMany = 'getMany',
     GetOne = 'getOne',
     PutOne = 'putOne',

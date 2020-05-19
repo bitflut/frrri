@@ -1,6 +1,6 @@
 import { RequestMethod } from '@nestjs/common';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
-import { EndpointConfig } from '../interfaces/crud-endpoint-config.interface';
+import { Endpoint } from '../enums/endpoint.enum';
+import { EndpointConfig } from '../interfaces/endpoint-config.interface';
 import { EndpointDefinition } from '../interfaces/endpoint-definition.interface';
 import { ParsedRequest } from '../interfaces/parsed-request.interface';
 
@@ -21,43 +21,43 @@ function endpointFactory(config: EndpointConfig) {
 
 const defaultFactory = (config: EndpointConfig) => endpointFactory(config);
 
-export const endpointDefinitions: { [key in CrudEndpoint]: EndpointDefinition } = {
-    [CrudEndpoint.GetMany]: {
+export const endpointDefinitions: { [key in Endpoint]: EndpointDefinition } = {
+    [Endpoint.GetMany]: {
         request: {
             method: RequestMethod.GET,
             path: '',
         },
         factory: defaultFactory,
     },
-    [CrudEndpoint.GetOne]: {
+    [Endpoint.GetOne]: {
         request: {
             method: RequestMethod.GET,
             path: ':id',
         },
         factory: defaultFactory,
     },
-    [CrudEndpoint.DeleteOne]: {
+    [Endpoint.DeleteOne]: {
         request: {
             method: RequestMethod.DELETE,
             path: ':id',
         },
         factory: defaultFactory,
     },
-    [CrudEndpoint.PatchOne]: {
+    [Endpoint.PatchOne]: {
         request: {
             method: RequestMethod.PATCH,
             path: ':id',
         },
         factory: defaultFactory,
     },
-    [CrudEndpoint.PostOne]: {
+    [Endpoint.PostOne]: {
         request: {
             method: RequestMethod.POST,
             path: '',
         },
         factory: defaultFactory,
     },
-    [CrudEndpoint.PutOne]: {
+    [Endpoint.PutOne]: {
         request: {
             method: RequestMethod.PUT,
             path: ':id',

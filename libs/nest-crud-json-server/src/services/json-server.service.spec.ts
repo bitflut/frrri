@@ -1,4 +1,4 @@
-import { Crud, CrudController, CrudDecoratorOptions, CrudEndpoint } from '@lyxs/nest-crud';
+import { Crud, CrudController, CrudDecoratorOptions, Endpoint } from '@lyxs/nest-crud';
 import { Controller, HttpModule } from '@nestjs/common';
 import { NestApplication } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
@@ -17,7 +17,7 @@ describe('JsonServerService', () => {
     describe('with query', () => {
         const collection = 'posts';
         const query = { id: [1, 2] } as CrudDecoratorOptions['query'];
-        const endpoints = [CrudEndpoint.GetMany, CrudEndpoint.GetOne] as CrudDecoratorOptions['endpoints'];
+        const endpoints = [Endpoint.GetMany, Endpoint.GetOne] as CrudDecoratorOptions['endpoints'];
         let app: NestApplication;
         let $: supertest.SuperTest<supertest.Test>;
 
@@ -56,7 +56,7 @@ describe('JsonServerService', () => {
     describe('with pagination', () => {
         const collection = 'posts';
         const query = { id: [1, 2, 3, 4, 5, 6], _limit: 3 } as CrudDecoratorOptions['query'];
-        const endpoints = [CrudEndpoint.GetMany, CrudEndpoint.GetOne] as CrudDecoratorOptions['endpoints'];
+        const endpoints = [Endpoint.GetMany, Endpoint.GetOne] as CrudDecoratorOptions['endpoints'];
         let app: NestApplication;
         let $: supertest.SuperTest<supertest.Test>;
 

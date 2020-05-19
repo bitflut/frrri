@@ -2,25 +2,25 @@ import { ClassType } from '@lyxs/nest-crud/internal';
 import { Body, Param, UseInterceptors } from '@nestjs/common';
 import { INTERCEPTORS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { pick } from 'lodash';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
+import { Endpoint } from '../enums/endpoint.enum';
 import { CrudRequestInterceptor } from '../interceptors/crud-request.interceptor';
 import { CrudDecoratorOptions } from '../interfaces/crud-decorator-options.interface';
-import { EndpointConfig } from '../interfaces/crud-endpoint-config.interface';
+import { EndpointConfig } from '../interfaces/endpoint-config.interface';
 import { endpointDefinitions } from './endpoint-definitions';
 import { ParsedRequest } from './parsed-request.decorator';
 
-function isIdRoute(endpoint: CrudEndpoint) {
-    return ![CrudEndpoint.GetMany, CrudEndpoint.PostOne].includes(endpoint);
+function isIdRoute(endpoint: Endpoint) {
+    return ![Endpoint.GetMany, Endpoint.PostOne].includes(endpoint);
 }
 
-function isBodyRoute(endpoint: CrudEndpoint) {
-    return [CrudEndpoint.PatchOne, CrudEndpoint.PostOne, CrudEndpoint.PutOne].includes(endpoint);
+function isBodyRoute(endpoint: Endpoint) {
+    return [Endpoint.PatchOne, Endpoint.PostOne, Endpoint.PutOne].includes(endpoint);
 }
 
 export function Crud(options: CrudDecoratorOptions = {}) {
     return function (target: ClassType) {
         options = {
-            endpoints: Object.values(CrudEndpoint),
+            endpoints: Object.values(Endpoint),
             ...options,
         };
 
@@ -37,7 +37,7 @@ export function Crud(options: CrudDecoratorOptions = {}) {
                 ...typeof curr === 'object' ? curr : {},
             };
             return prev;
-        }, {} as { [key in CrudEndpoint]: EndpointConfig });
+        }, {} as { [key in Endpoint]: EndpointConfig });
 
         for (const config of Object.values(endpointConfigs)) {
             // Add controller method

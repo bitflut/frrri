@@ -1,13 +1,13 @@
 import { ClassType } from '@lyxs/nest-crud/internal';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
-import { CrudEndpointOptions } from './crud-endpoint-options.interface';
+import { Endpoint } from '../enums/endpoint.enum';
+import { EndpointOptions } from './endpoint-options.interface';
 
 export interface CrudDecoratorOptions {
     /**
      * An array of CrudEndpoints you want to expose. You can provide an Object in order to configure custom options.
      *
      * Once `endpoints` is provided, only the endpoints stated are exposed. We believe in being explicit, so if we
-     * ever decide to add more CrudEndpoint methods, you won't automatically inherit them this way.
+     * ever decide to add more Endpointmethods, you won't automatically inherit them this way.
      *
      * @default
      * [...Object.values(CrudEndpoint)] // All available endpoints
@@ -16,11 +16,11 @@ export interface CrudDecoratorOptions {
      * ```
      * {
      *     endpoints: [
-     *         CrudEndpoint.GetMany,
-     *         CrudEndpoint.GetOne,
-     *         CrudEndpoint.PostOne,
+     *         Endpoint.GetMany,
+     *         Endpoint.GetOne,
+     *         Endpoint.PostOne,
      *         {
-     *             endpoint: CrudEndpoint.PatchOne,
+     *             endpoint: Endpoint.PatchOne,
      *             dto: PatchOneDto,
      *         }
      *     ],
@@ -30,7 +30,7 @@ export interface CrudDecoratorOptions {
      * @description
      * All endpoints privided will use the `DefaultDto` except for *PatchOne*, which will use `PatchOneDto`.
      */
-    endpoints?: Array<CrudEndpoint | CrudEndpointOptions>;
+    endpoints?: Array<Endpoint | EndpointOptions>;
 
     /**
      * Will be merged into `ParsedRequest.query` before passing it to the service.
