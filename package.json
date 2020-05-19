@@ -2,18 +2,47 @@
   "name": "frrri",
   "version": "0.0.1",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bitflut/frrri.git"
+  },
+  "author": "Marian Plösch",
+  "contributors": [
+    {
+      "name": "Patrick Thonhauser"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/bitflut/frrri/issues"
+  },
+  "homepage": "https://bitflut.gitbook.io/frrri/",
+  "packageScope": "@frrri",
+  "packages": [
+    "libs/nest-crud",
+    "libs/nest-crud-json-server",
+    "libs/nest-crud-mongoose",
+    "libs/ngxs-crud"
+  ],
   "scripts": {
     "nx": "nx",
-    "start": "npm-run-all -p start:ng-integration json-server",
+    "start": "run-p -r start:ng-integration json-server",
     "start:ng-integration": "nx serve ng-integration",
     "json-server": "json-server db.json",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
-    "build:libs": "npm run build:libs:angular",
-    "build:libs:angular": "ng-packagr -p libs/ngxs-crud/package.json",
-    "publish:libs": "npm run publish:libs:angular",
-    "publish:libs:angular": "cd dist/@frrri-angular && npm publish --access=public",
+    "build:libs": "run-s build:libs:ngxs-crud build:libs:nest-crud link:libs:nest-crud build:libs:nest-crud-json-server build:libs:nest-crud-mongoose unlink:libs:nest-crud",
+    "build:libs:ngxs-crud": "ng-packagr -p libs/ngxs-crud/package.json",
+    "build:libs:nest-crud": "ng-packagr -p libs/nest-crud/package.json",
+    "link:libs:nest-crud": "cd dist/@frrri-nest-crud && npm link && cd ../.. && npm link @frrri/nest-crud",
+    "unlink:libs:nest-crud": "npm unlink @frrri/nest-crud && cd dist/@frrri-nest-crud && npm unlink && cd ../..",
+    "build:libs:nest-crud-json-server": "ng-packagr -p libs/nest-crud-json-server/package.json",
+    "build:libs:nest-crud-mongoose": "ng-packagr -p libs/nest-crud-mongoose/package.json",
+    "publish:libs": "run-s publish:libs:ngxs-crud publish:libs:nest-crud publish:libs:nest-crud-json-server publish:libs:nest-crud-mongoose",
+    "publish:libs:ngxs-crud": "npm publish dist/@frrri-ngxs-crud --access=public",
+    "publish:libs:nest-crud": "npm publish dist/@frrri-nest-crud --access=public",
+    "publish:libs:nest-crud-json-server": "npm publish dist/@frrri-nest-crud-json-server --access=public",
+    "publish:libs:nest-crud-mongoose": "npm publish dist/@frrri-nest-crud-mongoose --access=public",
     "affected:apps": "nx affected:apps",
     "affected:libs": "nx affected:libs",
     "affected:build": "nx affected:build",

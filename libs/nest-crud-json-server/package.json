@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@frrri/nest-crud-json-server",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "keywords": [
     "Nest",
@@ -22,7 +22,10 @@
   "ngPackage": {
     "lib": {
       "entryFile": "src/public_api.ts",
-      "umdModuleIds": {}
+      "umdModuleIds": {
+        "@frrri/nest-crud": "@frrri/nest-crud",
+        "@nestjs/common": "@nestjs/common"
+      }
     },
     "dest": "../../dist/@frrri-nest-crud-json-server"
   }

@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
   "name": "@frrri/ngxs-crud",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "peerDependencies": {
     "@angular/common": "^9.1.0",

@@ -1,8 +1,6 @@
-<h1 align="center">
-    :racing_car: :racing_car: FRRRI :racing_car: :racing_car:<br>
-</h1>
+# FRRRI
 
-<h3 align="center">CRUD for frontend and backend at 250 MPH</h3>
+> CRUD for frontend and backend at 250 MPH
 
 ## @frrri/ngxs-crud
 
