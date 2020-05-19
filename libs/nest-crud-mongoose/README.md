@@ -1,7 +1,13 @@
-# nest-mongoose
+<h1 align="center">
+    :racing_car: :racing_car: FRRRI :racing_car: :racing_car:<br>
+</h1>
 
-This library was generated with [Nx](https://nx.dev).
+<h3 align="center">CRUD for frontend and backend at 250 MPH</h3>
 
-## Running unit tests
+## The @frrri/nest-mongoose library is a work in progress
 
-Run `ng test nest-mongoose` to execute the unit tests via [Jest](https://jestjs.io).
+Browse the repository to catch a glimpse of where we are headed.
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
