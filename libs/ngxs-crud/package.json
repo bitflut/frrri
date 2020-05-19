@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/ng-packagr/package.schema.json",
-    "name": "@lyxs/ngxs-crud",
+    "name": "@frrri/ngxs-crud",
     "version": "0.0.11",
     "license": "MIT",
     "peerDependencies": {
@@ -39,6 +39,6 @@
                 "lodash": "lodash"
             }
         },
-        "dest": "../../dist/@lyxs-angular"
+        "dest": "../../dist/@frrri-angular"
     }
 }

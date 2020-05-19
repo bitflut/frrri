@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectFlags, Injector } from '@angular/core';
-import { GetManyOptions, OperationContext } from '@lyxs/ngxs-crud/internal';
-import { PopulateInstruction, PopulationStrategy } from '@lyxs/ngxs-crud/populate';
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { GetManyOptions, OperationContext } from '@frrri/ngxs-crud/internal';
+import { PopulateInstruction, PopulationStrategy } from '@frrri/ngxs-crud/populate';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { CrudCollectionState } from '@lyxs/ngxs-crud';
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { CrudCollectionState } from '@frrri/ngxs-crud';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { BehaviorSubject, combineLatest, Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';

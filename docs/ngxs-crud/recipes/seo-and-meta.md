@@ -1,6 +1,6 @@
 # SEO & Meta
 
-**@lyxs/ngxs-crud/meta** makes adding meta data to you routes easy and if needed, resource bound. This is very useful for optimising your app for search engines. There are two options for adding meta data to your routes.
+**@frrri/ngxs-crud/meta** makes adding meta data to you routes easy and if needed, resource bound. This is very useful for optimising your app for search engines. There are two options for adding meta data to your routes.
 
 ### **Static meta**
 

@@ -1,13 +1,13 @@
 # Routing Instructions
 
-**@lyxs/ngxs-crud/routing** aims at making it easy to configure your components data layer via the **angular router**. This way, your components are highly reusable and can display different sets of data for different routes easily.
+**@frrri/ngxs-crud/routing** aims at making it easy to configure your components data layer via the **angular router**. This way, your components are highly reusable and can display different sets of data for different routes easily.
 
 First add `LyxsRoutingModule.forRoot()` to your AppModule:
 
 {% code title="app.module.ts" %}
 ```typescript
 ...
-import { LyxsRoutingModule } from '@lyxs/ngxs-crud/routing';
+import { LyxsRoutingModule } from '@frrri/ngxs-crud/routing';
 
 @NgModule({
     ...
@@ -30,7 +30,7 @@ With a State setup like shown in [Crud Entities](crud-entities.md), you can conf
 ```typescript
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { lyxsRoutes, instructions, getActive, getMany, reset } from '@lyxs/ngxs-crud/routing';
+import { lyxsRoutes, instructions, getActive, getMany, reset } from '@frrri/ngxs-crud/routing';
 
 const routes: Routes = [
     {

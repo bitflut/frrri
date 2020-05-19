@@ -1,4 +1,4 @@
-import { Crud, CrudController, CrudDecoratorOptions, Endpoint } from '@lyxs/nest-crud';
+import { Crud, CrudController, CrudDecoratorOptions, Endpoint } from '@frrri/nest-crud';
 import { Controller, HttpModule } from '@nestjs/common';
 import { NestApplication } from '@nestjs/core';
 import { Test } from '@nestjs/testing';

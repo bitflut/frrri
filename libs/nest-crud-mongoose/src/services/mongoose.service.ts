@@ -1,4 +1,4 @@
-import { ClassType } from '@lyxs/nest-crud/internal';
+import { ClassType } from '@frrri/nest-crud/internal';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { getModelToken } from '@nestjs/mongoose';

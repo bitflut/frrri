@@ -2,11 +2,11 @@
 
 ## Getting started
 
-Install @lyxs/ngxs-crud and its peer dependencies.
+Install @frrri/ngxs-crud and its peer dependencies.
 
 ```bash
-# @lyxs/ngxs-crud
-npm install @lyxs/ngxs-crud --save
+# @frrri/ngxs-crud
+npm install @frrri/ngxs-crud --save
 
 # dependencies
 npm install @ngxs/store @ngxs-labs/data --save

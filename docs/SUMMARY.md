@@ -1,7 +1,7 @@
 # Table of contents
 
 * [Introduction](introduction.md)
-* [@lyxs/ngxs-crud](ngxs-crud/README.md)
+* [@frrri/ngxs-crud](ngxs-crud/README.md)
   * [Usage](ngxs-crud/usage/README.md)
     * [Installation](ngxs-crud/usage/installation.md)
     * [Crud Collection](ngxs-crud/usage/crud-collection-state.md)

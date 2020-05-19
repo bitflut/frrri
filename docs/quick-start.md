@@ -1,13 +1,13 @@
 # Quick start
 
-To get started, install @lyxs/ngxs-crud and its peer dependencies.
+To get started, install @frrri/ngxs-crud and its peer dependencies.
 
 ```bash
 # dependencies
 npm install @ngxs/store @ngrx-labs/data --save
 
-# @lyxs/ngxs-crud
-npm install @lyxs/ngxs-crud --save
+# @frrri/ngxs-crud
+npm install @frrri/ngxs-crud --save
 ```
 
 Then set up **ngxs** and **nxgs-data** in `app.module.ts` like so \(see [https://www.ngxs.io/getting-started/installation](https://www.ngxs.io/getting-started/installation) for more information\):
@@ -33,7 +33,7 @@ Now add an entity collection for **Posts** extending `CrudCollectionState`:
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { CrudCollection, CrudCollectionState } from '@lyxs/ng/lyxs';
+import { CrudCollection, CrudCollectionState } from '@frrri/ng/lyxs';
 
 interface Post {
     id: string;

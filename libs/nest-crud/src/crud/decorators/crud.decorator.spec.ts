@@ -1,4 +1,4 @@
-import { ClassType } from '@lyxs/nest-crud/internal';
+import { ClassType } from '@frrri/nest-crud/internal';
 import { Controller } from '@nestjs/common';
 import { ObjectId } from 'mongodb';
 import { Endpoint } from '../enums/endpoint.enum';

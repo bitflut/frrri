@@ -5,7 +5,7 @@ By extending your State with **CrudCollectionState** and adding the **@CrudColle
 {% code title="posts.state.ts" %}
 ```typescript
 import { Injectable } from '@angular/core';
-import { CrudCollection, CrudCollectionState } from '@lyxs/ngxs-crud';
+import { CrudCollection, CrudCollectionState } from '@frrri/ngxs-crud';
 
 interface Post {
     id: string;

@@ -2,7 +2,7 @@
 
 ## Comments of a post of a user
 
-**@lyxs/ngxs-crud/populate** exposes a populate\(\) instruction.
+**@frrri/ngxs-crud/populate** exposes a populate\(\) instruction.
 
 #### Imagine the following scenario:
 
@@ -69,7 +69,7 @@ You can also fetch all comments for a post and then every user for every comment
 #### Getting every post's user
 
 ```typescript
-import { populate } from '@lyxs/ngxs-crud/populate';
+import { populate } from '@frrri/ngxs-crud/populate';
 
 const routes: Routes = [
     {

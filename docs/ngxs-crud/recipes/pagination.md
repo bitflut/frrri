@@ -1,8 +1,8 @@
 # Pagination
 
-## @lyxs/ngxs-crud/pagination
+## @frrri/ngxs-crud/pagination
 
-@lyxs/ngxs-crud/pagination exposes functions for pagination via **PaginatedCrudCollection** and a **PaginationInterceptor**. The current implementation is an endless pagination relying on the server to respond with a Link-header specifying the next page's url in a _rel="next"_ tag.
+@frrri/ngxs-crud/pagination exposes functions for pagination via **PaginatedCrudCollection** and a **PaginationInterceptor**. The current implementation is an endless pagination relying on the server to respond with a Link-header specifying the next page's url in a _rel="next"_ tag.
 
 {% hint style="info" %}
 Should you require a different pagination mechanism, we suggest to look at `paginated-crud-collection.state.ts` and write your own implementation.
@@ -11,7 +11,7 @@ Should you require a different pagination mechanism, we suggest to look at `pagi
 To get started using pagination, first add the **PaginationInterceptor** to your AppModule.
 
 ```typescript
-import { PaginationInterceptor } from '@lyxs/ngxs-crud/pagination';
+import { PaginationInterceptor } from '@frrri/ngxs-crud/pagination';
 
 @NgModule({
     declarations: [AppComponent],
@@ -37,7 +37,7 @@ Then define your paginated state using the **PaginatedCrudCollection** decorator
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { PaginatedCrudCollection, PaginatedCrudCollectionState } from '@lyxs/ngxs-crud/pagination';
+import { PaginatedCrudCollection, PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 
 @PaginatedCrudCollection({
     name: 'posts',
