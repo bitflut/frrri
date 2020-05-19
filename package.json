@@ -31,7 +31,7 @@
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
-    "build:libs": "run-s build:libs:ngxs-crud build:libs:nest-crud link:libs:nest-crud build:libs:nest-crud-json-server build:libs:nest-crud-mongoose unlink:libs:nest-crud",
+    "build:libs": "rm -rf dist && run-s build:libs:ngxs-crud build:libs:nest-crud link:libs:nest-crud build:libs:nest-crud-json-server build:libs:nest-crud-mongoose unlink:libs:nest-crud",
     "build:libs:ngxs-crud": "ng-packagr -p libs/ngxs-crud/package.json",
     "build:libs:nest-crud": "ng-packagr -p libs/nest-crud/package.json",
     "link:libs:nest-crud": "cd dist/@frrri-nest-crud && npm link && cd ../.. && npm link @frrri/nest-crud",
