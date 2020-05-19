@@ -17,4 +17,5 @@
     * [States Registry](ngxs-crud/recipes/states-registry.md)
     * [SSR](ngxs-crud/recipes/ssr.md)
     * [SEO & Meta](ngxs-crud/recipes/seo-and-meta.md)
+* [@frrri/nest-crud](frrri-nest-crud.md)
 
