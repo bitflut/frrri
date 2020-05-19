@@ -2,43 +2,43 @@
 
 exports[`ActiveComponent should show contents correctly: init 1`] = `
 <mock-render>
-  <lyxs-active
+  <frrri-active
     path="cache.posts"
   >
-    
-    
+
+
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-  </lyxs-active>
+  </frrri-active>
 </mock-render>
 `;
 
 exports[`ActiveComponent should show contents correctly: loaded 1`] = `
 <mock-render>
-  <lyxs-active
+  <frrri-active
     path="cache.posts"
   >
-    
-    
+
+
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-  </lyxs-active>
+  </frrri-active>
 </mock-render>
 `;
 
 exports[`ActiveComponent should show contents correctly: loading 1`] = `
 <mock-render>
-  <lyxs-active
+  <frrri-active
     path="cache.posts"
   >
-    
-    
+
+
     <div
       class="loading-content"
     >
@@ -51,8 +51,8 @@ exports[`ActiveComponent should show contents correctly: loading 1`] = `
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-  </lyxs-active>
+  </frrri-active>
 </mock-render>
 `;

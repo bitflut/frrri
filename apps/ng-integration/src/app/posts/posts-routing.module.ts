@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { activeMeta, staticMeta } from '@frrri/ngxs-crud/meta';
 import { populate, PopulationStrategy } from '@frrri/ngxs-crud/populate';
-import { compose, deactivate, getActive, getMany, instructions, lyxsRoutes, reset } from '@frrri/ngxs-crud/routing';
+import { compose, deactivate, getActive, getMany, instructions, ngxsCrudRoutes, reset } from '@frrri/ngxs-crud/routing';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 
@@ -144,7 +144,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            lyxsRoutes(routes),
+            ngxsCrudRoutes(routes),
         ),
     ],
     exports: [RouterModule],

@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
-import { LyxsManyModule } from './many.module';
+import { NgxsCrudManyModule } from './many.module';
 
 interface Post {
     userId: number;
@@ -103,7 +103,7 @@ describe('ManyComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                LyxsManyModule,
+                NgxsCrudManyModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,
@@ -113,12 +113,12 @@ describe('ManyComponent', () => {
         }).compileComponents();
 
         fixture = MockRender(`
-            <lyxs-many path="cache.posts">
+            <frrri-many path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
                 <div class="loading-first">mock-first-load</div>
                 <div class="load-more">mock-more</div>
-            </lyxs-many>
+            </frrri-many>
         `);
 
         component = fixture.debugElement

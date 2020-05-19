@@ -2,44 +2,44 @@
 
 exports[`ManyComponent should show contents correctly: init 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show contents correctly: loaded-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     <div
       class="load-more-content"
     >
@@ -51,37 +51,37 @@ exports[`ManyComponent should show contents correctly: loaded-page-1-of-3 1`] = 
             mock-more
           </div>
         </div>
-        
+
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show contents correctly: loaded-page-2-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     <div
       class="load-more-content"
     >
@@ -93,52 +93,52 @@ exports[`ManyComponent should show contents correctly: loaded-page-2-of-3 1`] = 
             mock-more
           </div>
         </div>
-        
+
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show contents correctly: loaded-page-3-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show contents correctly: loading-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
+
     <div
       class="loading-first-content"
     >
@@ -149,29 +149,29 @@ exports[`ManyComponent should show contents correctly: loading-page-1-of-3 1`] =
           mock-first-load
         </div>
       </div>
-      
+
     </div>
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show contents correctly: loading-page-2-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
+
+
     <div
       class="loading-content"
     >
@@ -183,42 +183,42 @@ exports[`ManyComponent should show contents correctly: loading-page-2-of-3 1`] =
         </div>
       </div>
     </div>
-    
-    
-    
-    
-    
+
+
+
+
+
     <div
       class="loading-more-content"
     >
       <div />
-      
+
       <div>
-         Loading more... 
+         Loading more...
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show contents correctly: loading-page-3-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
+
+
     <div
       class="loading-content"
     >
@@ -230,97 +230,97 @@ exports[`ManyComponent should show contents correctly: loading-page-3-of-3 1`] =
         </div>
       </div>
     </div>
-    
-    
-    
-    
-    
+
+
+
+
+
     <div
       class="loading-more-content"
     >
       <div />
-      
+
       <div>
-         Loading more... 
+         Loading more...
       </div>
     </div>
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show errors: error-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
-    
-    
-    
+
+
+
+
+
     <div
       class="error-content"
     >
       <div />
-      
-      
+
+
       <div
         style="color: red;"
       >
         Http failure response for https://jsonplaceholder.typicode.com/posts: 400 Bad Request
       </div>
     </div>
-    
-    
-    
-  </lyxs-many>
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show errors: init 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
-    
-    
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;
 
 exports[`ManyComponent should show errors: loading-page-1-of-3 1`] = `
 <mock-render>
-  <lyxs-many
+  <frrri-many
     path="cache.posts"
   >
     <div
       class="content"
     >
-       My content 
+       My content
     </div>
-    
+
     <div
       class="loading-first-content"
     >
@@ -331,13 +331,13 @@ exports[`ManyComponent should show errors: loading-page-1-of-3 1`] = `
           mock-first-load
         </div>
       </div>
-      
+
     </div>
-    
-    
-    
-    
-    
-  </lyxs-many>
+
+
+
+
+
+  </frrri-many>
 </mock-render>
 `;

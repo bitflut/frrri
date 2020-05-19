@@ -7,7 +7,7 @@ import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'lyxs-many',
+    selector: 'ngxs-crud-many',
     templateUrl: './many.component.html',
     styleUrls: ['./many.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,

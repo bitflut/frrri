@@ -1,32 +1,32 @@
 {
-    "$schema": "../../node_modules/ng-packagr/package.schema.json",
-    "name": "@frrri/nest",
-    "version": "0.0.1",
-    "license": "MIT",
-    "keywords": [
-        "Nest",
-        "NestJS",
-        "LYXS",
-        "API",
-        "CRUD"
-    ],
-    "author": "marian@bitflut.com bitflut.com",
-    "homepage": "https://bitflut.gitbook.io/lyxs/",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/bitflut/lyxs"
+  "$schema": "../../node_modules/ng-packagr/package.schema.json",
+  "name": "@frrri/nest-crud",
+  "version": "0.0.1",
+  "license": "MIT",
+  "keywords": [
+    "Nest",
+    "NestJS",
+    "LYXS",
+    "API",
+    "CRUD"
+  ],
+  "author": "marian@bitflut.com bitflut.com",
+  "homepage": "https://bitflut.gitbook.io/frrri/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bitflut/frrri"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^7.0.0",
+    "@nestjs/core": "^7.0.0",
+    "@nestjs/platform-express": "^7.0.0",
+    "reflect-metadata": "^0.1.13"
+  },
+  "ngPackage": {
+    "lib": {
+      "entryFile": "src/public_api.ts",
+      "umdModuleIds": {}
     },
-    "peerDependencies": {
-        "@nestjs/common": "^7.0.0",
-        "@nestjs/core": "^7.0.0",
-        "@nestjs/platform-express": "^7.0.0",
-        "reflect-metadata": "^0.1.13"
-    },
-    "ngPackage": {
-        "lib": {
-            "entryFile": "src/public_api.ts",
-            "umdModuleIds": {}
-        },
-        "dest": "../../dist/@frrri-nest"
-    }
+    "dest": "../../dist/@frrri-nest-crud"
+  }
 }

@@ -1,52 +1,52 @@
 {
-  "npmScope": "lyxs",
-  "implicitDependencies": {
-    "workspace.json": "*",
-    "package.json": {
-      "dependencies": "*",
-      "devDependencies": "*"
+    "npmScope": "frrri",
+    "implicitDependencies": {
+        "workspace.json": "*",
+        "package.json": {
+            "dependencies": "*",
+            "devDependencies": "*"
+        },
+        "tsconfig.json": "*",
+        "tslint.json": "*",
+        "nx.json": "*"
     },
-    "tsconfig.json": "*",
-    "tslint.json": "*",
-    "nx.json": "*"
-  },
-  "tasksRunnerOptions": {
-    "default": {
-      "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
-      }
+    "tasksRunnerOptions": {
+        "default": {
+            "runner": "@nrwl/workspace/tasks-runners/default",
+            "options": {
+                "cacheableOperations": [
+                    "build",
+                    "lint",
+                    "test",
+                    "e2e"
+                ]
+            }
+        }
+    },
+    "projects": {
+        "ng-integration": {
+            "tags": []
+        },
+        "ng-integration-e2e": {
+            "tags": [],
+            "implicitDependencies": [
+                "ng-integration"
+            ]
+        },
+        "nest-integration": {
+            "tags": []
+        },
+        "ngxs-crud": {
+            "tags": []
+        },
+        "nest-crud": {
+            "tags": []
+        },
+        "nest-crud-json-server": {
+            "tags": []
+        },
+        "nest-crud-mongoose": {
+            "tags": []
+        }
     }
-  },
-  "projects": {
-    "ng-integration": {
-      "tags": []
-    },
-    "ng-integration-e2e": {
-      "tags": [],
-      "implicitDependencies": [
-        "ng-integration"
-      ]
-    },
-    "nest-integration": {
-      "tags": []
-    },
-    "ngxs-crud": {
-      "tags": []
-    },
-    "nest-crud": {
-      "tags": []
-    },
-    "nest-crud-json-server": {
-      "tags": []
-    },
-    "nest-crud-mongoose": {
-      "tags": []
-    }
-  }
 }

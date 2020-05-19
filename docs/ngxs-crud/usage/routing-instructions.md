@@ -2,18 +2,18 @@
 
 **@frrri/ngxs-crud/routing** aims at making it easy to configure your components data layer via the **angular router**. This way, your components are highly reusable and can display different sets of data for different routes easily.
 
-First add `LyxsRoutingModule.forRoot()` to your AppModule:
+First add `FrrriRoutingModule.forRoot()` to your AppModule:
 
 {% code title="app.module.ts" %}
 ```typescript
 ...
-import { LyxsRoutingModule } from '@frrri/ngxs-crud/routing';
+import { FrrriRoutingModule } from '@frrri/ngxs-crud/routing';
 
 @NgModule({
     ...
     imports: [
         ...
-        LyxsRoutingModule.forRoot()
+        FrrriRoutingModule.forRoot()
     ],
 })
 export class AppModule { }
@@ -30,7 +30,7 @@ With a State setup like shown in [Crud Entities](crud-entities.md), you can conf
 ```typescript
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { lyxsRoutes, instructions, getActive, getMany, reset } from '@frrri/ngxs-crud/routing';
+import { frrriRoutes, instructions, getActive, getMany, reset } from '@frrri/ngxs-crud/routing';
 
 const routes: Routes = [
     {
@@ -51,7 +51,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            lyxsRoutes(routes) // Important so route instructions can be resolved
+            frrriRoutes(routes) // Important so route instructions can be resolved
         )
     ],
     exports: [RouterModule]
@@ -61,8 +61,8 @@ export class PostsRoutingModule { }
 {% endcode %}
 
 {% hint style="warning" %}
-It's important to wrap the routes provided to **RouterModule** with our **lyxsRoutes\(\)** function, so our resolver will run for every route.
+It's important to wrap the routes provided to **RouterModule** with our **frrriRoutes\(\)** function, so our resolver will run for every route.
 {% endhint %}
 
-Have a look at [posts-routing.module.ts](https://github.com/bitflut/lyxs/blob/master/apps/ng-integration/src/app/posts/posts-routing.module.ts) in the [ng-intergation](https://github.com/bitflut/lyxs/blob/master/apps/ng-integration) on GitHub for more examples.
+Have a look at [posts-routing.module.ts](https://github.com/bitflut/frrri/blob/master/apps/ng-integration/src/app/posts/posts-routing.module.ts) in the [ng-intergation](https://github.com/bitflut/frrri/blob/master/apps/ng-integration) on GitHub for more examples.
 

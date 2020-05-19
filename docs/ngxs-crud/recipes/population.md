@@ -60,7 +60,7 @@ export class EntitiesState extends CrudEntitiesState { }
 {% endtab %}
 {% endtabs %}
 
-Now if you want to display the user's name for every post in your list, you can use `populate()` to instruct the lyxs resolver to fetch every post's user.
+Now if you want to display the user's name for every post in your list, you can use `populate()` to instruct the frrri resolver to fetch every post's user.
 
 You can also fetch all comments for a post and then every user for every comment.
 

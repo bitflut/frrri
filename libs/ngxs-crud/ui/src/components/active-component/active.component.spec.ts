@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ActiveComponent } from './active.component';
-import { LyxsActiveModule } from './active.module';
+import { NgxsCrudActiveModule } from './active.module';
 
 interface Post {
     userId: number;
@@ -102,7 +102,7 @@ describe('ActiveComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                LyxsActiveModule,
+                NgxsCrudActiveModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,
@@ -112,10 +112,10 @@ describe('ActiveComponent', () => {
         }).compileComponents();
 
         fixture = MockRender(`
-            <lyxs-active path="cache.posts">
+            <frrri-active path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
-            </lyxs-active>
+            </frrri-active>
         `);
 
         component = fixture.debugElement
