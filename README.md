@@ -8,15 +8,17 @@
     <img src="https://travis-ci.com/bitflut/frrri.svg?branch=master" title="Build Status">
 </p>
 
+## What is FRRRI
+
 FRRRI (the racing car) is a collection of libraries for Angular and Nest to simplify communication needs.
 
 The libraries are built to be highly flexible and easily extensible. They can be used together or solely with any frontend or backend implementation.
 
-#### The @frrri/ngxs-crud library is ready for preview now.
+## The @frrri/ngxs-crud library is ready for preview now
 
 See [Quick start](https://bitflut.gitbook.io/frrri/) for minimal setup instructions.
 
-#### The @frrri/nest-crud library is a work in progress.
+## The @frrri/nest-crud library is a work in progress
 
 Browse the repository to catch a glimpse of where we are headed.
 
