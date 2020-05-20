@@ -1,11 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable, NgModule } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
+import { CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
 import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
+import { TestCrudCollection, TestCrudCollectionModule } from '../../../src/crud-collection-state/crud-collection.state.spec';
 
 interface Post {
     userId: number;
@@ -14,7 +15,7 @@ interface Post {
     title: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     baseUrl: 'https://jsonplaceholder.typicode.com/posts',
     name: 'posts',
 })
@@ -29,7 +30,7 @@ interface Comment {
     email: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'comments',
     baseUrl: 'https://jsonplaceholder.typicode.com/comments',
 })
@@ -56,7 +57,7 @@ const postsData = [{
     title: 'testing Angular2',
 }];
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'users',
     baseUrl: 'https://jsonplaceholder.typicode.com/users',
 })
@@ -66,6 +67,7 @@ class UsersEntitiesState extends CrudCollectionState<Comment, number> { }
 
 @NgModule({
     imports: [
+        TestCrudCollectionModule.forRoot(),
         NgxsModule.forFeature([UsersEntitiesState]),
     ],
 })
@@ -93,7 +95,7 @@ describe('StatesRegistry', () => {
         entityCrudEntitiesState: EntityCrudEntitiesState,
         collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
     ) => {
-        expect(collectionRegistry.getByPath('cache.posts').requestOptions.collectionUrlFactory).toBeDefined();
+        expect(collectionRegistry.getByPath('cache.posts').stateOptions.requestOptions.collectionUrlFactory).toBeDefined();
         expect(postsState).toBe(collectionRegistry.getByPath('cache.posts'));
         expect(entityCrudEntitiesState).toBe(collectionRegistry.getByPath('cache'));
     }));
@@ -108,7 +110,7 @@ describe('StatesRegistry', () => {
         const postsState = collectionRegistry.getByPath('cache.posts');
         expect(postsState).toBeDefined();
         postsState.getMany().toPromise();
-        httpMock.expectOne(postsState.requestOptions.collectionUrlFactory()).flush(postsData);
+        httpMock.expectOne(postsState.stateOptions.requestOptions.collectionUrlFactory()).flush(postsData);
         expect(postsState.snapshot.ids).toEqual([1, 2]);
 
         const cacheState = collectionRegistry.getByPath('cache');

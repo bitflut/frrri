@@ -18,7 +18,7 @@ export class HttpCrudCollectionService<V = any, IdType = any> implements CrudCol
         return this.http.get<V>(url);
     }
 
-    getMany<V>(stateOptions: CurdCollectionStateOptions, options: GetManyOptions = {}): Observable<V[]> {
+    getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions = {}): Observable<V[]> {
         const url = stateOptions.requestOptions.collectionUrlFactory();
         return this.http.get<V[]>(url, { params: options.params });
     }

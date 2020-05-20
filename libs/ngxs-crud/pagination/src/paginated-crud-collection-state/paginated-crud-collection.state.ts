@@ -17,7 +17,7 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
 
     protected readonly pageSize: number;
     readonly paginatedServiceToken: InjectionToken<PaginatedCrudCollectionService<Entity>>;
-    private paginatedService = this.injector.get<PaginatedCrudCollectionService>(this.paginatedServiceToken);
+    private paginatedService = this.injector.get<PaginatedCrudCollectionService<Entity>>(this.paginatedServiceToken);
 
     @Computed()
     public get next$(): Observable<any> {

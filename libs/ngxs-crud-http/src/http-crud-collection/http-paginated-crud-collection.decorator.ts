@@ -2,12 +2,9 @@ import { CrudCollectionOptions, CrudCollectionReducer } from '@frrri/ngxs-crud';
 import { HttpCrudCollection } from './http-crud-collection.decorator';
 import { PAGINATED_HTTP_CRUD_COLLECTION_SERVICE } from './http-crud-collection.module';
 import { StateClass } from '@ngxs/store/internals';
+import { PaginatedCrudCollectionOptions } from '@frrri/ngxs-crud/pagination';
 
-export interface HttpPaginatedCrudCollectionOptions<T> extends CrudCollectionOptions<T> {
-    size?: number;
-}
-
-export function HttpPaginatedCrudCollection<T = CrudCollectionReducer>(options: HttpPaginatedCrudCollectionOptions<T>) {
+export function HttpPaginatedCrudCollection<T = CrudCollectionReducer>(options: PaginatedCrudCollectionOptions<T>) {
     options = {
         ...options,
         defaults: {

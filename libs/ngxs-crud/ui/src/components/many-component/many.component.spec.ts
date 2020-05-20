@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
+import { CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
 import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs-crud/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -11,6 +11,8 @@ import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
 import { NgxsCrudManyModule } from './many.module';
+import { TestCrudCollection } from '../../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestPaginatedCrudCollection, TestPaginationCrudCollectionModule } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
 
 interface Post {
     userId: number;
@@ -19,7 +21,7 @@ interface Post {
     title: string;
 }
 
-@CrudCollection({
+@TestPaginatedCrudCollection({
     baseUrl: 'https://jsonplaceholder.typicode.com',
     name: 'posts',
 })
@@ -34,7 +36,7 @@ interface Comment {
     email: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'comments',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
@@ -101,6 +103,7 @@ describe('ManyComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                TestPaginationCrudCollectionModule.forRoot(),
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
                 NgxsCrudManyModule,
@@ -145,7 +148,7 @@ describe('ManyComponent', () => {
 
         // PAGE 1/3
         postsEntities.getMany().toPromise();
-        const req1 = httpMock.expectOne(postsEntities.requestOptions.collectionUrlFactory());
+        const req1 = httpMock.expectOne(postsEntities.stateOptions.requestOptions.collectionUrlFactory());
         fixture.detectChanges();
 
         // PAGE 1/3 - LOADING FIRST
@@ -196,7 +199,7 @@ describe('ManyComponent', () => {
 
         // PAGE 1/3
         postsEntities.getMany().toPromise();
-        const req1 = httpMock.expectOne(postsEntities.requestOptions.collectionUrlFactory());
+        const req1 = httpMock.expectOne(postsEntities.stateOptions.requestOptions.collectionUrlFactory());
         fixture.detectChanges();
 
         // PAGE 1/3 - LOADING FIRST

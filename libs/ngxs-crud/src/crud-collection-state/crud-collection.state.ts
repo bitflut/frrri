@@ -29,7 +29,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     readonly serviceToken: InjectionToken<CrudCollectionService>;
     readonly stateOptions: CurdCollectionStateOptions;
 
-    private service = this.injector.get<CrudCollectionService>(this.serviceToken);
+    protected service = this.injector.get<CrudCollectionService<Entity, IdType>>(this.serviceToken);
     private statesRegistry = this.injector.get<StatesRegistryService<CrudCollectionState>>(StatesRegistryService);
     private populations: Array<PopulateInstruction>;
     protected http = this.injector.get(HttpClient);
