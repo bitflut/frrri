@@ -1,4 +1,3 @@
-// import { HttpClient } from '@angular/common/http';
 import { GetManyOptions } from '@frrri/ngxs-crud/internal';
 import { Observable } from 'rxjs';
 import { CurdCollectionStateOptions } from './crud-colleciton-state-options.interface';

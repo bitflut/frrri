@@ -1,6 +1,6 @@
 {
     "$schema": "../../node_modules/ng-packagr/package.schema.json",
-    "name": "@lyxs/ngxs-crud-http",
+    "name": "@frrri/ngxs-crud-http",
     "version": "0.0.11",
     "license": "MIT",
     "peerDependencies": {
@@ -9,21 +9,23 @@
         "@ngxs/store": "^3.6.2",
         "@ngxs-labs/data": "^3.0.4",
         "lodash": "^4.17.15",
-        "parse-link-header": "^1.0.1"
+        "parse-link-header": "^1.0.1",
+        "@frrri/nest-crud": "0.0.x"
     },
     "keywords": [
         "Angular",
-        "LYXS",
+        "FRRRI",
         "NGXS",
         "API",
         "CRUD",
+        "HTTP",
         "State management"
     ],
     "author": "marian@bitflut.com patrick@bitflut.com bitflut.com",
-    "homepage": "https://bitflut.gitbook.io/lyxs/",
+    "homepage": "https://bitflut.gitbook.io/frrri/",
     "repository": {
         "type": "git",
-        "url": "https://github.com/bitflut/lyxs"
+        "url": "https://github.com/bitflut/frrri"
     },
     "ngPackage": {
         "lib": {
@@ -39,6 +41,6 @@
                 "lodash": "lodash"
             }
         },
-        "dest": "../../dist/@lyxs-angular"
+        "dest": "../../dist/@frrri-ngxs-crud-http"
     }
 }

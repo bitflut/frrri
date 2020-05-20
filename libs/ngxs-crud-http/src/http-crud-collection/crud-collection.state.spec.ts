@@ -4,7 +4,8 @@ import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { omit } from 'lodash';
-import { CrudCollectionReducer, CrudCollectionState } from './crud-collection.state';
+import { HttpCrudCollection } from './http-crud-collection.decorator';
+import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs-crud';
 
 interface Post {
     userId: number;
@@ -44,7 +45,10 @@ const newPostData = {
     title: 'testing Angular',
 };
 
-@CrudCollection<CrudCollectionReducer>({
+
+
+
+@HttpCrudCollection<CrudCollectionReducer>({
     name: 'posts',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
@@ -55,7 +59,7 @@ class PostsEntitiesState extends CrudCollectionState<Post, number> {
 
 }
 
-@CrudCollection<CrudCollectionReducer>({
+@HttpCrudCollection<CrudCollectionReducer>({
     name: 'mongodbPosts',
     idKey: '_id',
     baseUrl: 'https://jsonplaceholder.typicode.com',
@@ -86,7 +90,7 @@ describe('CrudCollectionState', () => {
         httpMock: HttpTestingController,
         postsState: PostsEntitiesState,
     ) => {
-        expect(postsState.requestOptions.collectionUrlFactory).toBeDefined();
+        expect(postsState.stateOptions.requestOptions.collectionUrlFactory).toBeDefined();
         postsState.getMany().toPromise();
 
         const req = httpMock.expectOne(getCollectionUrl(postsState));

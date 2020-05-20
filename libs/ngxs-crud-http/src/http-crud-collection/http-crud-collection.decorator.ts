@@ -36,12 +36,5 @@ export function HttpCrudCollection<T = CrudCollectionReducer>(options: CrudColle
             stateOptions.idKey = options.idKey!;
         }
         target.prototype.stateOptions = stateOptions;
-        // todo: compose them to an options object
-        // target.prototype.requestOptions = options.requestOptions;
-        // target.prototype.endpoint = options.endpoint!;
-        // target.prototype.baseUrl = options.baseUrl!;
-        // if (options.idKey) {
-        //     target.prototype.idKey = options.idKey!;
-        // }
     };
 }

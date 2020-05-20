@@ -4,9 +4,8 @@ import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { PaginationInterceptor } from '../pagination-interceptor/pagination.interceptor';
-import { PaginatedCrudCollection } from './paginated-crud-collection.decorator';
-import { PaginatedCrudCollectionReducer, PaginatedCrudCollectionState } from './paginated-crud-collection.state';
+import { PaginatedHttpCrudCollection } from './paginated-http-crud-collection.decorator';
+import { PaginationInterceptor, PaginatedCrudCollectionReducer, PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 
 interface Post {
     userId: number;
@@ -59,7 +58,7 @@ const page2Data = {
     },
 };
 
-@PaginatedCrudCollection<PaginatedCrudCollectionReducer>({
+@PaginatedHttpCrudCollection<PaginatedCrudCollectionReducer>({
     name: 'post',
     baseUrl: collectionUrl,
 })
@@ -90,7 +89,7 @@ describe('PaginatedCollectionState', () => {
             postsState.getMany().toPromise();
 
             const req = httpMock.expectOne(
-                postsState.requestOptions.collectionUrlFactory(),
+                postsState.stateOptions.requestOptions.collectionUrlFactory(),
             );
             expect(req.request.method).toEqual('GET');
             req.flush(page1Data.body);
@@ -105,7 +104,7 @@ describe('PaginatedCollectionState', () => {
             postsState.getMany().toPromise();
 
             const req = httpMock.expectOne(
-                postsState.requestOptions.collectionUrlFactory(),
+                postsState.stateOptions.requestOptions.collectionUrlFactory(),
             );
             expect(req.request.method).toEqual('GET');
             req.flush(page1Data.body, {
@@ -124,7 +123,7 @@ describe('PaginatedCollectionState', () => {
             postsState.getMany().toPromise();
 
             const req = httpMock.expectOne(
-                postsState.requestOptions.collectionUrlFactory(),
+                postsState.stateOptions.requestOptions.collectionUrlFactory(),
             );
             expect(req.request.method).toEqual('GET');
             req.flush(page1Data.body, {
