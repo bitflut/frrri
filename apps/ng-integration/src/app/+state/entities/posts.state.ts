@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AfterSuccess } from '@lyxs/ngxs-crud';
-import { OperationContext } from '@lyxs/ngxs-crud/internal';
-import { PaginatedCrudCollectionState } from '@lyxs/ngxs-crud/pagination';
+import { AfterSuccess } from '@frrri/ngxs-crud';
+import { OperationContext } from '@frrri/ngxs-crud/internal';
+import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 import { Observable } from 'rxjs';
-import { PaginatedHttpCrudCollection } from '@lyxs/ngxs-crud-http';
+import { PaginatedHttpCrudCollection } from '@frrri/ngxs-crud-http';
 
 interface Post {
     userId: number;

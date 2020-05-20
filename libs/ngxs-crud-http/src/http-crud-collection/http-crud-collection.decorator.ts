@@ -2,7 +2,7 @@ import { StateRepository } from '@ngxs-labs/data/decorators';
 import { createEntityCollections } from '@ngxs-labs/data/utils';
 import { State } from '@ngxs/store';
 import { StateClass } from '@ngxs/store/internals';
-import { CrudCollectionReducer, CrudCollectionOptions, CurdCollectionStateOptions } from '@lyxs/ngxs-crud';
+import { CrudCollectionReducer, CrudCollectionOptions, CurdCollectionStateOptions } from '@frrri/ngxs-crud';
 import { HTTP_CRUD_COLLECTION_SERVICE } from './http-crud-collection.module';
 
 export function HttpCrudCollection<T = CrudCollectionReducer>(options: CrudCollectionOptions<T>) {

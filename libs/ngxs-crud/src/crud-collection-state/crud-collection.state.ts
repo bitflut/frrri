@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectFlags, Injector, InjectionToken } from '@angular/core';
-import { GetManyOptions, OperationContext } from '@lyxs/ngxs-crud/internal';
-import { PopulateInstruction, PopulationStrategy } from '@lyxs/ngxs-crud/populate';
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { GetManyOptions, OperationContext } from '@frrri/ngxs-crud/internal';
+import { PopulateInstruction, PopulationStrategy } from '@frrri/ngxs-crud/populate';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';
@@ -10,7 +10,7 @@ import { flatten, uniq } from 'lodash';
 import { EMPTY, forkJoin, isObservable, Observable, of, pipe, throwError, UnaryFunction } from 'rxjs';
 import { catchError, delay, map, mapTo, mergeMap, switchMap, tap, timeout } from 'rxjs/operators';
 import { CRUD_COLLECTION_OPTIONS_TOKEN } from './constants';
-import { CrudCollectionService } from './crud-collection.service';
+import { CrudCollectionService } from './crud-collection-service.interface';
 import { CurdCollectionStateOptions } from './crud-colleciton-state-options.interface';
 
 export type CrudCollectionReducer<Entity = {}, IdType extends EntityIdType = EntityIdType> = NgxsEntityCollections<Entity, IdType> & {

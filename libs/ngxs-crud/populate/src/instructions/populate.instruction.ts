@@ -1,4 +1,4 @@
-import { OperationContext, RouteInstructionType } from '@lyxs/ngxs-crud/internal';
+import { OperationContext, RouteInstructionType } from '@frrri/ngxs-crud/internal';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { PopulationStrategy } from './population-strategy.enum';
 

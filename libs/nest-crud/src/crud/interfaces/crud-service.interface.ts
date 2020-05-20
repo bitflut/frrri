@@ -1,4 +1,4 @@
-import { IdType } from '@lyxs/nest-crud/internal';
+import { IdType } from '@frrri/nest-crud/internal';
 import { Defferable } from './deferrable.interface';
 import { ParsedRequest } from './parsed-request.interface';
 

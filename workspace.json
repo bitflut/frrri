@@ -184,7 +184,7 @@
       "projectType": "library",
       "root": "libs/ngxs-crud",
       "sourceRoot": "libs/ngxs-crud/src",
-      "prefix": "lyxs",
+      "prefix": "frrri",
       "architect": {
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
@@ -216,7 +216,7 @@
       "root": "libs/nest-crud",
       "sourceRoot": "libs/nest-crud/src",
       "projectType": "library",
-      "prefix": "lyxs",
+      "prefix": "frrri",
       "schematics": {},
       "architect": {
         "lint": {

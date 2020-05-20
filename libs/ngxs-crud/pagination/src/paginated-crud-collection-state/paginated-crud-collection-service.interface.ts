@@ -1,6 +1,6 @@
-import { GetManyOptions } from '@lyxs/ngxs-crud/internal';
+import { GetManyOptions } from '@frrri/ngxs-crud/internal';
 import { Observable } from 'rxjs';
-import { CurdCollectionStateOptions } from '@lyxs/ngxs-crud';
+import { CurdCollectionStateOptions } from '@frrri/ngxs-crud';
 
 export interface PaginatedCrudCollectionService {
     getMany<V>(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number });

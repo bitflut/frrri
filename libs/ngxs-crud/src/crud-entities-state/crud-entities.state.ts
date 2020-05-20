@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { DataStateClass } from '@ngxs-labs/data/typings';

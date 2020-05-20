@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ActivationEnd, NavigationStart, Router } from '@angular/router';
-import { RouteInstructionType } from '@lyxs/ngxs-crud/internal';
-import { PaginatedCrudCollectionState } from '@lyxs/ngxs-crud/pagination';
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { RouteInstructionType } from '@frrri/ngxs-crud/internal';
+import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { concatMapTo, filter, take } from 'rxjs/operators';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
 import { getRouteInstructions, hasRouteInstructions } from '../routing-resolver/helpers';

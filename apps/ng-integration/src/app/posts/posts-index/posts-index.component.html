@@ -1,6 +1,6 @@
 <div class="flex flex-row -mx-6">
     <div class="w-1/3 px-6 h-screen overflow-y-auto py-16">
-        <lyxs-many path="entities.posts" #posts>
+        <ngxs-crud-many path="entities.posts" #posts>
             <ng-container *ngIf="posts.loaded$ | async">
                 <div class="-my-2">
                     <ng-container *ngFor="let post of posts.all$ | async; trackBy: posts.trackByKey()">
@@ -11,11 +11,11 @@
                                 #{{ post.id }} {{ post.title }}
                             </div>
                             <div>{{ post.body | slice:0:20 }}...</div>
-                            <lyxs-one path="entities.users" [id]="post.userId" #oneUser>
+                            <ngxs-crud-one path="entities.users" [id]="post.userId" #oneUser>
                                 <ng-container *ngIf="oneUser.one$ | async as user">
                                     {{ user.name }}
                                 </ng-container>
-                            </lyxs-one>
+                            </ngxs-crud-one>
                         </a>
                     </ng-container>
                 </div>
@@ -36,7 +36,7 @@
                     Loading more...
                 </a>
             </div>
-        </lyxs-many>
+        </ngxs-crud-many>
     </div>
     <div class="w-2/3 px-6 h-screen overflow-y-auto py-16">
         <router-outlet></router-outlet>

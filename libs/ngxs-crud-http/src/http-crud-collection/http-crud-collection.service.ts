@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { GetManyOptions } from '@lyxs/ngxs-crud/internal';
+import { GetManyOptions } from '@frrri/ngxs-crud/internal';
 import { Observable } from 'rxjs';
-import { CrudCollectionService, CurdCollectionStateOptions } from '@lyxs/ngxs-crud';
+import { CrudCollectionService, CurdCollectionStateOptions } from '@frrri/ngxs-crud';
 
 @Injectable({
     providedIn: 'root',

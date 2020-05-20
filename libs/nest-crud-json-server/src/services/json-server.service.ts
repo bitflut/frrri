@@ -1,5 +1,5 @@
-import { ParsedRequest } from '@lyxs/nest-crud';
-import { ClassType } from '@lyxs/nest-crud/internal';
+import { ParsedRequest } from '@frrri/nest-crud';
+import { ClassType } from '@frrri/nest-crud/internal';
 import { HttpService, Injectable } from '@nestjs/common';
 import { AxiosResponse } from 'axios';
 import { Observable, pipe, UnaryFunction } from 'rxjs';

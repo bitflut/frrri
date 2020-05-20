@@ -3,14 +3,14 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@lyxs/ngxs-crud';
-import { PaginatedCrudCollectionState, PaginationInterceptor } from '@lyxs/ngxs-crud/pagination';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
+import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs-crud/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
-import { LyxsManyModule } from './many.module';
+import { NgxsCrudManyModule } from './many.module';
 
 interface Post {
     userId: number;
@@ -103,7 +103,7 @@ describe('ManyComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                LyxsManyModule,
+                NgxsCrudManyModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,
@@ -113,12 +113,12 @@ describe('ManyComponent', () => {
         }).compileComponents();
 
         fixture = MockRender(`
-            <lyxs-many path="cache.posts">
+            <ngxs-crud-many path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
                 <div class="loading-first">mock-first-load</div>
                 <div class="load-more">mock-more</div>
-            </lyxs-many>
+            </ngxs-crud-many>
         `);
 
         component = fixture.debugElement

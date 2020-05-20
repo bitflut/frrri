@@ -2,7 +2,7 @@
 
 exports[`ActiveComponent should show contents correctly: init 1`] = `
 <mock-render>
-  <lyxs-active
+  <ngxs-crud-active
     path="cache.posts"
   >
     
@@ -12,13 +12,13 @@ exports[`ActiveComponent should show contents correctly: init 1`] = `
     >
        My content 
     </div>
-  </lyxs-active>
+  </ngxs-crud-active>
 </mock-render>
 `;
 
 exports[`ActiveComponent should show contents correctly: loaded 1`] = `
 <mock-render>
-  <lyxs-active
+  <ngxs-crud-active
     path="cache.posts"
   >
     
@@ -28,13 +28,13 @@ exports[`ActiveComponent should show contents correctly: loaded 1`] = `
     >
        My content 
     </div>
-  </lyxs-active>
+  </ngxs-crud-active>
 </mock-render>
 `;
 
 exports[`ActiveComponent should show contents correctly: loading 1`] = `
 <mock-render>
-  <lyxs-active
+  <ngxs-crud-active
     path="cache.posts"
   >
     
@@ -53,6 +53,6 @@ exports[`ActiveComponent should show contents correctly: loading 1`] = `
     >
        My content 
     </div>
-  </lyxs-active>
+  </ngxs-crud-active>
 </mock-render>
 `;

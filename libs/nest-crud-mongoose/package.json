@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@lyxs/nest-crud-mongoose",
-  "version": "0.0.1",
+  "name": "@frrri/nest-crud-mongoose",
+  "version": "0.0.2",
   "license": "MIT",
   "keywords": [
     "Nest",
@@ -11,24 +11,25 @@
     "CRUD"
   ],
   "author": "marian@bitflut.com bitflut.com",
-  "homepage": "https://bitflut.gitbook.io/lyxs/",
+  "homepage": "https://bitflut.gitbook.io/frrri/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitflut/lyxs"
+    "url": "https://github.com/bitflut/frrri"
   },
   "peerDependencies": {
-    "@nestjs/common": "^7.0.0",
-    "@nestjs/core": "^7.0.0",
-    "@nestjs/platform-express": "^7.0.0",
-    "reflect-metadata": "^0.1.13",
+    "@frrri/nest-crud": "0.0.x",
     "mongoose": "^5.9.14",
     "@nestjs/mongoose": "^7.0.1"
   },
   "ngPackage": {
     "lib": {
       "entryFile": "src/public_api.ts",
-      "umdModuleIds": {}
+      "umdModuleIds": {
+        "@nestjs/common": "@nestjs/common",
+        "@nestjs/core": "@nestjs/core",
+        "@nestjs/mongoose": "@nestjs/mongoose"
+      }
     },
-    "dest": "../../dist/@lyxs-nest"
+    "dest": "../../dist/@frrri-nest-crud-mongoose"
   }
 }

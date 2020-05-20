@@ -1,11 +1,11 @@
 import { Injectable, InjectionToken } from '@angular/core';
-import { CrudCollectionReducer, CrudCollectionState } from '@lyxs/ngxs-crud';
-import { GetManyOptions, OperationContext } from '@lyxs/ngxs-crud/internal';
+import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs-crud';
+import { GetManyOptions, OperationContext } from '@frrri/ngxs-crud/internal';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Paginated, PaginatedCrudCollectionService } from './paginated-crud-collection.service';
+import { Paginated, PaginatedCrudCollectionService } from './paginated-crud-collection-service.interface';
 
 export type PaginatedCrudCollectionReducer<Entity = {}, IdType extends EntityIdType = EntityIdType> = CrudCollectionReducer<Entity, IdType> & {
     next: string,

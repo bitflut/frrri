@@ -6,7 +6,7 @@ import { MetaService } from './meta-routing/meta.service';
 @NgModule({
     imports: [CommonModule],
 })
-export class LyxsMetaModule {
+export class NgxsCrudMetaModule {
 
     constructor(
         navigationService: MetaNavigationService,
@@ -14,7 +14,7 @@ export class LyxsMetaModule {
 
     static forRoot(): ModuleWithProviders {
         return {
-            ngModule: LyxsMetaModule,
+            ngModule: NgxsCrudMetaModule,
             providers: [
                 MetaNavigationService,
                 MetaService,

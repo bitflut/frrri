@@ -3,14 +3,14 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@lyxs/ngxs-crud';
-import { PaginatedCrudCollectionState, PaginationInterceptor } from '@lyxs/ngxs-crud/pagination';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
+import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs-crud/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ActiveComponent } from './active.component';
-import { LyxsActiveModule } from './active.module';
+import { NgxsCrudActiveModule } from './active.module';
 
 interface Post {
     userId: number;
@@ -102,7 +102,7 @@ describe('ActiveComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                LyxsActiveModule,
+                NgxsCrudActiveModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,
@@ -112,10 +112,10 @@ describe('ActiveComponent', () => {
         }).compileComponents();
 
         fixture = MockRender(`
-            <lyxs-active path="cache.posts">
+            <ngxs-crud-active path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
-            </lyxs-active>
+            </ngxs-crud-active>
         `);
 
         component = fixture.debugElement

@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector, InjectionToken } from '@angular/core';
-import { GetManyOptions } from '@lyxs/ngxs-crud/internal';
-import { PaginatedCrudCollectionService, Paginated } from '@lyxs/ngxs-crud/pagination';
+import { GetManyOptions } from '@frrri/ngxs-crud/internal';
+import { PaginatedCrudCollectionService, Paginated } from '@frrri/ngxs-crud/pagination';
 import { EMPTY, Observable } from 'rxjs';
 import { expand, reduce } from 'rxjs/operators';
-import { CurdCollectionStateOptions } from '@lyxs/ngxs-crud';
+import { CurdCollectionStateOptions } from '@frrri/ngxs-crud';
 import { HttpCrudCollectionService } from './http-crud-collection.service';
 
 @Injectable({

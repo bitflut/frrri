@@ -21,46 +21,46 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@lyxs/ngxs-crud/routing": [
+      "@frrri/ngxs-crud/routing": [
         "libs/ngxs-crud/routing/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud/ui": [
+      "@frrri/ngxs-crud/ui": [
         "libs/ngxs-crud/ui/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud/pagination": [
+      "@frrri/ngxs-crud/pagination": [
         "libs/ngxs-crud/pagination/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud/registry": [
+      "@frrri/ngxs-crud/registry": [
         "libs/ngxs-crud/registry/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud/internal": [
+      "@frrri/ngxs-crud/internal": [
         "libs/ngxs-crud/internal/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud/populate": [
+      "@frrri/ngxs-crud/populate": [
         "libs/ngxs-crud/populate/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud/meta": [
+      "@frrri/ngxs-crud/meta": [
         "libs/ngxs-crud/meta/src/public_api.ts"
       ],
-      "@lyxs/nest-crud/internal": [
+      "@frrri/nest-crud/internal": [
         "libs/nest-crud/internal/src/public_api.ts"
       ],
-      "@lyxs/nest-crud/common": [
+      "@frrri/nest-crud/common": [
         "libs/nest-crud/common/src/public_api.ts"
       ],
-      "@lyxs/ngxs-crud": [
+      "@frrri/ngxs-crud": [
         "libs/ngxs-crud/src/public_api.ts"
       ],
-      "@lyxs/nest-crud": [
+      "@frrri/nest-crud": [
         "libs/nest-crud/src/public_api.ts"
       ],
-      "@lyxs/nest-crud-json-server": [
+      "@frrri/nest-crud-json-server": [
         "libs/nest-crud-json-server/src/public_api.ts"
       ],
-      "@lyxs/nest-crud-mongoose": [
+      "@frrri/nest-crud-mongoose": [
         "libs/nest-crud-mongoose/src/index.ts"
       ],
-      "@lyxs/ngxs-crud-http": [
+      "@frrri/ngxs-crud-http": [
         "libs/ngxs-crud-http/src/public_api.ts"
       ]
     }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { LyxsActiveModule, LyxsManyModule, LyxsOneModule } from '@lyxs/ngxs-crud/ui';
+import { NgxsCrudActiveModule, NgxsCrudManyModule, NgxsCrudOneModule } from '@frrri/ngxs-crud/ui';
 import { EntitiesStateModule } from '../+state/entities-state.module';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsRoutingModule } from './posts-routing.module';
@@ -12,9 +12,9 @@ import { PostsShowComponent } from './posts-show/posts-show.component';
         CommonModule,
         PostsRoutingModule,
         EntitiesStateModule,
-        LyxsManyModule,
-        LyxsActiveModule,
-        LyxsOneModule,
+        NgxsCrudManyModule,
+        NgxsCrudActiveModule,
+        NgxsCrudOneModule,
     ],
 })
 export class PostsModule { }

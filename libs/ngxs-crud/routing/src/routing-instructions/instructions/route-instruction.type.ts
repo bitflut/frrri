@@ -1,4 +1,4 @@
-import { PopulateInstruction } from '@lyxs/ngxs-crud/populate';
+import { PopulateInstruction } from '@frrri/ngxs-crud/populate';
 import { deactivate } from './deactivate.instruction';
 import { getActive } from './get-active.instruction';
 import { getMany } from './get-many.instruction';

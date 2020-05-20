@@ -22,7 +22,7 @@ The **PostsState** collection can now be access via the path `entities.posts`. R
 The service exposes a function called `getByPath(path: string)` that lets you retrieve states via their path mapping. The mapping is automatically generated via the **name attribute** in the decorator options. Nesting is performed by the **children array** in the decorator options.
 
 ```typescript
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 
 @Component(...)
 export class AppComponent {

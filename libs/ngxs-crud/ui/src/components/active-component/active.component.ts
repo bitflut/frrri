@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { CrudCollectionState } from '@lyxs/ngxs-crud';
-import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
+import { CrudCollectionState } from '@frrri/ngxs-crud';
+import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-    selector: 'lyxs-active',
+    selector: 'ngxs-crud-active',
     templateUrl: './active.component.html',
     styleUrls: ['./active.component.css'],
     changeDetection: ChangeDetectionStrategy.OnPush,

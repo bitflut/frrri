@@ -1,4 +1,4 @@
-import { Crud, CrudController } from '@lyxs/nest-crud';
+import { Crud, CrudController } from '@frrri/nest-crud';
 import { Controller, Injectable } from '@nestjs/common';
 import { NestApplication } from '@nestjs/core';
 import { getModelToken, MongooseModule, MongooseModuleOptions, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';

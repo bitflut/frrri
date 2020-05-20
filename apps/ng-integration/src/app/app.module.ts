@@ -1,13 +1,13 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { LyxsMetaModule } from '@lyxs/ngxs-crud/meta';
-import { PaginationInterceptor } from '@lyxs/ngxs-crud/pagination';
-import { LyxsRoutingModule } from '@lyxs/ngxs-crud/routing';
+import { NgxsCrudMetaModule } from '@frrri/ngxs-crud/meta';
+import { PaginationInterceptor } from '@frrri/ngxs-crud/pagination';
+import { NgxsCrudRoutingModule } from '@frrri/ngxs-crud/routing';
 import { AppRoutingModule } from './app-routing.module';
 import { AppStateModule } from './app-state.module';
 import { AppComponent } from './app.component';
-import { HttpCrudCollectionModule } from '@lyxs/ngxs-crud-http';
+import { NgxsHttpCrudCollectionModule } from '@frrri/ngxs-crud-http';
 
 @NgModule({
     declarations: [AppComponent],
@@ -16,9 +16,9 @@ import { HttpCrudCollectionModule } from '@lyxs/ngxs-crud-http';
         HttpClientModule,
         AppRoutingModule,
         AppStateModule,
-        HttpCrudCollectionModule.forRoot(),
-        LyxsMetaModule.forRoot(),
-        LyxsRoutingModule.forRoot(),
+        NgxsHttpCrudCollectionModule.forRoot(),
+        NgxsCrudMetaModule.forRoot(),
+        NgxsCrudRoutingModule.forRoot(),
     ],
     providers: [
         {

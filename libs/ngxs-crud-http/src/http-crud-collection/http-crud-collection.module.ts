@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders, InjectionToken } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CrudCollectionService } from '@lyxs/ngxs-crud';
+import { CrudCollectionService } from '@frrri/ngxs-crud';
 import { HttpCrudCollectionService } from './http-crud-collection.service';
 import { PaginatedHttpCrudCollectionService } from './paginated-http-crud-collection.service';
 
@@ -14,14 +14,14 @@ export const HTTP_CRUD_COLLECTION_SERVICE =
 @NgModule({
     imports: [CommonModule],
 })
-export class HttpCrudCollectionModule {
+export class NgxsHttpCrudCollectionModule {
 
     constructor(
     ) { }
 
     static forRoot(): ModuleWithProviders {
         return {
-            ngModule: HttpCrudCollectionModule,
+            ngModule: NgxsHttpCrudCollectionModule,
             providers: [
                 {
                     provide: PAGINATED_HTTP_CRUD_COLLECTION_SERVICE,

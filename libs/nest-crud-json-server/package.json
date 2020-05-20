@@ -1,7 +1,7 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@lyxs/nest-crud-json-server",
-  "version": "0.0.1",
+  "name": "@frrri/nest-crud-json-server",
+  "version": "0.0.2",
   "license": "MIT",
   "keywords": [
     "Nest",
@@ -11,23 +11,22 @@
     "CRUD"
   ],
   "author": "marian@bitflut.com bitflut.com",
-  "homepage": "https://bitflut.gitbook.io/lyxs/",
+  "homepage": "https://bitflut.gitbook.io/frrri/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bitflut/lyxs"
+    "url": "https://github.com/bitflut/frrri"
   },
   "peerDependencies": {
-    "@nestjs/common": "^7.0.0",
-    "@nestjs/core": "^7.0.0",
-    "@nestjs/platform-express": "^7.0.0",
-    "reflect-metadata": "^0.1.13",
-    "json-server": "^0.16.1"
+    "@frrri/nest-crud": "0.0.x"
   },
   "ngPackage": {
     "lib": {
       "entryFile": "src/public_api.ts",
-      "umdModuleIds": {}
+      "umdModuleIds": {
+        "@frrri/nest-crud": "@frrri/nest-crud",
+        "@nestjs/common": "@nestjs/common"
+      }
     },
-    "dest": "../../dist/@lyxs-nest"
+    "dest": "../../dist/@frrri-nest-crud-json-server"
   }
 }

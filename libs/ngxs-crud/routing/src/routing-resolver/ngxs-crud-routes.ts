@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { MetaResolver } from '@lyxs/ngxs-crud/meta';
+import { MetaResolver } from '@frrri/ngxs-crud/meta';
 import { RoutingInstructionsResolver } from './routing-instructions.resolver';
 
-export function lyxsRoutes(
+export function ngxsCrudRoutes(
     routes: Routes,
     options: { meta?: boolean; } = { meta: true },
 ): Routes {
@@ -18,7 +18,7 @@ export function lyxsRoutes(
         };
 
         route.children = route.children
-            ? lyxsRoutes(route.children, options)
+            ? ngxsCrudRoutes(route.children, options)
             : undefined;
 
         return route;

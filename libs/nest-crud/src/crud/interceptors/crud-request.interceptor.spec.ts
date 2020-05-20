@@ -1,4 +1,4 @@
-import { IdType } from '@lyxs/nest-crud/internal';
+import { IdType } from '@frrri/nest-crud/internal';
 import { Controller, HttpModule, ValidationPipe } from '@nestjs/common';
 import { NestApplication } from '@nestjs/core';
 import { Test } from '@nestjs/testing';
@@ -6,7 +6,7 @@ import { Exclude, Expose } from 'class-transformer';
 import { IsOptional, IsString } from 'class-validator';
 import * as supertest from 'supertest';
 import { Crud } from '../decorators/crud.decorator';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
+import { Endpoint } from '../enums/endpoint.enum';
 import { CrudController } from '../interfaces/crud-controller.interface';
 import { CrudService } from '../interfaces/crud-service.interface';
 import { ParsedRequest } from '../interfaces/parsed-request.interface';
@@ -19,7 +19,7 @@ interface Post {
 }
 
 @Exclude()
-class DefaultPostDto {
+class DefaultDto {
     @Expose()
     @IsString()
     @IsOptional()
@@ -35,7 +35,7 @@ class DefaultPostDto {
 }
 
 @Exclude()
-class CreatePostDto {
+class PostOneDto {
     @Expose()
     @IsString()
     body: string;
@@ -91,10 +91,16 @@ describe('CrudRequestInterceptor', () => {
     let app: NestApplication;
 
     @Crud({
-        dto: DefaultPostDto,
-        dtos: {
-            [CrudEndpoint.PostOne]: CreatePostDto,
-        },
+        endpoints: [
+            Endpoint.GetMany,
+            Endpoint.GetOne,
+            Endpoint.PatchOne,
+            {
+                endpoint: Endpoint.PostOne,
+                dto: PostOneDto,
+            },
+        ],
+        dto: DefaultDto,
     })
     @Controller('posts')
     class PostsController implements CrudController<Post> {

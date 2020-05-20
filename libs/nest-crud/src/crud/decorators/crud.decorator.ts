@@ -1,25 +1,26 @@
-import { ClassType } from '@lyxs/nest-crud/internal';
+import { ClassType } from '@frrri/nest-crud/internal';
 import { Body, Param, UseInterceptors } from '@nestjs/common';
 import { INTERCEPTORS_METADATA, METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
-import { CrudEndpoint } from '../enums/crud-endpoint.enum';
+import { pick } from 'lodash';
+import { Endpoint } from '../enums/endpoint.enum';
 import { CrudRequestInterceptor } from '../interceptors/crud-request.interceptor';
 import { CrudDecoratorOptions } from '../interfaces/crud-decorator-options.interface';
-import { EndpointDefinition } from '../interfaces/endpoint-definition.interface';
-import { endpointConfigurations } from './endpoint-configurations';
+import { EndpointConfig } from '../interfaces/endpoint-config.interface';
+import { endpointDefinitions } from './endpoint-definitions';
 import { ParsedRequest } from './parsed-request.decorator';
 
-function isIdRoute(endpoint: CrudEndpoint) {
-    return ![CrudEndpoint.GetMany, CrudEndpoint.PostOne].includes(endpoint);
+function isIdRoute(endpoint: Endpoint) {
+    return ![Endpoint.GetMany, Endpoint.PostOne].includes(endpoint);
 }
 
-function isBodyRoute(endpoint: CrudEndpoint) {
-    return [CrudEndpoint.PatchOne, CrudEndpoint.PostOne, CrudEndpoint.PutOne].includes(endpoint);
+function isBodyRoute(endpoint: Endpoint) {
+    return [Endpoint.PatchOne, Endpoint.PostOne, Endpoint.PutOne].includes(endpoint);
 }
 
 export function Crud(options: CrudDecoratorOptions = {}) {
     return function (target: ClassType) {
         options = {
-            endpoints: Object.values(CrudEndpoint),
+            endpoints: Object.values(Endpoint),
             ...options,
         };
 
@@ -27,14 +28,22 @@ export function Crud(options: CrudDecoratorOptions = {}) {
         const interceptors = Reflect.getMetadata(INTERCEPTORS_METADATA, target) || [];
         UseInterceptors(CrudRequestInterceptor, ...interceptors)(target);
 
-        for (const endpoint of options.endpoints) {
-            const config = endpointConfigurations[endpoint];
+        const endpointConfigs = options.endpoints.reduce((prev, curr) => {
+            const endpoint = typeof curr === 'object' ? curr.endpoint : curr;
+            prev[endpoint] = {
+                endpoint,
+                ...endpointDefinitions[endpoint],
+                ...pick(options, 'query', 'idType', 'dto'),
+                ...typeof curr === 'object' ? curr : {},
+            };
+            return prev;
+        }, {} as { [key in Endpoint]: EndpointConfig });
 
+        for (const config of Object.values(endpointConfigs)) {
             // Add controller method
-            target.prototype[endpoint] = config.factory(options);
-
-            configureRequest(config, target, endpoint);
-            configureParams(target, endpoint);
+            target.prototype[config.endpoint] = config.factory(config);
+            configureRequest(config, target);
+            configureParams(config, target);
         }
     };
 
@@ -44,9 +53,9 @@ export function Crud(options: CrudDecoratorOptions = {}) {
      * \@Get(':id')
      * ```
      */
-    function configureRequest(config: EndpointDefinition, target: ClassType, endpoint: CrudEndpoint) {
-        Reflect.defineMetadata(PATH_METADATA, config.request.path, target.prototype[endpoint]);
-        Reflect.defineMetadata(METHOD_METADATA, config.request.method, target.prototype[endpoint]);
+    function configureRequest(config: EndpointConfig, target: ClassType) {
+        Reflect.defineMetadata(PATH_METADATA, config.request.path, target.prototype[config.endpoint]);
+        Reflect.defineMetadata(METHOD_METADATA, config.request.method, target.prototype[config.endpoint]);
     }
 
     /**
@@ -59,29 +68,30 @@ export function Crud(options: CrudDecoratorOptions = {}) {
      * ) {}
      * ```
      */
-    function configureParams(target: ClassType, endpoint: CrudEndpoint) {
+    function configureParams(config: EndpointConfig, target: ClassType) {
         const paramTypes = [];
         let parameterIndex = 0;
-        ParsedRequest()(target.prototype, endpoint, parameterIndex);
-        paramTypes.push(undefined);
+        ParsedRequest()(target.prototype, config.endpoint, parameterIndex);
 
-        if (isIdRoute(endpoint)) {
+        if (isIdRoute(config.endpoint)) {
             parameterIndex++;
-            Param('id')(target.prototype, endpoint, parameterIndex);
-            paramTypes.push(options.idType);
+            Param('id')(target.prototype, config.endpoint, parameterIndex);
+
+            if ('idType' in config) {
+                paramTypes[parameterIndex] = config.idType;
+            }
         }
 
-        if (isBodyRoute(endpoint)) {
+        if (isBodyRoute(config.endpoint)) {
             parameterIndex++;
-            Body()(target.prototype, endpoint, parameterIndex);
+            Body()(target.prototype, config.endpoint, parameterIndex);
 
-            const dto = options?.dtos?.[endpoint] ?? options.dto;
-            if (dto) {
-                paramTypes.push(dto);
+            if ('dto' in config) {
+                paramTypes[parameterIndex] = config.dto;
             }
         }
 
         // Add paramtypes to endpoint for validation
-        Reflect.defineMetadata('design:paramtypes', paramTypes, target.prototype, endpoint);
+        Reflect.defineMetadata('design:paramtypes', paramTypes, target.prototype, config.endpoint);
     }
 }
