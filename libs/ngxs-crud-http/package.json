@@ -38,7 +38,10 @@
                 "@ngxs/store": "@ngxs/store",
                 "@ngxs/store/internals": "@ngxs/store/internals",
                 "parse-link-header": "parse-link-header",
-                "lodash": "lodash"
+                "lodash": "lodash",
+                "@frrri/ngxs-crud/internal": "@frrri/ngxs-crud/internal",
+                "@frrri/ngxs-crud/pagination": "@frrri/ngxs-crud/pagination",
+                "@frrri/ngxs-crud": "@frrri/ngxs-crud"
             }
         },
         "dest": "../../dist/@frrri-ngxs-crud-http"

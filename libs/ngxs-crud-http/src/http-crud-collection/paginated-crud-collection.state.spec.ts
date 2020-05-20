@@ -6,6 +6,7 @@ import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { PaginatedHttpCrudCollection } from './paginated-http-crud-collection.decorator';
 import { PaginationInterceptor, PaginatedCrudCollectionReducer, PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
+import { NgxsHttpCrudCollectionModule } from './http-crud-collection.module';
 
 interface Post {
     userId: number;
@@ -70,6 +71,7 @@ describe('PaginatedCollectionState', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                NgxsHttpCrudCollectionModule.forRoot(),
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState]),
             ],

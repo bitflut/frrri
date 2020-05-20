@@ -6,6 +6,7 @@ import { NgxsModule } from '@ngxs/store';
 import { omit } from 'lodash';
 import { HttpCrudCollection } from './http-crud-collection.decorator';
 import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs-crud';
+import { NgxsHttpCrudCollectionModule } from './http-crud-collection.module';
 
 interface Post {
     userId: number;
@@ -68,7 +69,7 @@ class PostsEntitiesState extends CrudCollectionState<Post, number> {
 class MongodbPostsEntitiesState extends CrudCollectionState<Post, number> { }
 
 function getCollectionUrl(state: any) {
-    return state.requestOptions.collectionUrlFactory();
+    return state.stateOptions.requestOptions.collectionUrlFactory();
 }
 
 describe('CrudCollectionState', () => {
@@ -77,6 +78,7 @@ describe('CrudCollectionState', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                NgxsHttpCrudCollectionModule.forRoot(),
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState, MongodbPostsEntitiesState]),
             ],

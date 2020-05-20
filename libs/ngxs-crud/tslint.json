@@ -1,10 +1,22 @@
 {
   "extends": "../../tslint.json",
   "rules": {
-    "directive-selector": [true, "attribute", "ngxs-crud", "camelCase"],
-    "component-selector": [true, "element", "ngxs-crud", "kebab-case"]
+    "directive-selector": [
+      true,
+      "attribute",
+      "ngxs-crud",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "ngxs-crud",
+      "kebab-case"
+    ]
   },
   "linterOptions": {
-    "exclude": ["!**/*"]
+    "exclude": [
+      "!**/*"
+    ]
   }
 }

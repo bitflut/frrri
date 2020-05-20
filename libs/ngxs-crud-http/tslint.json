@@ -4,13 +4,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "frrri",
+      "ngxs-crud-http",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "frrri",
+      "ngxs-crud-http",
       "kebab-case"
     ]
   },
