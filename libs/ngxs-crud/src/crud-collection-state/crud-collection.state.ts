@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectFlags, Injector, InjectionToken } from '@angular/core';
 import { GetManyOptions, OperationContext } from '@frrri/ngxs-crud/internal';
 import { PopulateInstruction, PopulationStrategy } from '@frrri/ngxs-crud/populate';
@@ -32,7 +31,6 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     protected service = this.injector.get<CrudCollectionService<Entity, IdType>>(this.serviceToken);
     private statesRegistry = this.injector.get<StatesRegistryService<CrudCollectionState>>(StatesRegistryService);
     private populations: Array<PopulateInstruction>;
-    protected http = this.injector.get(HttpClient);
 
     constructor(protected injector: Injector) {
         super();

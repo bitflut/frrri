@@ -11,8 +11,9 @@ import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ActiveComponent } from './active.component';
 import { NgxsCrudActiveModule } from './active.module';
-import { TestCrudCollection, TestCrudCollectionModule } from '../../../../src/crud-collection-state/crud-collection.state.spec';
-import { TestPaginatedCrudCollection, TestPaginationCrudCollectionModule } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
+import { TestCrudCollection, TEST_CRUD_COLLECTION_SERVICE, TestCrudCollectionService } from '../../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestPaginatedCrudCollection, PAGINATED_TEST_CRUD_COLLECTION_SERVICE, TestPaginatedCrudService } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
+import { of, Subject } from 'rxjs';
 
 
 interface Post {
@@ -103,7 +104,6 @@ describe('ActiveComponent', () => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
-                TestPaginationCrudCollectionModule.forRoot(),
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
                 NgxsCrudActiveModule,
@@ -112,7 +112,16 @@ describe('ActiveComponent', () => {
                 provide: HTTP_INTERCEPTORS,
                 multi: true,
                 useClass: PaginationInterceptor,
-            }],
+            },
+            {
+                provide: PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+                useClass: TestPaginatedCrudService,
+            },
+            {
+                provide: TEST_CRUD_COLLECTION_SERVICE,
+                useClass: TestCrudCollectionService,
+            },
+            ],
         }).compileComponents();
 
         fixture = MockRender(`
@@ -136,22 +145,25 @@ describe('ActiveComponent', () => {
     it('should show contents correctly', inject([
         HttpTestingController,
         PostsEntitiesState,
+        TEST_CRUD_COLLECTION_SERVICE,
     ], (
         httpMock: HttpTestingController,
         postsEntities: PostsEntitiesState,
+        service: TestCrudCollectionService,
     ) => {
         // INIT
         expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
         expect(fixture).toMatchSnapshot('init');
+        const subject = new Subject();
 
         // LOADING
+        spyOn(service, 'getOne').and.returnValue(subject.asObservable());
         postsEntities.getActive(1).toPromise();
-        const req1 = httpMock.expectOne(postsEntities.stateOptions.requestOptions.resourceUrlFactory(1));
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot('loading');
 
         // LOADED
-        req1.flush(page1Data.body[0]);
+        subject.next(page1Data.body[0]);
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot('loaded');
     }));

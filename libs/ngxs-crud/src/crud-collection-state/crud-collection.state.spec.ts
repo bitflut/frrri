@@ -1,6 +1,5 @@
 
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Injectable, InjectionToken, NgModule, ModuleWithProviders, Injector } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule, State } from '@ngxs/store';
@@ -11,11 +10,9 @@ import { StateClass } from '@ngxs/store/internals';
 import { CurdCollectionStateOptions } from './crud-colleciton-state-options.interface';
 import { createEntityCollections } from '@ngxs-labs/data/utils';
 import { CrudCollectionService } from './crud-collection-service.interface';
-import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CrudCollectionReducer, CrudCollectionState } from './crud-collection.state';
 import { GetManyOptions } from '@frrri/ngxs-crud/internal';
-import { HttpClient } from '@angular/common/http';
 
 interface Post {
     userId: number;
@@ -80,68 +77,17 @@ export function TestCrudCollection<T = CrudCollectionReducer>(options: CrudColle
 
 @Injectable()
 export class TestCrudCollectionService<V = any, IdType = any> implements CrudCollectionService<V, IdType> {
-    protected http = this.injector.get(HttpClient);
-
-    constructor(protected injector: Injector) { }
-
-    getOne(stateOptions: CurdCollectionStateOptions, id: IdType) {
-        const url = stateOptions.requestOptions.resourceUrlFactory(id);
-        return this.http.get<V>(url);
-    }
-
-    getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions = {}): Observable<V[]> {
-        const url = stateOptions.requestOptions.collectionUrlFactory();
-        return this.http.get<V[]>(url, { params: options.params });
-    }
-
-    patchOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }) {
-        const url = stateOptions.requestOptions.resourceUrlFactory(id);
-        return this.http.patch<V>(url, changes);
-    }
-
-    putOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V> {
-        const url = stateOptions.requestOptions.collectionUrlFactory();
-        return this.http.put<V>(url, changes);
-    }
-
-    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType) {
-        const url = stateOptions.requestOptions.resourceUrlFactory(id);
-        return this.http.delete<void>(url);
-    }
-
-    postOne(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V> {
-        const url = stateOptions.requestOptions.collectionUrlFactory();
-        return this.http.post<V>(
-            url,
-            body,
-        );
-    }
+    getOne(stateOptions: CurdCollectionStateOptions, id: IdType) { return of({} as V); }
+    getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions = {}): Observable<V[]> { return of([]); }
+    patchOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }) { return (of({} as V)); }
+    putOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V> { return of({} as V); }
+    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType) { return of({}); }
+    postOne(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V> { return of({} as V); }
 }
 
 export const TEST_CRUD_COLLECTION_SERVICE =
     new InjectionToken<CrudCollectionService>('TEST_CRUD_COLLECTION_SERVICE_TOKEN');
 
-
-@NgModule({
-    imports: [CommonModule],
-})
-export class TestCrudCollectionModule {
-
-    constructor(
-    ) { }
-
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: TestCrudCollectionModule,
-            providers: [
-                {
-                    provide: TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestCrudCollectionService,
-                },
-            ],
-        };
-    }
-}
 
 @TestCrudCollection<CrudCollectionReducer>({
     name: 'posts',
@@ -167,10 +113,14 @@ describe('CrudCollectionState', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientTestingModule,
-                TestCrudCollectionModule.forRoot(),
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState, MongodbPostsEntitiesState]),
+            ],
+            providers: [
+                {
+                    provide: TEST_CRUD_COLLECTION_SERVICE,
+                    useClass: TestCrudCollectionService,
+                },
             ],
         }).compileComponents();
     });
@@ -212,7 +162,7 @@ describe('CrudCollectionState', () => {
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
     ) => {
-        spyOn(service, 'getOne').and.callThrough();
+        spyOn(service, 'getOne').and.returnValue(of(newPostData));
         postsState.getOne(1).toPromise();
         expect(service.getOne).toHaveBeenCalledTimes(1);
     }));
@@ -224,7 +174,7 @@ describe('CrudCollectionState', () => {
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
     ) => {
-        spyOn(service, 'postOne').and.callThrough();
+        spyOn(service, 'postOne').and.returnValue(of(newPostData));
         postsState.postOne(omit(newPostData, 'id')).toPromise();
         expect(service.postOne).toHaveBeenCalledTimes(1);
     }));
@@ -236,7 +186,7 @@ describe('CrudCollectionState', () => {
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
     ) => {
-        spyOn(service, 'postOne').and.callThrough();
+        spyOn(service, 'postOne').and.returnValue(of(newPostData));
         postsState.postOneOptimistic(newPostData).toPromise();
         expect(service.postOne).toHaveBeenCalledTimes(1);
     }));
@@ -249,7 +199,7 @@ describe('CrudCollectionState', () => {
         service: TestCrudCollectionService,
     ) => {
         const update = { id: 1, changes: { body: 'I am changed' } };
-        spyOn(service, 'patchOne').and.callThrough();
+        spyOn(service, 'patchOne').and.returnValue(of(update));
         postsState.patchOne(update).toPromise();
         expect(service.patchOne).toHaveBeenCalledTimes(1);
     }));
@@ -265,7 +215,7 @@ describe('CrudCollectionState', () => {
         expect(postsState.snapshot.ids).toEqual([1, 2]);
 
         const update = { id: 1, changes: { body: 'I am changed' } };
-        spyOn(service, 'patchOne').and.callThrough();
+        spyOn(service, 'patchOne').and.returnValue(of(update));
         postsState.patchOneOptimistic(update).toPromise();
         expect(service.patchOne).toHaveBeenCalledTimes(1);
         expect(postsState.snapshot.entities[1].body).toEqual(update.changes.body);
@@ -317,7 +267,7 @@ describe('CrudCollectionState', () => {
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
     ) => {
-        spyOn(service, 'getOne').and.callThrough();
+        spyOn(service, 'getOne').and.returnValue(of({ id: 1 }));
         postsState.getActive(1).toPromise();
         expect(postsState.snapshot.active).toEqual({ id: 1 });
         expect(postsState.snapshot.ids).toEqual([]);
@@ -325,19 +275,15 @@ describe('CrudCollectionState', () => {
     }));
 
     it('should call afterSuccess', inject([
-        HttpTestingController,
         PostsEntitiesState,
+        TEST_CRUD_COLLECTION_SERVICE,
     ], (
-        httpMock: HttpTestingController,
         postsState: PostsEntitiesState,
+        service: TestCrudCollectionService,
     ) => {
         const spy = spyOn(postsState, 'afterSuccess');
+        spyOn(service, 'getMany').and.returnValue(of(postsData));
         postsState.getMany().toPromise();
-
-        const req = httpMock.expectOne(getCollectionUrl(postsState));
-        expect(req.request.method).toEqual('GET');
-        req.flush(postsData);
-
         expect(spy).toHaveBeenCalled();
     }));
 

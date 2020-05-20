@@ -41,34 +41,10 @@ export function TestPaginatedCrudCollection<T = CrudCollectionReducer>(options: 
 }
 
 @Injectable()
-class TestPaginatedCrudService<V = any> implements PaginatedCrudCollectionService<V> {
+export class TestPaginatedCrudService<V = any> implements PaginatedCrudCollectionService<V> {
     getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number } = {}) { return of([]); }
     getAll(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number } = {}): Observable<V[]> { return of([]); }
     getNext(url: any) { return of([]); }
-}
-
-@NgModule({
-    imports: [CommonModule],
-})
-export class TestPaginationCrudCollectionModule {
-
-    constructor() { }
-
-    static forRoot(): ModuleWithProviders {
-        return {
-            ngModule: TestPaginationCrudCollectionModule,
-            providers: [
-                {
-                    provide: PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestPaginatedCrudService,
-                },
-                {
-                    provide: TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestCrudCollectionService,
-                },
-            ],
-        };
-    }
 }
 
 @TestPaginatedCrudCollection<PaginatedCrudCollectionReducer>({
@@ -81,7 +57,7 @@ describe('PaginatedCollectionState', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                TestPaginationCrudCollectionModule.forRoot(),
+                // TestPaginationCrudCollectionModule.forRoot(),
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState]),
                 HttpClientModule,
@@ -91,6 +67,14 @@ describe('PaginatedCollectionState', () => {
                     provide: HTTP_INTERCEPTORS,
                     multi: true,
                     useClass: PaginationInterceptor,
+                },
+                {
+                    provide: PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+                    useClass: TestPaginatedCrudService,
+                },
+                {
+                    provide: TEST_CRUD_COLLECTION_SERVICE,
+                    useClass: TestCrudCollectionService,
                 },
             ],
         }).compileComponents();

@@ -1,4 +1,3 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable, NgModule } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
@@ -6,7 +5,9 @@ import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { TestCrudCollection, TestCrudCollectionModule } from '../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestCrudCollection, TestCrudCollectionService, TEST_CRUD_COLLECTION_SERVICE } from '../../../src/crud-collection-state/crud-collection.state.spec';
+import { of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
 
 interface Post {
     userId: number;
@@ -67,7 +68,6 @@ class UsersEntitiesState extends CrudCollectionState<Comment, number> { }
 
 @NgModule({
     imports: [
-        TestCrudCollectionModule.forRoot(),
         NgxsModule.forFeature([UsersEntitiesState]),
     ],
 })
@@ -78,10 +78,16 @@ describe('StatesRegistry', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientTestingModule,
+                HttpClientModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
                 FeatureModule,
+            ],
+            providers: [
+                {
+                    provide: TEST_CRUD_COLLECTION_SERVICE,
+                    useClass: TestCrudCollectionService,
+                },
             ],
         });
     });
@@ -101,16 +107,16 @@ describe('StatesRegistry', () => {
     }));
 
     it('should reset all states', inject([
-        HttpTestingController,
         StatesRegistryService,
+        TEST_CRUD_COLLECTION_SERVICE,
     ], async (
-        httpMock: HttpTestingController,
         collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
+        service: TestCrudCollectionService,
     ) => {
         const postsState = collectionRegistry.getByPath('cache.posts');
         expect(postsState).toBeDefined();
+        spyOn(service, 'getMany').and.returnValue(of(postsData));
         postsState.getMany().toPromise();
-        httpMock.expectOne(postsState.stateOptions.requestOptions.collectionUrlFactory()).flush(postsData);
         expect(postsState.snapshot.ids).toEqual([1, 2]);
 
         const cacheState = collectionRegistry.getByPath('cache');
@@ -119,10 +125,8 @@ describe('StatesRegistry', () => {
     }));
 
     it('should get UserEntitiesState', inject([
-        HttpTestingController,
         StatesRegistryService,
     ], async (
-        httpMock: HttpTestingController,
         collectionRegistry: StatesRegistryService,
     ) => {
         expect(collectionRegistry.getByPath('users')).toBeDefined();
