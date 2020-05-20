@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { Injectable, InjectionToken, NgModule, ModuleWithProviders } from '@angular/core';
+import { Injectable, InjectionToken } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
@@ -8,7 +8,6 @@ import { CrudCollectionReducer, CurdCollectionStateOptions } from '@frrri/ngxs-c
 import { PaginatedCrudCollectionOptions } from './paginated-crud-collection-options.interface';
 import { TestCrudCollection, TestCrudCollectionService, TEST_CRUD_COLLECTION_SERVICE } from '../../../src/crud-collection-state/crud-collection.state.spec';
 import { StateClass } from '@ngxs/store/internals';
-import { CommonModule } from '@angular/common';
 import { PaginatedCrudCollectionService } from './paginated-crud-collection-service.interface';
 import { GetManyOptions } from '@frrri/ngxs-crud/internal';
 import { Observable, of } from 'rxjs';
@@ -57,7 +56,6 @@ describe('PaginatedCollectionState', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                // TestPaginationCrudCollectionModule.forRoot(),
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState]),
                 HttpClientModule,

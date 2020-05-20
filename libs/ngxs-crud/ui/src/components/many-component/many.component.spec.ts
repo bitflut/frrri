@@ -8,7 +8,7 @@ import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
 import { NgxsCrudManyModule } from './many.module';
 import { TestCrudCollection, TEST_CRUD_COLLECTION_SERVICE, TestCrudCollectionService } from '../../../../src/crud-collection-state/crud-collection.state.spec';
@@ -146,84 +146,88 @@ describe('ManyComponent', () => {
     });
 
     it('should show contents correctly', inject([
-        HttpTestingController,
         PostsEntitiesState,
         PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
     ], (
-        httpMock: HttpTestingController,
         postsEntities: PostsEntitiesState,
         service: TestPaginatedCrudService,
     ) => {
         // INIT
         expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
         expect(fixture).toMatchSnapshot('init');
-
         const subject = new Subject();
 
         // PAGE 1/3
         spyOn(service, 'getMany').and.returnValue(subject.asObservable());
         postsEntities.getMany().toPromise();
+
+        // PAGE 1/3 - LOADING FIRST
+        fixture.detectChanges();
+        expect(fixture).toMatchSnapshot('loading-page-1-of-3');
+
+        // // PAGE 1/3 - LOADED
+        subject.next({ pagination: { data: page1Data.body, next: page1Data.headers.Link } });
+        fixture.detectChanges();
+        expect(fixture).toMatchSnapshot('loaded-page-1-of-3');
+
+        // // PAGE 2/3
+        spyOn(service, 'getNext').and.returnValue(subject.asObservable());
+        postsEntities.getNext().toPromise();
+
+        fixture.detectChanges();
+
+        // // PAGE 2/3 - LOADING
+        expect(fixture).toMatchSnapshot('loading-page-2-of-3');
+        subject.next({ pagination: { data: page2Data.body, next: page2Data.headers.Link } });
+        fixture.detectChanges();
+
+        // // PAGE 2/3 LOADED
+        expect(fixture).toMatchSnapshot('loaded-page-2-of-3');
+
+        // // PAGE 3/3 (LAST PAGE)
+        postsEntities.getNext().toPromise();
+        fixture.detectChanges();
+
+        // // PAGE 3/3 LOADING
+        expect(fixture).toMatchSnapshot('loading-page-3-of-3');
+        subject.next({ pagination: { data: page3Data.body } });
+        fixture.detectChanges();
+
+        // // PAGE 3/3 LOADED
+        expect(fixture).toMatchSnapshot('loaded-page-3-of-3');
+    }));
+
+    it('should show errors', inject([
+        PostsEntitiesState,
+        PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+    ], (
+        postsEntities: PostsEntitiesState,
+        service: TestPaginatedCrudService,
+    ) => {
+        // INIT
+        expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
+        expect(fixture).toMatchSnapshot('init');
+        const subject = new Subject();
+
+        // PAGE 1/3
+        spyOn(service, 'getMany').and.returnValue(subject.asObservable().pipe(
+            tap((data) => {
+                if (data === 'error') {
+                    throw new Error('Http failure response for https://jsonplaceholder.typicode.com/posts: 400 Bad Request');
+                }
+            }),
+        ));
+        postsEntities.getMany().toPromise();
         fixture.detectChanges();
 
         // PAGE 1/3 - LOADING FIRST
         expect(fixture).toMatchSnapshot('loading-page-1-of-3');
-        subject.next(page1Data);
+        subject.next('error');
         fixture.detectChanges();
 
-        // // PAGE 1/3 - LOADED
-        // expect(fixture).toMatchSnapshot('loaded-page-1-of-3');
-
-        // // PAGE 2/3
-        // postsEntities.getNext().toPromise();
-        // const req2 = httpMock.expectOne(postsEntities.snapshot.next);
-        // fixture.detectChanges();
-
-        // // PAGE 2/3 - LOADING
-        // expect(fixture).toMatchSnapshot('loading-page-2-of-3');
-        // req2.flush(page2Data.body, { headers: page2Data.headers });
-        // fixture.detectChanges();
-
-        // // PAGE 2/3 LOADED
-        // expect(fixture).toMatchSnapshot('loaded-page-2-of-3');
-
-        // // PAGE 3/3 (LAST PAGE)
-        // postsEntities.getNext().toPromise();
-        // const req3 = httpMock.expectOne(postsEntities.snapshot.next);
-        // fixture.detectChanges();
-
-        // // PAGE 3/3 LOADING
-        // expect(fixture).toMatchSnapshot('loading-page-3-of-3');
-        // req3.flush(page3Data.body, { headers: page3Data.headers });
-        // fixture.detectChanges();
-
-        // // PAGE 3/3 LOADED
-        // expect(fixture).toMatchSnapshot('loaded-page-3-of-3');
+        // PAGE 1/3 - ERROR
+        expect(fixture).toMatchSnapshot('error-page-1-of-3');
     }));
-
-    // it('should show errors', inject([
-    //     HttpTestingController,
-    //     PostsEntitiesState,
-    // ], (
-    //     httpMock: HttpTestingController,
-    //     postsEntities: PostsEntitiesState,
-    // ) => {
-    //     // INIT
-    //     expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
-    //     expect(fixture).toMatchSnapshot('init');
-
-    //     // PAGE 1/3
-    //     postsEntities.getMany().toPromise();
-    //     const req1 = httpMock.expectOne(postsEntities.stateOptions.requestOptions.collectionUrlFactory());
-    //     fixture.detectChanges();
-
-    //     // PAGE 1/3 - LOADING FIRST
-    //     expect(fixture).toMatchSnapshot('loading-page-1-of-3');
-    //     req1.flush({}, { status: 400, statusText: 'Bad Request' });
-    //     fixture.detectChanges();
-
-    //     // PAGE 1/3 - ERROR
-    //     expect(fixture).toMatchSnapshot('error-page-1-of-3');
-    // }));
 
     afterEach(inject([HttpTestingController], (httpMock: HttpTestingController) => {
         httpMock.verify();
