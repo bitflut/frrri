@@ -4,7 +4,6 @@ import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { omit } from 'lodash';
-import { CrudCollection } from './crud-collection.decorator';
 import { CrudCollectionReducer, CrudCollectionState } from './crud-collection.state';
 
 interface Post {

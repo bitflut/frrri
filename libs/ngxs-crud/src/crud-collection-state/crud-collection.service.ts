@@ -1,42 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+// import { HttpClient } from '@angular/common/http';
 import { GetManyOptions } from '@lyxs/ngxs-crud/internal';
 import { Observable } from 'rxjs';
+import { CurdCollectionStateOptions } from './crud-colleciton-state-options.interface';
 
-@Injectable({
-    providedIn: 'root',
-})
-export class CrudCollectionService<V> {
+export interface CrudCollectionService {
 
-    protected http = this.injector.get(HttpClient);
-
-    constructor(protected injector: Injector) { }
-
-    getOne(url: string) {
-        return this.http.get<V>(url);
-    }
-
-    getMany(url: string, options: GetManyOptions = {}): Observable<V[]> {
-        return this.http.get<V[]>(url, { params: options.params });
-    }
-
-    patchOne(url: string, changes: { [key: string]: Partial<V> }) {
-        return this.http.patch<V>(url, changes);
-    }
-
-    putOne(url: string, changes: { [key: string]: Partial<V> }) {
-        return this.http.put<V>(url, changes);
-    }
-
-    deleteOne(url: string) {
-        return this.http.delete<void>(url);
-    }
-
-    postOne(url: string, body: Partial<V>) {
-        return this.http.post<V>(
-            url,
-            body,
-        );
-    }
-
+    getOne<V, IdType>(stateOptions: CurdCollectionStateOptions, id: IdType): Observable<V>;
+    getMany<V>(stateOptions: CurdCollectionStateOptions, options: GetManyOptions): Observable<V[]>;
+    patchOne<V, IdType>(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V>;
+    putOne<V, IdType>(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V>;
+    deleteOne<IdType>(stateOptions: CurdCollectionStateOptions, id: IdType);
+    postOne<V>(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V>;
 }

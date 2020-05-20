@@ -59,6 +59,9 @@
       ],
       "@lyxs/nest-crud-mongoose": [
         "libs/nest-crud-mongoose/src/index.ts"
+      ],
+      "@lyxs/ngxs-crud-http": [
+        "libs/ngxs-crud-http/src/public_api.ts"
       ]
     }
   },

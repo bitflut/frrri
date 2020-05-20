@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, InjectFlags, Injector } from '@angular/core';
+import { Injectable, InjectFlags, Injector, InjectionToken } from '@angular/core';
 import { GetManyOptions, OperationContext } from '@lyxs/ngxs-crud/internal';
 import { PopulateInstruction, PopulationStrategy } from '@lyxs/ngxs-crud/populate';
 import { StatesRegistryService } from '@lyxs/ngxs-crud/registry';
@@ -10,8 +10,8 @@ import { flatten, uniq } from 'lodash';
 import { EMPTY, forkJoin, isObservable, Observable, of, pipe, throwError, UnaryFunction } from 'rxjs';
 import { catchError, delay, map, mapTo, mergeMap, switchMap, tap, timeout } from 'rxjs/operators';
 import { CRUD_COLLECTION_OPTIONS_TOKEN } from './constants';
-import { CrudCollectionOptions } from './crud-collection.decorator';
 import { CrudCollectionService } from './crud-collection.service';
+import { CurdCollectionStateOptions } from './crud-colleciton-state-options.interface';
 
 export type CrudCollectionReducer<Entity = {}, IdType extends EntityIdType = EntityIdType> = NgxsEntityCollections<Entity, IdType> & {
     ids: EntityIdType[];
@@ -26,34 +26,32 @@ export type CrudCollectionReducer<Entity = {}, IdType extends EntityIdType = Ent
 export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = string, Reducer extends CrudCollectionReducer<Entity, IdType> = CrudCollectionReducer<Entity, IdType>>
     extends NgxsDataEntityCollectionsRepository<Entity, IdType, Reducer> {
 
-    private service = this.injector.get<CrudCollectionService<Entity>>(CrudCollectionService);
+    readonly serviceToken: InjectionToken<CrudCollectionService>;
+    readonly stateOptions: CurdCollectionStateOptions;
+
+    private service = this.injector.get<CrudCollectionService>(this.serviceToken);
     private statesRegistry = this.injector.get<StatesRegistryService<CrudCollectionState>>(StatesRegistryService);
     private populations: Array<PopulateInstruction>;
     protected http = this.injector.get(HttpClient);
-    readonly requestOptions: CrudCollectionOptions['requestOptions'];
-    readonly idKey: string;
-    readonly baseUrl: string;
-    readonly endpoint: string;
-    readonly populateFactory: CrudCollectionOptions['requestOptions']['populateFactory'];
 
     constructor(protected injector: Injector) {
         super();
-
+        const { idKey, baseUrl, endpoint, populateFactory, requestOptions } = this.stateOptions;
         const providerOptions = this.injector.get(CRUD_COLLECTION_OPTIONS_TOKEN, {}, InjectFlags.Optional);
 
-        this.primaryKey = this.idKey ?? providerOptions.idKey ?? this.primaryKey; // TODO: update in @ngxs-labs/data
-        this.baseUrl = providerOptions.baseUrl ?? this.baseUrl;
-        this.endpoint = providerOptions.endpoint ?? this.endpoint;
+        this.primaryKey = idKey ?? providerOptions.idKey ?? this.primaryKey; // TODO: update in @ngxs-labs/data
+        this.stateOptions.baseUrl = providerOptions.baseUrl ?? baseUrl;
+        this.stateOptions.endpoint = providerOptions.endpoint ?? endpoint;
 
         if (providerOptions.requestOptions?.populateFactory) {
-            this.populateFactory = providerOptions.requestOptions.populateFactory;
+            this.stateOptions.populateFactory = providerOptions.requestOptions.populateFactory;
         }
 
-        this.requestOptions = {
-            collectionUrlFactory: () => `${this.baseUrl}/${this.endpoint}`,
-            resourceUrlFactory: id => `${this.baseUrl}/${this.endpoint}/${id}`,
+        this.stateOptions.requestOptions = {
+            collectionUrlFactory: () => `${this.stateOptions.baseUrl}/${this.stateOptions.endpoint}`,
+            resourceUrlFactory: id => `${this.stateOptions.baseUrl}/${this.stateOptions.endpoint}/${id}`,
             ...providerOptions.requestOptions,
-            ...this.requestOptions,
+            ...requestOptions,
         };
     }
 
@@ -195,7 +193,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     @DataAction()
     public getActive(@Payload('id') id: IdType) {
         this.ctx.patchState({ active: { [this.primaryKey]: id } } as any);
-        return this.service.getOne(this.requestOptions.resourceUrlFactory(id))
+        return this.service.getOne<Entity, IdType>(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -212,7 +210,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public getMany(@Payload('options') options: GetManyOptions = {}) {
-        return this.service.getMany(this.requestOptions.collectionUrlFactory(), options)
+        return this.service.getMany<Entity>(this.stateOptions, options)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.Many,
@@ -234,7 +232,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public getOne(@Payload('id') id: IdType) {
-        return this.service.getOne(this.requestOptions.resourceUrlFactory(id))
+        return this.service.getOne<Entity, IdType>(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -251,7 +249,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public patchOne(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
-        return this.service.patchOne(this.requestOptions.resourceUrlFactory(update.id), update.changes)
+        return this.service.patchOne<Entity, IdType>(this.stateOptions, update.id, update.changes)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -270,7 +268,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public patchOneOptimistic(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
         const original = this.snapshot.entities[update.id];
         this.updateOne({ id: update.id, changes: update.changes });
-        return this.service.patchOne(this.requestOptions.resourceUrlFactory(update.id), update.changes)
+        return this.service.patchOne<Entity, IdType>(this.stateOptions, update.id, update.changes)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -287,7 +285,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public putOne(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
-        return this.service.putOne(this.requestOptions.resourceUrlFactory(update.id), update.changes)
+        return this.service.putOne<Entity, IdType>(this.stateOptions, update.id, update.changes)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -304,7 +302,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public postOne(@Payload('entity') entity: Partial<Entity>) {
-        return this.service.postOne(this.requestOptions.collectionUrlFactory(), entity)
+        return this.service.postOne<Entity>(this.stateOptions, entity)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -325,7 +323,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
             throw new Error('Entity id is required for optimistic actions');
         }
         this.addEntityOne(entity);
-        return this.service.postOne(this.requestOptions.collectionUrlFactory(), entity)
+        return this.service.postOne<Entity>(this.stateOptions, entity)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -342,7 +340,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public deleteOne(@Payload('id') id: IdType) {
-        return this.service.deleteOne(this.requestOptions.resourceUrlFactory(id))
+        return this.service.deleteOne<IdType>(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -362,7 +360,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public deleteOneOptimistic(@Payload('id') id: IdType) {
         const original = this.snapshot.entities[id];
         this.removeEntitiesMany([id]);
-        return this.service.deleteOne(this.requestOptions.resourceUrlFactory(id))
+        return this.service.deleteOne<IdType>(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -448,9 +446,9 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         } as any);
 
         return pipe(
-            timeout(this.requestOptions?.timeout || 30000),
-            this.requestOptions?.delay
-                ? delay(this.requestOptions.delay)
+            timeout(this.stateOptions.requestOptions?.timeout || 30000),
+            this.stateOptions.requestOptions?.delay
+                ? delay(this.stateOptions.requestOptions.delay)
                 : tap(),
         ) as UnaryFunction<Observable<In>, Observable<Out>>;
     }
@@ -483,7 +481,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         }
 
         const defaultFactory = (ids: IdType[], path: string) => ({ [path]: uniq(ids.map(id => id.toString())) });
-        const factory = population.populatFactory || this.populateFactory || defaultFactory;
+        const factory = population.populatFactory || this.stateOptions.populateFactory || defaultFactory;
         return facade.getAll({
             params: {
                 ...population.params,

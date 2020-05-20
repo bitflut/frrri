@@ -7,6 +7,7 @@ import { LyxsRoutingModule } from '@lyxs/ngxs-crud/routing';
 import { AppRoutingModule } from './app-routing.module';
 import { AppStateModule } from './app-state.module';
 import { AppComponent } from './app.component';
+import { HttpCrudCollectionModule } from '@lyxs/ngxs-crud-http';
 
 @NgModule({
     declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { AppComponent } from './app.component';
         HttpClientModule,
         AppRoutingModule,
         AppStateModule,
+        HttpCrudCollectionModule.forRoot(),
         LyxsMetaModule.forRoot(),
         LyxsRoutingModule.forRoot(),
     ],
