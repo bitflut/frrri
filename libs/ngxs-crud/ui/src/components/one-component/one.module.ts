@@ -7,4 +7,4 @@ import { OneComponent } from './one.component';
     declarations: [OneComponent],
     exports: [OneComponent],
 })
-export class NgxsCrudOneModule { }
+export class OneUiModule { }

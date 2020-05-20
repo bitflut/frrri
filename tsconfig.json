@@ -1,69 +1,72 @@
 {
-    "compileOnSave": false,
-    "compilerOptions": {
-        "rootDir": ".",
-        "sourceMap": true,
-        "declaration": false,
-        "moduleResolution": "node",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "importHelpers": true,
-        "target": "es2015",
-        "module": "esnext",
-        "typeRoots": [
-            "node_modules/@types"
-        ],
-        "lib": [
-            "es2017",
-            "dom"
-        ],
-        "skipLibCheck": true,
-        "skipDefaultLibCheck": true,
-        "baseUrl": ".",
-        "paths": {
-            "@frrri/ngxs-crud/routing": [
-                "libs/ngxs-crud/routing/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud/ui": [
-                "libs/ngxs-crud/ui/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud/pagination": [
-                "libs/ngxs-crud/pagination/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud/registry": [
-                "libs/ngxs-crud/registry/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud/internal": [
-                "libs/ngxs-crud/internal/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud/populate": [
-                "libs/ngxs-crud/populate/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud/meta": [
-                "libs/ngxs-crud/meta/src/public_api.ts"
-            ],
-            "@frrri/nest-crud/internal": [
-                "libs/nest-crud/internal/src/public_api.ts"
-            ],
-            "@frrri/nest-crud/common": [
-                "libs/nest-crud/common/src/public_api.ts"
-            ],
-            "@frrri/ngxs-crud": [
-                "libs/ngxs-crud/src/public_api.ts"
-            ],
-            "@frrri/nest-crud": [
-                "libs/nest-crud/src/public_api.ts"
-            ],
-            "@frrri/nest-crud-json-server": [
-                "libs/nest-crud-json-server/src/public_api.ts"
-            ],
-            "@frrri/nest-crud-mongoose": [
-                "libs/nest-crud-mongoose/src/index.ts"
-            ]
-        }
-    },
-    "exclude": [
-        "node_modules",
-        "tmp"
-    ]
+  "compileOnSave": false,
+  "compilerOptions": {
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2017",
+      "dom"
+    ],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@frrri/ngxs-crud/routing": [
+        "libs/ngxs-crud/routing/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/ui": [
+        "libs/ngxs-crud/ui/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/pagination": [
+        "libs/ngxs-crud/pagination/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/registry": [
+        "libs/ngxs-crud/registry/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/internal": [
+        "libs/ngxs-crud/internal/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/populate": [
+        "libs/ngxs-crud/populate/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/meta": [
+        "libs/ngxs-crud/meta/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud/breadcrumbs": [
+        "libs/ngxs-crud/breadcrumbs/src/public_api.ts"
+      ],
+      "@frrri/nest-crud/internal": [
+        "libs/nest-crud/internal/src/public_api.ts"
+      ],
+      "@frrri/nest-crud/common": [
+        "libs/nest-crud/common/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud": [
+        "libs/ngxs-crud/src/public_api.ts"
+      ],
+      "@frrri/nest-crud": [
+        "libs/nest-crud/src/public_api.ts"
+      ],
+      "@frrri/nest-crud-json-server": [
+        "libs/nest-crud-json-server/src/public_api.ts"
+      ],
+      "@frrri/nest-crud-mongoose": [
+        "libs/nest-crud-mongoose/src/index.ts"
+      ]
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "tmp"
+  ]
 }

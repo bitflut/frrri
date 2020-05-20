@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
-import { NgxsCrudManyModule } from './many.module';
+import { ManyUiModule } from './many.module';
 
 interface Post {
     userId: number;
@@ -103,7 +103,7 @@ describe('ManyComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                NgxsCrudManyModule,
+                ManyUiModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,

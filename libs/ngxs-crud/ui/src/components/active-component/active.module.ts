@@ -7,4 +7,4 @@ import { ActiveComponent } from './active.component';
     declarations: [ActiveComponent],
     exports: [ActiveComponent],
 })
-export class NgxsCrudActiveModule { }
+export class ActiveUiModule { }

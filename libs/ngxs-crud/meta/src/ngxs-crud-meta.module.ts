@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ModuleWithProviders, NgModule } from '@angular/core';
-import { MetaNavigationService } from './meta-routing/meta-navigation.service';
-import { MetaService } from './meta-routing/meta.service';
+import { MetaNavigationService } from './services/meta-navigation.service';
+import { MetaService } from './services/meta.service';
 
 @NgModule({
     imports: [CommonModule],

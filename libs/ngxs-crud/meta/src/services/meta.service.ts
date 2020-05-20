@@ -5,10 +5,10 @@ import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { EMPTY } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
 import { META_INSTRUCTION } from '../constants';
+import { MetaInstructionType } from '../enums/meta-instruction.enum';
 import { ActiveMeta } from '../instructions/active-meta.instruction';
-import { MetaInstructionType } from '../instructions/meta-instruction.enum';
-import { MetaInstruction } from '../instructions/meta-instruction.type';
 import { StaticMeta } from '../instructions/static-meta.instruction';
+import { MetaInstruction } from '../types/meta-instruction.type';
 
 @Injectable()
 export class MetaService {
@@ -58,8 +58,9 @@ export class MetaService {
                 }),
             ).toPromise();
 
-        const staticMeta = meta.factory(active);
-        this.renderMeta(staticMeta);
+        this.renderMeta(
+            meta.factory(active),
+        );
     }
 
 }

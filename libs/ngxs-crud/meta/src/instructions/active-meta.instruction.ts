@@ -1,5 +1,5 @@
 import { META_INSTRUCTION } from '../constants';
-import { MetaInstructionType } from './meta-instruction.enum';
+import { MetaInstructionType } from '../enums/meta-instruction.enum';
 import { StaticMeta } from './static-meta.instruction';
 
 export interface Options<T> {

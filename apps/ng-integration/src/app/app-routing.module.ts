@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { staticBreadcrumb } from '@frrri/ngxs-crud/breadcrumbs';
 import { ngxsCrudRoutes } from '@frrri/ngxs-crud/routing';
 
 const routes: Routes = [
     {
         path: '',
+        data: staticBreadcrumb({
+            title: 'home',
+        }),
         children: [
             {
                 path: 'posts',

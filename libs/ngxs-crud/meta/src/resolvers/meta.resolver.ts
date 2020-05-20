@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { MetaService } from './meta.service';
+import { MetaService } from '../services/meta.service';
 
 @Injectable({
     providedIn: 'root',

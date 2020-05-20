@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { activeBreadcrumb, staticBreadcrumb } from '@frrri/ngxs-crud/breadcrumbs';
 import { activeMeta, staticMeta } from '@frrri/ngxs-crud/meta';
 import { populate, PopulationStrategy } from '@frrri/ngxs-crud/populate';
 import { compose, deactivate, getActive, getMany, instructions, ngxsCrudRoutes, reset } from '@frrri/ngxs-crud/routing';
@@ -28,6 +29,35 @@ const routes: Routes = [
             data: instructions({
                 'entities.posts': getActive(),
             }),
+        }],
+    },
+    {
+        path: 'with-breadcrumbs',
+        component: PostsIndexComponent,
+        data: compose(
+            instructions({
+                'entities': reset(),
+                'entities.posts': [
+                    deactivate(),
+                    getMany(),
+                ],
+            }),
+            staticBreadcrumb({
+                title: 'all posts',
+            }),
+        ),
+        children: [{
+            path: ':id',
+            component: PostsShowComponent,
+            data: compose(
+                instructions({
+                    'entities.posts': getActive(),
+                }),
+                activeBreadcrumb({
+                    statePath: 'entities.posts',
+                    factory: data => ({ title: `#${data.id} ${data.title}` }),
+                }),
+            ),
         }],
     },
     {

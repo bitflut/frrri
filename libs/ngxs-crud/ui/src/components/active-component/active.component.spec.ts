@@ -10,7 +10,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ActiveComponent } from './active.component';
-import { NgxsCrudActiveModule } from './active.module';
+import { ActiveUiModule } from './active.module';
 
 interface Post {
     userId: number;
@@ -102,7 +102,7 @@ describe('ActiveComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
-                NgxsCrudActiveModule,
+                ActiveUiModule,
             ],
             providers: [{
                 provide: HTTP_INTERCEPTORS,
