@@ -7,13 +7,13 @@ import { CrudCollectionService, CurdCollectionStateOptions } from '@frrri/ngxs-c
 @Injectable({
     providedIn: 'root',
 })
-export class HttpCrudCollectionService implements CrudCollectionService {
+export class HttpCrudCollectionService<V = any, IdType = any> implements CrudCollectionService<V, IdType> {
 
     protected http = this.injector.get(HttpClient);
 
     constructor(protected injector: Injector) { }
 
-    getOne<V, IdType>(stateOptions: CurdCollectionStateOptions, id: IdType) {
+    getOne(stateOptions: CurdCollectionStateOptions, id: IdType) {
         const url = stateOptions.requestOptions.resourceUrlFactory(id);
         return this.http.get<V>(url);
     }
@@ -23,22 +23,22 @@ export class HttpCrudCollectionService implements CrudCollectionService {
         return this.http.get<V[]>(url, { params: options.params });
     }
 
-    patchOne<V, IdType>(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }) {
+    patchOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }) {
         const url = stateOptions.requestOptions.resourceUrlFactory(id);
         return this.http.patch<V>(url, changes);
     }
 
-    putOne<V, IdType>(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V> {
+    putOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V> {
         const url = stateOptions.requestOptions.collectionUrlFactory();
         return this.http.put<V>(url, changes);
     }
 
-    deleteOne<IdType>(stateOptions: CurdCollectionStateOptions, id: IdType) {
+    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType) {
         const url = stateOptions.requestOptions.resourceUrlFactory(id);
         return this.http.delete<void>(url);
     }
 
-    postOne<V>(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V> {
+    postOne(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V> {
         const url = stateOptions.requestOptions.collectionUrlFactory();
         return this.http.post<V>(
             url,

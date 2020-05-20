@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
-import { PaginatedHttpCrudCollection } from '@frrri/ngxs-crud-http';
+import { HttpPaginatedCrudCollection } from '@frrri/ngxs-crud-http';
 
-@PaginatedHttpCrudCollection({
+@HttpPaginatedCrudCollection({
     name: 'comments',
 })
 @Injectable()

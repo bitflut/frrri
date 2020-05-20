@@ -193,7 +193,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     @DataAction()
     public getActive(@Payload('id') id: IdType) {
         this.ctx.patchState({ active: { [this.primaryKey]: id } } as any);
-        return this.service.getOne<Entity, IdType>(this.stateOptions, id)
+        return this.service.getOne(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -210,7 +210,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public getMany(@Payload('options') options: GetManyOptions = {}) {
-        return this.service.getMany<Entity>(this.stateOptions, options)
+        return this.service.getMany(this.stateOptions, options)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.Many,
@@ -232,7 +232,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public getOne(@Payload('id') id: IdType) {
-        return this.service.getOne<Entity, IdType>(this.stateOptions, id)
+        return this.service.getOne(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -249,7 +249,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public patchOne(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
-        return this.service.patchOne<Entity, IdType>(this.stateOptions, update.id, update.changes)
+        return this.service.patchOne(this.stateOptions, update.id, update.changes)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -268,7 +268,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public patchOneOptimistic(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
         const original = this.snapshot.entities[update.id];
         this.updateOne({ id: update.id, changes: update.changes });
-        return this.service.patchOne<Entity, IdType>(this.stateOptions, update.id, update.changes)
+        return this.service.patchOne(this.stateOptions, update.id, update.changes)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -285,7 +285,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public putOne(@Payload('update') update: { id: IdType, changes: Partial<Entity> }) {
-        return this.service.putOne<Entity, IdType>(this.stateOptions, update.id, update.changes)
+        return this.service.putOne(this.stateOptions, update.id, update.changes)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -302,7 +302,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public postOne(@Payload('entity') entity: Partial<Entity>) {
-        return this.service.postOne<Entity>(this.stateOptions, entity)
+        return this.service.postOne(this.stateOptions, entity)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -323,7 +323,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
             throw new Error('Entity id is required for optimistic actions');
         }
         this.addEntityOne(entity);
-        return this.service.postOne<Entity>(this.stateOptions, entity)
+        return this.service.postOne(this.stateOptions, entity)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -340,7 +340,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     @DataAction()
     public deleteOne(@Payload('id') id: IdType) {
-        return this.service.deleteOne<IdType>(this.stateOptions, id)
+        return this.service.deleteOne(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,
@@ -360,7 +360,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     public deleteOneOptimistic(@Payload('id') id: IdType) {
         const original = this.snapshot.entities[id];
         this.removeEntitiesMany([id]);
-        return this.service.deleteOne<IdType>(this.stateOptions, id)
+        return this.service.deleteOne(this.stateOptions, id)
             .pipe(
                 this.requestPipe({
                     context: OperationContext.One,

@@ -5,25 +5,24 @@ import { PaginatedCrudCollectionService, Paginated } from '@frrri/ngxs-crud/pagi
 import { EMPTY, Observable } from 'rxjs';
 import { expand, reduce } from 'rxjs/operators';
 import { CurdCollectionStateOptions } from '@frrri/ngxs-crud';
-import { HttpCrudCollectionService } from './http-crud-collection.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class PaginatedHttpCrudCollectionService implements PaginatedCrudCollectionService {
+export class HttpPaginatedCrudCollectionService<V = any> implements PaginatedCrudCollectionService<V> {
 
     protected http = this.injector.get(HttpClient);
 
     constructor(protected injector: Injector) { }
 
-    getMany<V>(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number } = {}) {
+    getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number } = {}) {
         const url = stateOptions.requestOptions.collectionUrlFactory();
         return this.http.get<Paginated<V[]>>(url, { params: options.params });
     }
 
-    getAll<V>(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number } = {}): Observable<V[]> {
+    getAll(stateOptions: CurdCollectionStateOptions, options: GetManyOptions & { size?: number } = {}): Observable<V[]> {
         const url = stateOptions.requestOptions.collectionUrlFactory();
-        return this.getManyWithUrl<V>(url, options).pipe(
+        return this.getManyWithUrl(url, options).pipe(
             expand(response => {
                 let next = response.pagination?.next;
                 if (!next) { return EMPTY; }
@@ -34,7 +33,7 @@ export class PaginatedHttpCrudCollectionService implements PaginatedCrudCollecti
                     next = `${baseUrl}${next}`;
                 }
 
-                return this.getManyWithUrl<V>(next);
+                return this.getManyWithUrl(next);
             }),
             reduce((acc, res) => {
                 return [
@@ -45,11 +44,11 @@ export class PaginatedHttpCrudCollectionService implements PaginatedCrudCollecti
         );
     }
 
-    getNext<V>(url: any) {
+    getNext(url: any) {
         return this.http.get<Paginated<V[]>>(url);
     }
 
-    private getManyWithUrl<V>(url: string, options: GetManyOptions & { size?: number } = {}) {
+    private getManyWithUrl(url: string, options: GetManyOptions & { size?: number } = {}): Observable<Paginated<V[]>> {
         return this.http.get<Paginated<V[]>>(url, { params: options.params });
     }
 

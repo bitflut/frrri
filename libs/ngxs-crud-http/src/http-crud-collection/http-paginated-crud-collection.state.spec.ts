@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { PaginatedHttpCrudCollection } from './paginated-http-crud-collection.decorator';
+import { HttpPaginatedCrudCollection } from './http-paginated-crud-collection.decorator';
 import { PaginationInterceptor, PaginatedCrudCollectionReducer, PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 import { NgxsHttpCrudCollectionModule } from './http-crud-collection.module';
 
@@ -59,7 +59,7 @@ const page2Data = {
     },
 };
 
-@PaginatedHttpCrudCollection<PaginatedCrudCollectionReducer>({
+@HttpPaginatedCrudCollection<PaginatedCrudCollectionReducer>({
     name: 'post',
     baseUrl: collectionUrl,
 })
