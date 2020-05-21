@@ -1,4 +1,4 @@
-import { CrudCollectionOptions, CrudCollectionReducer } from '@frrri/ngxs-crud';
+import { CrudCollectionReducer } from '@frrri/ngxs-crud';
 import { HttpCrudCollection } from './http-crud-collection.decorator';
 import { PAGINATED_HTTP_CRUD_COLLECTION_SERVICE } from './http-crud-collection.module';
 import { StateClass } from '@ngxs/store/internals';

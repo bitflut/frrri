@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, Injector, InjectionToken } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { GetManyOptions } from '@frrri/ngxs-crud/internal';
 import { PaginatedCrudCollectionService, Paginated } from '@frrri/ngxs-crud/pagination';
 import { EMPTY, Observable } from 'rxjs';
