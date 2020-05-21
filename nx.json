@@ -14,12 +14,7 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ]
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
       }
     }
   },
@@ -29,9 +24,7 @@
     },
     "ng-integration-e2e": {
       "tags": [],
-      "implicitDependencies": [
-        "ng-integration"
-      ]
+      "implicitDependencies": ["ng-integration"]
     },
     "nest-integration": {
       "tags": []
@@ -46,6 +39,9 @@
       "tags": []
     },
     "nest-crud-mongoose": {
+      "tags": []
+    },
+    "routes": {
       "tags": []
     }
   }
