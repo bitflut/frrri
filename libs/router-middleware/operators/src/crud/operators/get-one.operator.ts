@@ -1,4 +1,4 @@
-import { Platform } from '@frrri/routes';
+import { Platform } from '@frrri/router-middleware';
 import { Operation } from '../../interfaces/operation.interface';
 import { crudOperatorDefaults } from '../defaults/crud-operator.defaults';
 import { CrudOperatorType } from '../enums/crud-operator-type';

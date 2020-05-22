@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { frrri, FrrriModule, FRRRI_MIDDLEWARE, Middleware, operate, Platform } from '@frrri/routes';
+import { frrri, FrrriModule, FRRRI_MIDDLEWARE, Middleware, operate, Platform } from '@frrri/router-middleware';
 import { of } from 'rxjs';
 import { getActive } from '../crud/operators/get-active.operator';
 import { getMany } from '../crud/operators/get-many.operator';

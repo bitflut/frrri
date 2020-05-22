@@ -1,4 +1,4 @@
-import { Platform } from '@frrri/routes';
+import { Platform } from '@frrri/router-middleware';
 import { Operation } from '../../interfaces/operation.interface';
 import { SelectionOperatorType } from '../enums/selection-operator-type';
 

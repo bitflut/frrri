@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/ng-packagr/package.schema.json",
-  "name": "@frrri/routes",
+  "name": "@frrri/router-middleware",
   "version": "0.0.2",
   "license": "MIT",
   "peerDependencies": {

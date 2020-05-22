@@ -63,7 +63,7 @@
       "@frrri/nest-crud-mongoose": [
         "libs/nest-crud-mongoose/src/public_api.ts"
       ],
-      "@frrri/routes/operators": [
+      "@frrri/router-middleware/operators": [
         "libs/routes/operators/src/public_api.ts"
       ],
       "@frrri/router-middleware": [

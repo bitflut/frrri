@@ -1,4 +1,4 @@
-import { Platform } from '@frrri/routes';
+import { Platform } from '@frrri/router-middleware';
 import { OperatorType } from '../types/operator.type';
 
 export interface Operation {

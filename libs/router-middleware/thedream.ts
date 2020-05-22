@@ -1,5 +1,5 @@
-import { operate } from '@frrri/routes';
-import { getMany } from '@frrri/routes/operators';
+import { operate } from '@frrri/router-middleware';
+import { getMany } from '@frrri/router-middleware/operators';
 
 const all = 'entities';
 const posts = 'entities.posts';
