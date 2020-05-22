@@ -77,22 +77,22 @@ describe('Platform', () => {
         }).compileComponents();
     });
 
-    it('should provide resolvers', inject(
+    it('should provide middleware', inject(
         [FRRRI_MIDDLEWARE],
-        (frrriResolvers: any) => {
-            expect(Array.isArray(frrriResolvers)).toBeTruthy();
-            expect(frrriResolvers.length).toEqual(2);
+        (frrriMiddleware: any) => {
+            expect(Array.isArray(frrriMiddleware)).toBeTruthy();
+            expect(frrriMiddleware.length).toEqual(2);
         },
     ));
 
-    it('should call resolvers', fakeAsync(inject(
+    it('should not call middleware without operators', fakeAsync(inject(
         [Router, FRRRI_MIDDLEWARE],
-        async (router: Router, frrriResolvers: Resolve<any>[]) => {
-            const spies = frrriResolvers.map(r => spyOn(r, 'resolve').and.callThrough());
+        async (router: Router, frrriMiddleware: Middleware<any>[]) => {
+            const spies = frrriMiddleware.map(r => spyOn(r, 'operate').and.callThrough());
             router.initialNavigation();
             tick();
             for (const spy of spies) {
-                expect(spy).toHaveBeenCalledTimes(1);
+                expect(spy).toHaveBeenCalledTimes(0);
             }
         },
     )));

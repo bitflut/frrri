@@ -14,18 +14,20 @@ export function PlatformFactory(platform: Platform) {
 
         getOperations(route: ActivatedRouteSnapshot) {
             return route.data[FRRRI_OPERATIONS]
-                .filter(operation => operation.platforms.includes(platform));
+                ?.filter(operation => operation.platforms.includes(platform));
         }
 
         getMiddlewares() {
             return this.injector.get(FRRRI_MIDDLEWARE)
-                .filter(middleware => middleware.platforms.includes(platform));
+                ?.filter(middleware => middleware.platforms.includes(platform));
         }
 
         getOperations$(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-            const operations = this.getOperations(route);
-            if (!operations.length) { return; }
+            const operations = this.getOperations(route) ?? [];
+            console.log('there', operations)
+            // if (!operations.length) { return; }
 
+            console.log('here')
             const operations$: Observable<any>[] = [];
             operations.forEach(operation =>
                 this.getMiddlewares()
