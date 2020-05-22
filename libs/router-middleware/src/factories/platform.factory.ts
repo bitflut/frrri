@@ -24,10 +24,6 @@ export function PlatformFactory(platform: Platform) {
 
         getOperations$(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
             const operations = this.getOperations(route) ?? [];
-            console.log('there', operations)
-            // if (!operations.length) { return; }
-
-            console.log('here')
             const operations$: Observable<any>[] = [];
             operations.forEach(operation =>
                 this.getMiddlewares()
