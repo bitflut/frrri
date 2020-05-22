@@ -1,9 +1,11 @@
 export enum CrudOperatorType {
+    ActiveBreadcrumb = 'activeBreadcrumb',
+    ActiveMeta = 'ActiveMeta',
+    GetActive = 'getActive',
     GetMany = 'getMany',
     GetOne = 'getOne',
-    GetActive = 'getActive',
     Populate = 'populate',
     Reset = 'reset',
+    StaticBreadcrumb = 'staticBreadcrumb',
     StaticMeta = 'staticMeta',
-    ActiveMeta = 'ActiveMeta',
 }
