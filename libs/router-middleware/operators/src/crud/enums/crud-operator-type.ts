@@ -4,4 +4,6 @@ export enum CrudOperatorType {
     GetActive = 'getActive',
     Populate = 'populate',
     Reset = 'reset',
+    StaticMeta = 'staticMeta',
+    ActiveMeta = 'ActiveMeta',
 }
