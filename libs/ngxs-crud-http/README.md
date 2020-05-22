@@ -1,7 +1,13 @@
-# ngxs-crud-http
+# FRRRI
 
-This library was generated with [Nx](https://nx.dev).
+> CRUD for frontend and backend at 250 MPH
 
-## Running unit tests
+Http data layer for @frrri/ngxs-crud
 
-Run `nx test ngxs-crud-http` to execute the unit tests.
+## @frrri/ngxs-crud-http
+
+See [Quick start](https://bitflut.gitbook.io/lyxs/) for minimal setup instructions.
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
