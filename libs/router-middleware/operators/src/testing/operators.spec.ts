@@ -4,10 +4,10 @@ import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, Routes } from '@an
 import { RouterTestingModule } from '@angular/router/testing';
 import { frrri, FrrriModule, FRRRI_MIDDLEWARE, Middleware, operate, Platform } from '@frrri/router-middleware';
 import { of } from 'rxjs';
-import { getActive } from '../crud/operators/get-active.operator';
-import { getMany } from '../crud/operators/get-many.operator';
-import { populate } from '../crud/operators/populate.operator';
-import { reset } from '../crud/operators/reset.operator';
+import { getActive } from '../libs/crud/operators/get-active.operator';
+import { getMany } from '../libs/crud/operators/get-many.operator';
+import { populate } from '../libs/crud/operators/populate.operator';
+import { reset } from '../libs/crud/operators/reset.operator';
 
 class MyMiddleware1 implements Middleware {
     platforms = [Platform.Resolver];

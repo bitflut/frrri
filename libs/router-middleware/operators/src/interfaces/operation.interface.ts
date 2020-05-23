@@ -5,4 +5,5 @@ export interface Operation {
     type: OperatorType;
     statePath: string;
     platforms: Platform[];
+    [key: string]: any;
 }

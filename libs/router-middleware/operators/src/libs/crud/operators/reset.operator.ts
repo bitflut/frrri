@@ -1,5 +1,5 @@
 import { Platform } from '@frrri/router-middleware';
-import { Operation } from '../../interfaces/operation.interface';
+import { Operation } from '../../../interfaces/operation.interface';
 import { CrudOperatorType } from '../enums/crud-operator-type';
 
 export function reset(
