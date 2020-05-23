@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { ActivationEnd, NavigationStart, Resolve, Router } from '@angular/router';
+import { Platform } from '@frrri/router-middleware/internal';
 import { concatMapTo, filter, map, take } from 'rxjs/operators';
-import { Platform } from '../enums/platform.enum';
 import { PlatformFactory } from '../factories/platform.factory';
 
 @Injectable()

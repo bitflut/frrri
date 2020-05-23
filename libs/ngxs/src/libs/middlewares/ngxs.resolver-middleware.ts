@@ -1,7 +1,8 @@
 import { Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { PaginatedCrudCollectionState } from '@frrri/ngxs/pagination';
-import { FRRRI_STATE_REGISTRY, Middleware, Platform } from '@frrri/router-middleware';
+import { FRRRI_STATE_REGISTRY, Middleware } from '@frrri/router-middleware';
+import { Platform } from '@frrri/router-middleware/internal';
 import { Operation, OperatorType } from '@frrri/router-middleware/operators';
 
 export class NgxsResolverMiddleware implements Middleware {
@@ -12,7 +13,11 @@ export class NgxsResolverMiddleware implements Middleware {
 
     operate(operation: Operation, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         console.log(operation);
-        const facade = this.statesRegistry.getByPath<PaginatedCrudCollectionState>(operation.statePath);
+
+        let facade: PaginatedCrudCollectionState;
+        if ('statePath' in operation && operation.statePath) {
+            facade = this.statesRegistry.getByPath<PaginatedCrudCollectionState>(operation.statePath);
+        }
 
         switch (operation.type) {
             case OperatorType.GetActive:
@@ -23,8 +28,8 @@ export class NgxsResolverMiddleware implements Middleware {
                 return facade.getMany({ params: operation.params });
 
             default:
-                const isFunction = typeof facade[operation.type] === 'function';
-                return isFunction && facade[operation.type]();
+                const isFunction = typeof facade?.[operation.type] === 'function';
+                return isFunction && facade?.[operation.type]();
         }
     }
 }

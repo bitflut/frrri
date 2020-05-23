@@ -1,5 +1,5 @@
-import { Platform } from '@frrri/router-middleware';
-import { OperatorType } from '../../enums/operator-type.enum';
+import { Platform } from '@frrri/router-middleware/internal';
+import { OperatorType } from '../enums/operator-type.enum';
 
 export interface StaticMetaOptions {
     title?: string;
@@ -9,13 +9,11 @@ export interface StaticMetaOptions {
 }
 
 export function staticMeta(
-    statePath: string,
     options: StaticMetaOptions = {},
 ) {
     return {
         type: OperatorType.StaticMeta as OperatorType.StaticMeta,
         options,
-        statePath,
         platforms: [Platform.NavigationEnd],
     };
 }

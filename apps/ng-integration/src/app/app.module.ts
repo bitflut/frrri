@@ -1,11 +1,10 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxsCrudBreadcrumbsModule } from '@frrri/ngxs-crud-legacy/breadcrumbs';
-import { NgxsCrudMetaModule } from '@frrri/ngxs-crud-legacy/meta';
-import { PaginationInterceptor } from '@frrri/ngxs-crud-legacy/pagination';
-import { NgxsCrudRoutingModule } from '@frrri/ngxs-crud-legacy/routing';
+import { NgxsMiddlewareModule } from '@frrri/ngxs';
 import { BreadcrumbsUiModule } from '@frrri/ngxs-crud-legacy/ui';
+import { PaginationInterceptor } from '@frrri/ngxs/pagination';
+import { FrrriModule } from '@frrri/router-middleware';
 import { AppRoutingModule } from './app-routing.module';
 import { AppStateModule } from './app-state.module';
 import { AppComponent } from './app.component';
@@ -17,9 +16,8 @@ import { AppComponent } from './app.component';
         HttpClientModule,
         AppRoutingModule,
         AppStateModule,
-        NgxsCrudMetaModule.forRoot(),
-        NgxsCrudRoutingModule.forRoot(),
-        NgxsCrudBreadcrumbsModule.forRoot(),
+        FrrriModule.forRoot(),
+        NgxsMiddlewareModule.forRoot(),
         BreadcrumbsUiModule,
     ],
     providers: [

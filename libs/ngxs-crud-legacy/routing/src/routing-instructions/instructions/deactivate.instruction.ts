@@ -1,4 +1,4 @@
-import { RouteInstructionType } from '@frrri/ngxs-crud/internal';
+import { RouteInstructionType } from '@frrri/ngxs-crud-legacy/internal';
 
 export function deactivate() {
     return {

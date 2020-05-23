@@ -1,5 +1,5 @@
-import { Platform } from '@frrri/router-middleware';
-import { OperatorType } from '../../../enums/operator-type.enum';
+import { Platform } from '@frrri/router-middleware/internal';
+import { OperatorType } from '../../enums/operator-type.enum';
 import { crudOperatorDefaults } from '../defaults/crud-operator.defaults';
 import { CrudOperatorOptions } from '../interfaces/crud-operator-options.interface';
 

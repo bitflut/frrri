@@ -1,12 +1,11 @@
-import { Platform } from '@frrri/router-middleware';
-import { OperatorType } from '../../enums/operator-type.enum';
+import { Platform } from '@frrri/router-middleware/internal';
+import { OperatorType } from '../enums/operator-type.enum';
 import { StaticBreadcrumbOptions } from './static-breadcrumb.operator';
 
 let index = -1;
 
 interface ActiveOptions<T> {
-    id: number;
-    factory: (data: T) => Omit<StaticBreadcrumbOptions, 'id'>;
+    factory: (data: T) => StaticBreadcrumbOptions;
 }
 
 export function activeBreadcrumb<T = any>(
@@ -16,9 +15,9 @@ export function activeBreadcrumb<T = any>(
     index++;
     return {
         type: OperatorType.ActiveBreadcrumb as OperatorType.ActiveBreadcrumb,
-        options,
         id: `active-${index}`,
         statePath,
         platforms: [Platform.NavigationEnd],
+        ...options,
     };
 }

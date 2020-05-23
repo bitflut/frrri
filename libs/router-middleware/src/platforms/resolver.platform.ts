@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve } from '@angular/router';
-import { Platform } from '../enums/platform.enum';
+import { Platform } from '@frrri/router-middleware/internal';
 import { PlatformFactory } from '../factories/platform.factory';
 
 @Injectable()

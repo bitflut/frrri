@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot, Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Platform } from '@frrri/router-middleware/internal';
 import { of } from 'rxjs';
 import { FRRRI_MIDDLEWARE } from '../constants';
-import { Platform } from '../enums/platform.enum';
 import { frrri } from '../frrri';
 import { FrrriModule } from '../frrri.module';
 import { Middleware } from '../interfaces/middleware.interface';

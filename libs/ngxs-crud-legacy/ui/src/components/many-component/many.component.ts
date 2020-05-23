@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { CrudCollectionState } from '@frrri/ngxs-crud';
-import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
-import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { CrudCollectionState, StatesRegistryService } from '@frrri/ngxs';
+import { PaginatedCrudCollectionState } from '@frrri/ngxs/pagination';
+import { FRRRI_STATE_REGISTRY } from '@frrri/router-middleware';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -30,7 +30,7 @@ export class ManyComponent implements OnInit, OnDestroy {
     activeId$?: Observable<EntityIdType | undefined>;
 
     constructor(
-        private statesRegistryService: StatesRegistryService<CrudCollectionState | PaginatedCrudCollectionState>,
+        @Inject(FRRRI_STATE_REGISTRY) private statesRegistryService: StatesRegistryService<CrudCollectionState | PaginatedCrudCollectionState>,
     ) { }
 
     ngOnInit(): void {

@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { MetaResolver } from '@frrri/ngxs-crud/meta';
+import { MetaResolver } from '@frrri/ngxs-crud-legacy/meta';
 import { RoutingInstructionsResolver } from './routing-instructions.resolver';
 
 export function ngxsCrudRoutes(

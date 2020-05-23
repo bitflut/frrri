@@ -1,5 +1,5 @@
-import { Platform } from '@frrri/router-middleware';
-import { OperatorType } from '../../../enums/operator-type.enum';
+import { Platform } from '@frrri/router-middleware/internal';
+import { OperatorType } from '../../enums/operator-type.enum';
 
 export function populate(
     options: {

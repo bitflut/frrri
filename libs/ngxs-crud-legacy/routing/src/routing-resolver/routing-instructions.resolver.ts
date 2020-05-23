@@ -1,8 +1,8 @@
 import { isPlatformServer } from '@angular/common';
 import { Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
-import { RouteInstructionType } from '@frrri/ngxs-crud/internal';
-import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
+import { RouteInstructionType } from '@frrri/ngxs-crud-legacy/internal';
+import { StatesRegistryService } from '@frrri/ngxs-crud-legacy/registry';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
 import { extractPopulations, getRouteInstructions, hasRouteInstructions } from './helpers';
 

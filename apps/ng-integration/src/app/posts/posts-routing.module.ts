@@ -1,11 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { activeBreadcrumb, staticBreadcrumb } from '@frrri/ngxs-crud-legacy/breadcrumbs';
-import { activeMeta, staticMeta } from '@frrri/ngxs-crud-legacy/meta';
-import { populate, PopulationStrategy } from '@frrri/ngxs-crud-legacy/populate';
-import { compose, deactivate, getActive, getMany, instructions, ngxsCrudRoutes, reset } from '@frrri/ngxs-crud-legacy/routing';
+import { frrri, operate } from '@frrri/router-middleware';
+import { activeBreadcrumb, activeMeta, deactivate, getActive, getMany, populate, reset, staticBreadcrumb, staticMeta } from '@frrri/router-middleware/operators';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
+
+const all = 'entities';
+const posts = 'entities.posts';
+const comments = 'entities.comments';
+const users = 'entities.users';
 
 const routes: Routes = [
     {
@@ -16,45 +19,34 @@ const routes: Routes = [
     {
         path: 'all',
         component: PostsIndexComponent,
-        data: instructions({
-            'entities': reset(),
-            'entities.posts': [
-                deactivate(),
-                getMany(),
-            ],
-        }),
+        data: operate(
+            reset(all),
+            deactivate(posts),
+            getMany(posts),
+        ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: instructions({
-                'entities.posts': getActive(),
-            }),
+            data: operate(
+                getActive(posts),
+            ),
         }],
     },
     {
         path: 'with-breadcrumbs',
         component: PostsIndexComponent,
-        data: compose(
-            instructions({
-                'entities': reset(),
-                'entities.posts': [
-                    deactivate(),
-                    getMany(),
-                ],
-            }),
-            staticBreadcrumb({
-                title: 'all posts',
-            }),
+        data: operate(
+            reset(all),
+            deactivate(posts),
+            getMany(posts),
+            staticBreadcrumb({ title: 'all posts' }),
         ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: compose(
-                instructions({
-                    'entities.posts': getActive(),
-                }),
-                activeBreadcrumb({
-                    statePath: 'entities.posts',
+            data: operate(
+                getActive(posts),
+                activeBreadcrumb(posts, {
                     factory: data => ({ title: `#${data.id} ${data.title}` }),
                 }),
             ),
@@ -63,79 +55,70 @@ const routes: Routes = [
     {
         path: 'await',
         component: PostsIndexComponent,
-        data: instructions({
-            'entities': reset(),
-            'entities.posts': [
-                deactivate(),
-                getMany({ await: true }),
-            ],
-        }),
+        data: operate(
+            reset(all),
+            deactivate(posts),
+            getMany(posts, { await: true }),
+        ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: instructions({
-                'entities.posts': getActive({ await: true }),
-            }),
+            data: operate(
+                getActive(posts, { await: true }),
+            ),
         }],
     },
     {
         path: 'paginated',
         component: PostsIndexComponent,
-        data: instructions({
-            'entities': reset(),
-            'entities.posts': [
-                deactivate(),
-                getMany({ params: { _page: '1', _limit: '5' } }),
-            ],
-        }),
+        data: operate(
+            reset(all),
+            deactivate(posts),
+            getMany(posts, { params: { _page: '1', _limit: '5' } }),
+        ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: instructions({
-                'entities.posts': getActive(),
-            }),
+            data: operate(
+                getActive(posts),
+            ),
         }],
     },
     {
         path: 'with-comments',
         component: PostsIndexComponent,
-        data: instructions({
-            'entities': reset(),
-            'entities.posts': [
-                deactivate(),
-                getMany({ params: { _page: '1', _limit: '5' } }),
-            ],
-        }),
+        data: operate(
+            reset(all),
+            deactivate(posts),
+            getMany(posts, { params: { _page: '1', _limit: '5' } }),
+        ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: instructions({
-                'entities.comments': reset(),
-                'entities.posts': [
-                    getActive(),
-                    populate({
-                        idPath: 'postId',
-                        strategy: PopulationStrategy.ForeignId,
-                        statePath: 'entities.comments',
-                    }),
-                ],
-            }),
+            data: operate(
+                reset(all),
+                getActive(posts),
+                populate({
+                    from: posts,
+                    to: comments,
+                    idPath: 'postId',
+                    idSource: comments,
+                }),
+            ),
         }],
     },
     {
         path: 'with-user',
         component: PostsIndexComponent,
-        data: compose(
-            instructions({
-                'entities': reset(),
-                'entities.posts': [
-                    deactivate(),
-                    getMany({ params: { _page: '1', _limit: '5' } }),
-                    populate({
-                        idPath: 'userId',
-                        statePath: 'entities.users',
-                    }),
-                ],
+        data: operate(
+            reset(all),
+            deactivate(posts),
+            getMany(posts, { params: { _page: '1', _limit: '5' } }),
+            populate({
+                from: posts,
+                to: users,
+                idPath: 'userId',
+                idSource: posts,
             }),
             staticMeta({
                 title: 'Posts with user',
@@ -144,24 +127,22 @@ const routes: Routes = [
         children: [{
             path: ':id',
             component: PostsShowComponent,
-            data: compose(
-                instructions({
-                    'entities.comments': reset(),
-                    'entities.posts': [
-                        getActive(),
-                        populate({
-                            idPath: 'postId',
-                            strategy: PopulationStrategy.ForeignId,
-                            statePath: 'entities.comments',
-                        }),
-                        populate({
-                            idPath: 'userId',
-                            statePath: 'entities.users',
-                        }),
-                    ],
+            data: operate(
+                reset(all),
+                getActive(posts),
+                populate({
+                    from: posts,
+                    to: comments,
+                    idPath: 'postId',
+                    idSource: comments,
                 }),
-                activeMeta({
-                    statePath: 'entities.posts',
+                populate({
+                    from: posts,
+                    to: users,
+                    idPath: 'userId',
+                    idSource: posts,
+                }),
+                activeMeta(posts, {
                     factory: data => ({
                         title: data.title,
                     }),
@@ -174,7 +155,7 @@ const routes: Routes = [
 @NgModule({
     imports: [
         RouterModule.forChild(
-            ngxsCrudRoutes(routes),
+            frrri(routes),
         ),
     ],
     exports: [RouterModule],

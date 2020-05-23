@@ -7,8 +7,7 @@ export enum OperatorType {
     Reset = 'reset',
 
     // Selection
-    Deselect = 'deselect',
-    Select = 'select',
+    Deactivate = 'deactivate',
 
     // Breadcrumbs
     ActiveBreadcrumb = 'activeBreadcrumb',

@@ -1,11 +1,11 @@
 import { Platform } from '@frrri/router-middleware/internal';
-import { OperatorType } from '../../enums/operator-type.enum';
+import { OperatorType } from '../enums/operator-type.enum';
 
-export function reset(
+export function deactivate(
     statePath: string,
 ) {
     return {
-        type: OperatorType.Reset as OperatorType.Reset,
+        type: OperatorType.Deactivate as OperatorType.Deactivate,
         statePath,
         platforms: [Platform.Resolver],
     };

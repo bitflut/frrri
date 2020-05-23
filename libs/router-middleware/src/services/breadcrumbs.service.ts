@@ -1,15 +1,13 @@
-import { Injectable, Injector } from '@angular/core';
-import { ActivatedRouteSnapshot } from '@angular/router';
-import { CrudCollectionState } from '@frrri/ngxs';
-import { StatesRegistryService } from '@frrri/ngxs-crud-legacy/registry';
+import { Injectable } from '@angular/core';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { activeBreadcrumb, OperatorType } from '@frrri/router-middleware/operators';
 import { EMPTY, Subject } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
-import { BREADCRUMBS_INSTRUCTION } from '../constants';
-import { BreadcrumbsInstructionType } from '../enums/breadcrumbs-instruction.enum';
-import { ActiveBreadcrumb } from '../instructions/breadcrumbs.instruction';
+import { FRRRI_OPERATIONS, FRRRI_STATE_REGISTRY } from '../constants';
+import { NavigationEndPlatform } from '../platforms/navigation-end.platform';
 
 @Injectable()
-export class BreadcrumbsService {
+export class BreadcrumbsService extends NavigationEndPlatform {
 
     private activeId$$ = new Subject();
     activeId$ = this.activeId$$.asObservable();
@@ -17,31 +15,33 @@ export class BreadcrumbsService {
     private all$$ = new Subject();
     all$ = this.all$$.asObservable();
 
-    protected registryService = this.injector.get(StatesRegistryService);
+    protected registryService = this.injector.get(FRRRI_STATE_REGISTRY);
 
-    constructor(protected injector: Injector) { }
-
-    async update(route: ActivatedRouteSnapshot) {
+    async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const breadcrumbsMap: { [key: string]: any } = {};
 
         let currentRoute = route;
         while (currentRoute) {
-            const crumb = currentRoute.data[BREADCRUMBS_INSTRUCTION];
+            const crumb = currentRoute.data[FRRRI_OPERATIONS]
+                ?.filter(o => [OperatorType.ActiveBreadcrumb, OperatorType.StaticBreadcrumb].includes(o.type))
+                ?.[0];
+
             if (crumb) {
                 breadcrumbsMap[`${crumb.type} ${crumb.id}`] = {
                     ...crumb,
                     url: '/' + currentRoute.pathFromRoot.map(r => r.url[0]?.path).filter(url => !!url).join('/'),
                 };
             }
+
             currentRoute = currentRoute.parent;
         }
 
         const breadcrumbs = await Promise.all([
             ...Object.values(breadcrumbsMap).map(c => {
                 switch (c.type) {
-                    case BreadcrumbsInstructionType.Static:
+                    case OperatorType.StaticBreadcrumb:
                         return c;
-                    case BreadcrumbsInstructionType.Active:
+                    case OperatorType.ActiveBreadcrumb:
                         return this.activeBreadcrumbToStatic(c);
                 }
             }),
@@ -51,8 +51,8 @@ export class BreadcrumbsService {
         this.activeId$$.next(breadcrumbs[0].id);
     }
 
-    private async activeBreadcrumbToStatic(breadcrumb: ActiveBreadcrumb) {
-        const facade = this.registryService.getByPath<CrudCollectionState>(breadcrumb.statePath);
+    private async activeBreadcrumbToStatic(breadcrumb: ReturnType<typeof activeBreadcrumb>) {
+        const facade = this.registryService.getByPath(breadcrumb.statePath);
         const active = await facade.active$
             .pipe(
                 timeout(12000),

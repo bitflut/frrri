@@ -1,4 +1,4 @@
-import { RouteInstructionType } from '@frrri/ngxs-crud/internal';
+import { RouteInstructionType } from '@frrri/ngxs-crud-legacy/internal';
 import { Instruction, instructionDefaults } from './instruction-defaults';
 
 export interface GetManyInstruction extends Instruction {

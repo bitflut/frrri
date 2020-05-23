@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud-legacy';
+import { CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
 import { CommentsState } from './entities/comments.state';
 import { PostsState } from './entities/posts.state';
 import { UsersState } from './entities/users.state';

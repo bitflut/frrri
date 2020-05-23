@@ -1,4 +1,4 @@
-import { Platform } from '../enums/platform.enum';
+import { Platform } from '@frrri/router-middleware/internal';
 
 export interface Operator<T = any> {
     /**

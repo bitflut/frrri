@@ -1,4 +1,4 @@
-import { OperationContext } from '@frrri/ngxs-crud/internal';
+import { OperationContext } from '@frrri/ngxs-crud-legacy/internal';
 import { Observable } from 'rxjs';
 
 export interface AfterSuccess<Entity = any> {

@@ -1,7 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { CrudCollectionState } from '@frrri/ngxs-crud';
-import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
+import { StatesRegistryService } from '@frrri/ngxs-crud-legacy/registry';
 import { EMPTY } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
 import { META_INSTRUCTION } from '../constants';

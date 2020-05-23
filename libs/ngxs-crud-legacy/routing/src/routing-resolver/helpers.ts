@@ -1,5 +1,5 @@
-import { OperationContext, RouteInstructionType } from '@frrri/ngxs-crud/internal';
-import { PopulateInstruction } from '@frrri/ngxs-crud/populate';
+import { OperationContext, RouteInstructionType } from '@frrri/ngxs-crud-legacy/internal';
+import { PopulateInstruction } from '@frrri/ngxs-crud-legacy/populate';
 import { ROUTING_INSTRUCTION } from '../routing-instructions/constants';
 import { RouteInstruction } from '../routing-instructions/instructions/route-instruction.type';
 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { GetManyOptions } from '@frrri/ngxs-crud/internal';
+import { GetManyOptions } from '@frrri/ngxs-crud-legacy/internal';
 import { Observable } from 'rxjs';
 
 @Injectable({

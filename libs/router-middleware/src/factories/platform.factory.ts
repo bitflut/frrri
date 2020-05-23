@@ -1,9 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
+import { Platform } from '@frrri/router-middleware/internal';
 import { forkJoin, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { FRRRI_MIDDLEWARE, FRRRI_OPERATIONS } from '../constants';
-import { Platform } from '../enums/platform.enum';
 import { toObservable } from '../helpers/is-observable';
 
 export function PlatformFactory(platform: Platform) {
@@ -24,6 +24,7 @@ export function PlatformFactory(platform: Platform) {
 
         getOperations$(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
             const operations = this.getOperations(route) ?? [];
+            console.log('-->', platform, operations);
             const operations$: Observable<any>[] = [];
             operations.forEach(operation =>
                 this.getMiddlewares()
@@ -38,7 +39,7 @@ export function PlatformFactory(platform: Platform) {
             return operations$;
         }
 
-        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<T> | Promise<T> | T {
             return forkJoin(this.getOperations$(route, state)).pipe(tap(console.log));
         }
 

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { BreadcrumbsService } from '@frrri/ngxs-crud/breadcrumbs';
+import { BreadcrumbsService } from '@frrri/router-middleware';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
