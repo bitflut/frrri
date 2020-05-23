@@ -1,7 +1,6 @@
 import { Platform } from '@frrri/router-middleware';
-import { Operation } from '../../../interfaces/operation.interface';
+import { OperatorType } from '../../../enums/operator-type.enum';
 import { crudOperatorDefaults } from '../defaults/crud-operator.defaults';
-import { CrudOperatorType } from '../enums/crud-operator-type';
 
 export function getMany(
     statePath: string,
@@ -17,9 +16,9 @@ export function getMany(
     };
 
     return {
-        type: CrudOperatorType.GetMany as CrudOperatorType.GetMany,
+        type: OperatorType.GetMany as OperatorType.GetMany,
         statePath,
         platforms: [Platform.Resolver],
         ...options,
-    } as Operation;
+    };
 }

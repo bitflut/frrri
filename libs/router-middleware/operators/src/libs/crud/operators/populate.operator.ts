@@ -1,6 +1,5 @@
 import { Platform } from '@frrri/router-middleware';
-import { Operation } from '../../../interfaces/operation.interface';
-import { CrudOperatorType } from '../enums/crud-operator-type';
+import { OperatorType } from '../../../enums/operator-type.enum';
 
 export function populate(
     options: {
@@ -12,6 +11,10 @@ export function populate(
         idPath?: string,
         /** State path of collection containing id (foreign vs self) */
         idSource?: string,
+        /** Optionally set operations like OperationContext.Many for population */
+        operations?: Array<string | number>,
+        /** Params passed to request */
+        params?: { [key: string]: string | string[] };
         /**
          * Used to map ids to getMany params when populating.
          * Default:
@@ -23,16 +26,16 @@ export function populate(
          * }
          * ```
          */
-        populatFactory?: (ids: string | number[], path: string) => any;
+        factory?: (ids: Array<string | number>, path: string) => any;
     },
 ) {
     return {
-        type: CrudOperatorType.Populate as CrudOperatorType.Populate,
+        type: OperatorType.Populate as OperatorType.Populate,
         statePath: options.from,
         toStatePath: options.to,
         idPath: options.idPath ?? 'id',
         idSource: options.idSource ?? options.from,
         platforms: [Platform.Resolver],
         ...options,
-    } as Operation;
+    };
 }

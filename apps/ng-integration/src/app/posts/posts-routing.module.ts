@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { activeBreadcrumb, staticBreadcrumb } from '@frrri/ngxs-crud/breadcrumbs';
-import { activeMeta, staticMeta } from '@frrri/ngxs-crud/meta';
-import { populate, PopulationStrategy } from '@frrri/ngxs-crud/populate';
-import { compose, deactivate, getActive, getMany, instructions, ngxsCrudRoutes, reset } from '@frrri/ngxs-crud/routing';
+import { activeBreadcrumb, staticBreadcrumb } from '@frrri/ngxs-crud-legacy/breadcrumbs';
+import { activeMeta, staticMeta } from '@frrri/ngxs-crud-legacy/meta';
+import { populate, PopulationStrategy } from '@frrri/ngxs-crud-legacy/populate';
+import { compose, deactivate, getActive, getMany, instructions, ngxsCrudRoutes, reset } from '@frrri/ngxs-crud-legacy/routing';
 import { PostsIndexComponent } from './posts-index/posts-index.component';
 import { PostsShowComponent } from './posts-show/posts-show.component';
 

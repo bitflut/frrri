@@ -4,7 +4,7 @@
     "ng-integration": {
       "projectType": "application",
       "schematics": {
-        "@nrwl/ngxs-crud:component": {
+        "@nrwl/ngxs-crud-legacy:component": {
           "inlineStyle": true
         }
       },
@@ -25,9 +25,7 @@
               "apps/ng-integration/src/favicon.ico",
               "apps/ng-integration/src/assets"
             ],
-            "styles": [
-              "apps/ng-integration/src/styles.css"
-            ],
+            "styles": ["apps/ng-integration/src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -86,10 +84,7 @@
               "apps/ng-integration/tsconfig.app.json",
               "apps/ng-integration/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/ng-integration/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/ng-integration/**"]
           }
         },
         "test": {
@@ -124,13 +119,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/ng-integration-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/ng-integration-e2e/**"
-            ]
+            "tsConfig": ["apps/ng-integration-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/ng-integration-e2e/**"]
           }
         }
       }
@@ -148,9 +138,7 @@
             "outputPath": "dist/apps/nest-integration",
             "main": "apps/nest-integration/src/main.ts",
             "tsConfig": "apps/nest-integration/tsconfig.app.json",
-            "assets": [
-              "apps/nest-integration/src/assets"
-            ]
+            "assets": ["apps/nest-integration/src/assets"]
           },
           "configurations": {
             "production": {
@@ -179,10 +167,7 @@
               "apps/nest-integration/tsconfig.app.json",
               "apps/nest-integration/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/nest-integration/**"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/nest-integration/**"]
           }
         },
         "test": {
@@ -192,41 +177,6 @@
             "tsConfig": "apps/nest-integration/tsconfig.spec.json",
             "passWithNoTests": true
           }
-        }
-      }
-    },
-    "ngxs-crud": {
-      "projectType": "library",
-      "root": "libs/ngxs-crud",
-      "sourceRoot": "libs/ngxs-crud/src",
-      "prefix": "frrri",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/ngxs-crud/tsconfig.lib.json",
-              "libs/ngxs-crud/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/ngxs-crud/**"
-            ]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/ngxs-crud/jest.config.js",
-            "tsConfig": "libs/ngxs-crud/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/ngxs-crud/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/ngxs-crud:component": {
-          "style": "none"
         }
       }
     },
@@ -244,10 +194,7 @@
               "libs/nest-crud/tsconfig.lib.json",
               "libs/nest-crud/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/nest-crud/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/nest-crud/**"]
           }
         },
         "test": {
@@ -273,10 +220,7 @@
               "libs/nest-crud-json-server/tsconfig.lib.json",
               "libs/nest-crud-json-server/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/nest-crud-json-server/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/nest-crud-json-server/**"]
           }
         },
         "test": {
@@ -302,10 +246,7 @@
               "libs/nest-crud-mongoose/tsconfig.lib.json",
               "libs/nest-crud-mongoose/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/nest-crud-mongoose/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/nest-crud-mongoose/**"]
           }
         },
         "test": {
@@ -331,10 +272,7 @@
               "libs/router-middleware/tsconfig.lib.json",
               "libs/router-middleware/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/router-middleware/**"
-            ]
+            "exclude": ["**/node_modules/**", "!libs/router-middleware/**"]
           }
         },
         "test": {
@@ -348,6 +286,70 @@
         }
       },
       "schematics": {}
+    },
+    "ngxs-crud-legacy": {
+      "projectType": "library",
+      "root": "libs/ngxs-crud-legacy",
+      "sourceRoot": "libs/ngxs-crud-legacy/src",
+      "prefix": "frrri",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ngxs-crud-legacy/tsconfig.lib.json",
+              "libs/ngxs-crud-legacy/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ngxs-crud-legacy/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ngxs-crud-legacy/jest.config.js",
+            "tsConfig": "libs/ngxs-crud-legacy/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ngxs-crud-legacy/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/ngxs-crud-legacy:component": {
+          "style": "none"
+        }
+      }
+    },
+    "ngxs": {
+      "projectType": "library",
+      "root": "libs/ngxs",
+      "sourceRoot": "libs/ngxs/src",
+      "prefix": "frrri",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ngxs/tsconfig.lib.json",
+              "libs/ngxs/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ngxs/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ngxs/jest.config.js",
+            "tsConfig": "libs/ngxs/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ngxs/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "none"
+        }
+      }
     }
   },
   "cli": {
@@ -408,11 +410,11 @@
         "linter": "eslint"
       }
     },
-    "@nrwl/ngxs-crud:application": {
+    "@nrwl/ngxs-crud-legacy:application": {
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
-    "@nrwl/ngxs-crud:library": {
+    "@nrwl/ngxs-crud-legacy:library": {
       "unitTestRunner": "jest"
     }
   }

@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { staticBreadcrumb } from '@frrri/ngxs-crud/breadcrumbs';
-import { ngxsCrudRoutes } from '@frrri/ngxs-crud/routing';
+import { staticBreadcrumb } from '@frrri/ngxs-crud-legacy/breadcrumbs';
+import { ngxsCrudRoutes } from '@frrri/ngxs-crud-legacy/routing';
 
 const routes: Routes = [
     {

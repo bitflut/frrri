@@ -1,13 +1,12 @@
 import { Platform } from '@frrri/router-middleware';
-import { Operation } from '../../../interfaces/operation.interface';
-import { CrudOperatorType } from '../enums/crud-operator-type';
+import { OperatorType } from '../../../enums/operator-type.enum';
 
 export function reset(
     statePath: string,
 ) {
     return {
-        type: CrudOperatorType.Reset as CrudOperatorType.Reset,
+        type: OperatorType.Reset as OperatorType.Reset,
         statePath,
         platforms: [Platform.Resolver],
-    } as Operation;
+    };
 }

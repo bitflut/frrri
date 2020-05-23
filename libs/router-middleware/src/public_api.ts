@@ -1,4 +1,4 @@
-export { FRRRI_MIDDLEWARE, FRRRI_OPERATIONS } from './constants';
+export { FRRRI_MIDDLEWARE, FRRRI_OPERATIONS, FRRRI_STATE_REGISTRY } from './constants';
 export { Platform } from './enums/platform.enum';
 export { frrri } from './frrri';
 export { FrrriModule } from './frrri.module';

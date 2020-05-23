@@ -1,7 +1,11 @@
-# routes
+# FRRRI
 
-This library was generated with [Nx](https://nx.dev).
+> Angular at 250 MPH
 
-## Running unit tests
+## @ng-frrri/router-middleware
 
-Run `nx test routes` to execute the unit tests.
+See [Quick start](https://bitflut.gitbook.io/frrri/) for minimal setup instructions.
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)

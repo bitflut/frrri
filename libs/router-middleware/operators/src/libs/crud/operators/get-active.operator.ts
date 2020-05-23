@@ -1,7 +1,6 @@
 import { Platform } from '@frrri/router-middleware';
-import { Operation } from '../../../interfaces/operation.interface';
+import { OperatorType } from '../../../enums/operator-type.enum';
 import { crudOperatorDefaults } from '../defaults/crud-operator.defaults';
-import { CrudOperatorType } from '../enums/crud-operator-type';
 import { GetOneOptions } from './get-one.operator';
 
 export function getActive(
@@ -15,9 +14,9 @@ export function getActive(
     };
 
     return {
-        type: CrudOperatorType.GetActive as CrudOperatorType.GetActive,
+        type: OperatorType.GetActive as OperatorType.GetActive,
         statePath,
         platforms: [Platform.Resolver],
         ...options,
-    } as Operation;
+    };
 }
