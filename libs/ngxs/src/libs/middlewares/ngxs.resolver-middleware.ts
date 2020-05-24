@@ -12,11 +12,11 @@ export class NgxsResolverMiddleware implements Middleware {
     constructor(protected injector: Injector) { }
 
     operate(operation: Operation, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log(operation);
-
         let facade: PaginatedCrudCollectionState;
         if ('statePath' in operation && operation.statePath) {
             facade = this.statesRegistry.getByPath<PaginatedCrudCollectionState>(operation.statePath);
+        } else {
+            return;
         }
 
         switch (operation.type) {
@@ -26,6 +26,8 @@ export class NgxsResolverMiddleware implements Middleware {
                 return facade.getOne(route.params[operation.param]);
             case OperatorType.GetMany:
                 return facade.getMany({ params: operation.params });
+            case OperatorType.Populate:
+                return facade.registerPopulation(operation);
 
             default:
                 const isFunction = typeof facade?.[operation.type] === 'function';

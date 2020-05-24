@@ -12,8 +12,6 @@ export class NgxsNavigationEndMiddleware implements Middleware {
     constructor(protected injector: Injector) { }
 
     operate(operation: Operation, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log(operation);
-
         let facade: PaginatedCrudCollectionState;
         if ('statePath' in operation && operation.statePath) {
             facade = this.statesRegistry.getByPath<PaginatedCrudCollectionState>(operation.statePath);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs-crud';
+import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs';
 import { GetManyOptions, OperationContext } from '@frrri/ngxs-crud-legacy/internal';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { EntityIdType } from '@ngxs-labs/data/typings';

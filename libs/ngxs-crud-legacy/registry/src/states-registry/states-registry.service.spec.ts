@@ -1,7 +1,7 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable, NgModule } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
 import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud-legacy/pagination';
 import { StatesRegistryService } from '@frrri/ngxs-crud-legacy/registry';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';

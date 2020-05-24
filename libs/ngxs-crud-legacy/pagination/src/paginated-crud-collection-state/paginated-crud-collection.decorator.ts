@@ -1,4 +1,4 @@
-import { CrudCollection, CrudCollectionOptions, CrudCollectionReducer } from '@frrri/ngxs-crud';
+import { CrudCollection, CrudCollectionOptions, CrudCollectionReducer } from '@frrri/ngxs';
 import { StateClass } from '@ngxs/store/internals';
 
 export interface PaginatedCrudCollectionOptions<T> extends CrudCollectionOptions<T> {

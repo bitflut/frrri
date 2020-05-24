@@ -1,38 +1,36 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { CrudCollectionState } from '@frrri/ngxs';
-import { StatesRegistryService } from '@frrri/ngxs-crud-legacy/registry';
+import { activeMeta, OperatorType } from '@frrri/router-middleware/operators';
 import { EMPTY } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
-import { META_INSTRUCTION } from '../constants';
-import { MetaInstructionType } from '../enums/meta-instruction.enum';
-import { ActiveMeta } from '../instructions/active-meta.instruction';
-import { StaticMeta } from '../instructions/static-meta.instruction';
-import { MetaInstruction } from '../types/meta-instruction.type';
+import { FRRRI_OPERATIONS, FRRRI_STATE_REGISTRY } from '../constants';
+import { NavigationEndPlatform } from '../platforms/navigation-end.platform';
 
 @Injectable()
-export class MetaService {
+export class MetaService extends NavigationEndPlatform {
 
-    protected registryService = this.injector.get(StatesRegistryService);
+    protected registryService = this.injector.get(FRRRI_STATE_REGISTRY);
     protected metaService = this.injector.get(Meta);
     protected titleService = this.injector.get(Title);
     private defaultTitle = this.titleService.getTitle();
 
-    constructor(protected injector: Injector) { }
+    async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const operation = route.data[FRRRI_OPERATIONS]
+            ?.filter(o => [OperatorType.ActiveMeta, OperatorType.StaticMeta].includes(o.type))
+            ?.[0];
 
-    async update(data: MetaInstruction) {
-        const meta = data[META_INSTRUCTION];
-
-        if (!meta) {
+        if (!operation) {
             this.defaultMeta();
             return;
         }
 
-        switch (meta.type) {
-            case MetaInstructionType.Static:
-                return this.renderMeta(meta);
-            case MetaInstructionType.Active:
-                return this.activeMeta(meta);
+        switch (operation.type) {
+            case OperatorType.StaticMeta:
+                return this.renderMeta(operation);
+            case OperatorType.ActiveMeta:
+                return this.activeMeta(operation);
         }
     }
 
@@ -40,11 +38,11 @@ export class MetaService {
         this.renderMeta({ title: this.defaultTitle });
     }
 
-    private renderMeta(meta: StaticMeta) {
+    private renderMeta(meta: any) {
         this.titleService.setTitle(meta.title);
     }
 
-    private async activeMeta(meta: ActiveMeta) {
+    private async activeMeta(meta: ReturnType<typeof activeMeta>) {
         const facade = this.registryService.getByPath<CrudCollectionState>(meta.statePath);
         const active = await facade.active$
             .pipe(

@@ -36,6 +36,8 @@ export function populate(
         idPath: options.idPath ?? 'id',
         idSource: options.idSource ?? options.from,
         platforms: [Platform.Resolver],
-        ...options,
+        factory: options.factory,
+        params: options.params,
+        operations: options.operations,
     };
 }

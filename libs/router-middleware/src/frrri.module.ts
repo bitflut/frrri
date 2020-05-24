@@ -3,6 +3,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { NavigationEndPlatform } from './platforms/navigation-end.platform';
 import { ResolverPlatform } from './platforms/resolver.platform';
 import { BreadcrumbsService } from './services/breadcrumbs.service';
+import { MetaService } from './services/meta.service';
 
 @NgModule({
     imports: [CommonModule],
@@ -12,6 +13,7 @@ export class FrrriModule {
     constructor(
         navigationEndPlatform: NavigationEndPlatform,
         breadcrumbsService: BreadcrumbsService,
+        metaService: MetaService,
     ) { }
 
     static forRoot(): ModuleWithProviders {
@@ -21,6 +23,7 @@ export class FrrriModule {
                 NavigationEndPlatform,
                 ResolverPlatform,
                 BreadcrumbsService,
+                MetaService,
             ],
         };
     }

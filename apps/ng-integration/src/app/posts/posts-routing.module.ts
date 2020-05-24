@@ -40,6 +40,7 @@ const routes: Routes = [
             deactivate(posts),
             getMany(posts),
             staticBreadcrumb({ title: 'all posts' }),
+            staticMeta({ title: 'All posts ' }),
         ),
         children: [{
             path: ':id',
@@ -47,6 +48,9 @@ const routes: Routes = [
             data: operate(
                 getActive(posts),
                 activeBreadcrumb(posts, {
+                    factory: data => ({ title: `#${data.id} ${data.title}` }),
+                }),
+                activeMeta(posts, {
                     factory: data => ({ title: `#${data.id} ${data.title}` }),
                 }),
             ),
@@ -96,14 +100,14 @@ const routes: Routes = [
             path: ':id',
             component: PostsShowComponent,
             data: operate(
-                reset(all),
-                getActive(posts),
+                reset(comments),
                 populate({
                     from: posts,
                     to: comments,
                     idPath: 'postId',
                     idSource: comments,
                 }),
+                getActive(posts),
             ),
         }],
     },
@@ -113,23 +117,20 @@ const routes: Routes = [
         data: operate(
             reset(all),
             deactivate(posts),
-            getMany(posts, { params: { _page: '1', _limit: '5' } }),
             populate({
                 from: posts,
                 to: users,
                 idPath: 'userId',
                 idSource: posts,
             }),
-            staticMeta({
-                title: 'Posts with user',
-            }),
+            getMany(posts, { params: { _page: '1', _limit: '5' } }),
+            staticMeta({ title: 'Posts with user' }),
         ),
         children: [{
             path: ':id',
             component: PostsShowComponent,
             data: operate(
-                reset(all),
-                getActive(posts),
+                reset(comments),
                 populate({
                     from: posts,
                     to: comments,
@@ -142,10 +143,9 @@ const routes: Routes = [
                     idPath: 'userId',
                     idSource: posts,
                 }),
+                getActive(posts),
                 activeMeta(posts, {
-                    factory: data => ({
-                        title: data.title,
-                    }),
+                    factory: data => ({ title: data.title }),
                 }),
             ),
         }],

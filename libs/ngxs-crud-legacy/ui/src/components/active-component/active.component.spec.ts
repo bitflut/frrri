@@ -3,7 +3,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs-crud';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
 import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs-crud-legacy/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';

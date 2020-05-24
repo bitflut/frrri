@@ -12,8 +12,8 @@ export function activeMeta<T = any>(
 ) {
     return {
         type: OperatorType.ActiveMeta as OperatorType.ActiveMeta,
-        options,
         statePath,
         platforms: [Platform.NavigationEnd],
+        ...options,
     };
 }

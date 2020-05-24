@@ -7,6 +7,6 @@ export function deactivate(
     return {
         type: OperatorType.Deactivate as OperatorType.Deactivate,
         statePath,
-        platforms: [Platform.Resolver],
+        platforms: [Platform.NavigationEnd],
     };
 }

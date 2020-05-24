@@ -13,7 +13,7 @@ export function staticMeta(
 ) {
     return {
         type: OperatorType.StaticMeta as OperatorType.StaticMeta,
-        options,
         platforms: [Platform.NavigationEnd],
+        ...options,
     };
 }

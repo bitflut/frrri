@@ -22,13 +22,13 @@ export class BreadcrumbsService extends NavigationEndPlatform {
 
         let currentRoute = route;
         while (currentRoute) {
-            const crumb = currentRoute.data[FRRRI_OPERATIONS]
+            const operation = currentRoute.data[FRRRI_OPERATIONS]
                 ?.filter(o => [OperatorType.ActiveBreadcrumb, OperatorType.StaticBreadcrumb].includes(o.type))
                 ?.[0];
 
-            if (crumb) {
-                breadcrumbsMap[`${crumb.type} ${crumb.id}`] = {
-                    ...crumb,
+            if (operation) {
+                breadcrumbsMap[`${operation.type} ${operation.id}`] = {
+                    ...operation,
                     url: '/' + currentRoute.pathFromRoot.map(r => r.url[0]?.path).filter(url => !!url).join('/'),
                 };
             }

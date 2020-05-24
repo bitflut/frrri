@@ -6,7 +6,7 @@ import { populate } from '@frrri/router-middleware/operators';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
 import { EntityIdType, NgxsEntityCollections } from '@ngxs-labs/data/typings';
-import { flatten, uniq } from 'lodash';
+import { flatten, uniq, uniqBy } from 'lodash';
 import { EMPTY, forkJoin, isObservable, Observable, of, pipe, throwError, UnaryFunction } from 'rxjs';
 import { catchError, delay, map, mapTo, mergeMap, switchMap, tap, timeout } from 'rxjs/operators';
 import { CRUD_COLLECTION_OPTIONS_TOKEN } from './constants';
@@ -61,11 +61,14 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
         this.populations = undefined;
     }
 
-    public setPopulations(data: Array<ReturnType<typeof populate>>) {
-        this.populations = uniq([
-            ...this.populations ?? [],
-            ...data,
-        ]);
+    public registerPopulation(operation: ReturnType<typeof populate>) {
+        this.populations = uniqBy(
+            [
+                ...this.populations ?? [],
+                operation,
+            ],
+            p => p.statePath + p.toStatePath + p.idPath + p.idSource,
+        );
     }
 
     @Computed()
@@ -131,7 +134,6 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     @Computed()
     public get one$() {
         return (id: IdType) => this.state$.pipe(map((value: Reducer) => {
-            console.log(id, id && value.entities[id.toString()]);
             return id && value.entities[id.toString()];
         }));
     }
@@ -456,7 +458,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     }
 
     private populate<In extends Array<any>>(entities: In, population: ReturnType<typeof populate>) {
-        const facade = this.statesRegistry.getByPath(population.statePath);
+        const facade = this.statesRegistry.getByPath(population.toStatePath);
         const isIdOnEntity = population.statePath === population.idSource;
 
         let idKey1: string;
@@ -493,7 +495,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     protected populationPipe<In>(): UnaryFunction<Observable<In>, Observable<In>> {
         return pipe(
             switchMap(result => {
-                const hasPopulations = !!this.populations?.length;
+                const hasPopulations = this.populations?.length;
                 if (!hasPopulations) { return of(result); }
 
                 const operation = Array.isArray(result) ? OperationContext.Many : OperationContext.One;
@@ -502,9 +504,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
                 const entities: In[] = Array.isArray(result) ? result : [result];
                 return forkJoin(
-                    this.populations
-                        .filter(p => p.operations.includes(operation))
-                        .map(p => this.populate(entities, p)),
+                    populations.map(p => this.populate(entities, p)),
                 ).pipe(mapTo(result));
             }),
         );
