@@ -3,11 +3,7 @@
   "projects": {
     "ng-integration": {
       "projectType": "application",
-      "schematics": {
-        "@nrwl/ngxs-crud-legacy:component": {
-          "inlineStyle": true
-        }
-      },
+      "schematics": {},
       "root": "apps/ng-integration",
       "sourceRoot": "apps/ng-integration/src",
       "prefix": "app",
@@ -287,38 +283,6 @@
       },
       "schematics": {}
     },
-    "ngxs-crud-legacy": {
-      "projectType": "library",
-      "root": "libs/ngxs-crud-legacy",
-      "sourceRoot": "libs/ngxs-crud-legacy/src",
-      "prefix": "frrri",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/ngxs-crud-legacy/tsconfig.lib.json",
-              "libs/ngxs-crud-legacy/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/ngxs-crud-legacy/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/ngxs-crud-legacy/jest.config.js",
-            "tsConfig": "libs/ngxs-crud-legacy/tsconfig.spec.json",
-            "passWithNoTests": true,
-            "setupFile": "libs/ngxs-crud-legacy/src/test-setup.ts"
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/ngxs-crud-legacy:component": {
-          "style": "none"
-        }
-      }
-    },
     "ngxs": {
       "projectType": "library",
       "root": "libs/ngxs",
@@ -342,6 +306,38 @@
             "tsConfig": "libs/ngxs/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/ngxs/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "none"
+        }
+      }
+    },
+    "ui": {
+      "projectType": "library",
+      "root": "libs/ui",
+      "sourceRoot": "libs/ui/src",
+      "prefix": "frrri",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ui/tsconfig.lib.json",
+              "libs/ui/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ui/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ui/jest.config.js",
+            "tsConfig": "libs/ui/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ui/src/test-setup.ts"
           }
         }
       },

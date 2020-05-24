@@ -41,10 +41,10 @@
     "router-middleware": {
       "tags": []
     },
-    "ngxs-crud-legacy": {
+    "ngxs": {
       "tags": []
     },
-    "ngxs": {
+    "ui": {
       "tags": []
     }
   }

@@ -16,26 +16,52 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@frrri/ngxs-crud-legacy/routing": ["libs/ngxs-crud-legacy/routing/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/ui": ["libs/ngxs-crud-legacy/ui/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/pagination": ["libs/ngxs-crud-legacy/pagination/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/registry": ["libs/ngxs-crud-legacy/registry/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/internal": ["libs/ngxs-crud-legacy/internal/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/populate": ["libs/ngxs-crud-legacy/populate/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/meta": ["libs/ngxs-crud-legacy/meta/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy/breadcrumbs": ["libs/ngxs-crud-legacy/breadcrumbs/src/public_api.ts"],
-      "@frrri/nest-crud/internal": ["libs/nest-crud/internal/src/public_api.ts"],
+      "@frrri/ngxs-crud-legacy/routing": [
+        "libs/ngxs-crud-legacy/routing/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/ui": [
+        "libs/ngxs-crud-legacy/ui/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/pagination": [
+        "libs/ngxs-crud-legacy/pagination/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/registry": [
+        "libs/ngxs-crud-legacy/registry/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/internal": [
+        "libs/ngxs-crud-legacy/internal/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/populate": [
+        "libs/ngxs-crud-legacy/populate/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/meta": [
+        "libs/ngxs-crud-legacy/meta/src/public_api.ts"
+      ],
+      "@frrri/ngxs-crud-legacy/breadcrumbs": [
+        "libs/ngxs-crud-legacy/breadcrumbs/src/public_api.ts"
+      ],
+      "@frrri/nest-crud/internal": [
+        "libs/nest-crud/internal/src/public_api.ts"
+      ],
       "@frrri/nest-crud/common": ["libs/nest-crud/common/src/public_api.ts"],
       "@frrri/nest-crud": ["libs/nest-crud/src/public_api.ts"],
-      "@frrri/nest-crud-json-server": ["libs/nest-crud-json-server/src/public_api.ts"],
-      "@frrri/nest-crud-mongoose": ["libs/nest-crud-mongoose/src/public_api.ts"],
-      "@frrri/router-middleware/operators": ["libs/router-middleware/operators/src/public_api.ts"],
-      "@frrri/router-middleware/internal": ["libs/router-middleware/internal/src/public_api.ts"],
+      "@frrri/nest-crud-json-server": [
+        "libs/nest-crud-json-server/src/public_api.ts"
+      ],
+      "@frrri/nest-crud-mongoose": [
+        "libs/nest-crud-mongoose/src/public_api.ts"
+      ],
+      "@frrri/router-middleware/operators": [
+        "libs/router-middleware/operators/src/public_api.ts"
+      ],
+      "@frrri/router-middleware/internal": [
+        "libs/router-middleware/internal/src/public_api.ts"
+      ],
       "@frrri/router-middleware": ["libs/router-middleware/src/public_api.ts"],
-      "@frrri/ngxs-crud-legacy": ["libs/ngxs-crud-legacy/src/public_api.ts"],
       "@frrri/ngxs/pagination": ["libs/ngxs/pagination/src/public_api.ts"],
       "@frrri/ngxs/internal": ["libs/ngxs/internal/src/public_api.ts"],
-      "@frrri/ngxs": ["libs/ngxs/src/public_api.ts"]
+      "@frrri/ngxs": ["libs/ngxs/src/public_api.ts"],
+      "@frrri/ui": ["libs/ui/src/public_api.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

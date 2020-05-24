@@ -39,7 +39,7 @@
         </div>
     </div>
 
-    <ngxs-crud-breadcrumbs #crumbs>
+    <frrri-breadcrumbs #crumbs>
         <div class="px-16 py-2 bg-gray-800 text-white">
             <div class="flex flex-row items-center -mx-1">
                 <ng-container *ngFor="let crumb of crumbs.all$ | async; let last = last; trackBy:crumbs.trackByKey">
@@ -63,7 +63,7 @@
                 </ng-container>
             </div>
         </div>
-    </ngxs-crud-breadcrumbs>
+    </frrri-breadcrumbs>
 </div>
 
 
