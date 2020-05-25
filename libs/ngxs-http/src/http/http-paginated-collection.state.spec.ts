@@ -2,12 +2,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { NgxsMiddlewareModule } from '@frrri/ngxs';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { PaginationInterceptor } from '../pagination-interceptor/pagination.interceptor';
-import { PaginatedCrudCollection } from './paginated-crud-collection.decorator';
-import { PaginatedCrudCollectionReducer, PaginatedCrudCollectionState } from './paginated-crud-collection.state';
+import { HttpPaginatedCollection } from './http-paginated-collection.decorator';
+import { PaginationInterceptor, PaginatedCrudCollectionReducer, PaginatedCollectionState } from '@frrri/ngxs/pagination';
+import { HttpCollectionModule } from './http-collection.module';
+import { NgxsMiddlewareModule } from '@frrri/ngxs';
 
 interface Post {
     userId: number;
@@ -60,12 +60,12 @@ const page2Data = {
     },
 };
 
-@PaginatedCrudCollection<PaginatedCrudCollectionReducer>({
+@HttpPaginatedCollection<PaginatedCrudCollectionReducer>({
     name: 'post',
     baseUrl: collectionUrl,
 })
 @Injectable()
-class PostsEntitiesState extends PaginatedCrudCollectionState<Post, number> { }
+class PostsEntitiesState extends PaginatedCollectionState<Post, number> { }
 
 describe('PaginatedCollectionState', () => {
     beforeEach(() => {
@@ -75,6 +75,7 @@ describe('PaginatedCollectionState', () => {
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState]),
                 NgxsMiddlewareModule.forRoot(),
+                HttpCollectionModule.forRoot(),
             ],
             providers: [
                 {
@@ -92,7 +93,7 @@ describe('PaginatedCollectionState', () => {
             postsState.getMany().toPromise();
 
             const req = httpMock.expectOne(
-                postsState.requestOptions.collectionUrlFactory(),
+                postsState.stateOptions.requestOptions.collectionUrlFactory(),
             );
             expect(req.request.method).toEqual('GET');
             req.flush(page1Data.body);
@@ -107,7 +108,7 @@ describe('PaginatedCollectionState', () => {
             postsState.getMany().toPromise();
 
             const req = httpMock.expectOne(
-                postsState.requestOptions.collectionUrlFactory(),
+                postsState.stateOptions.requestOptions.collectionUrlFactory(),
             );
             expect(req.request.method).toEqual('GET');
             req.flush(page1Data.body, {
@@ -126,7 +127,7 @@ describe('PaginatedCollectionState', () => {
             postsState.getMany().toPromise();
 
             const req = httpMock.expectOne(
-                postsState.requestOptions.collectionUrlFactory(),
+                postsState.stateOptions.requestOptions.collectionUrlFactory(),
             );
             expect(req.request.method).toEqual('GET');
             req.flush(page1Data.body, {

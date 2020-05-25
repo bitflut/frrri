@@ -1,12 +1,12 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { CollectionReducer, CollectionState, NgxsMiddlewareModule } from '@frrri/ngxs';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { omit } from 'lodash';
-import { NgxsMiddlewareModule } from '../../ngxs-middleware.module';
-import { CrudCollection } from './crud-collection.decorator';
-import { CrudCollectionReducer, CrudCollectionState } from './crud-collection.state';
+import { HttpCollection } from './http-collection.decorator';
+import { HttpCollectionModule } from './http-collection.module';
 
 interface Post {
     userId: number;
@@ -46,35 +46,34 @@ const newPostData = {
     title: 'testing Angular',
 };
 
-@CrudCollection<CrudCollectionReducer>({
+@HttpCollection<CollectionReducer>({
     name: 'posts',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
 @Injectable()
-class PostsEntitiesState extends CrudCollectionState<Post, number> {
-
+class PostsEntitiesState extends CollectionState<Post, number> {
     afterSuccess(data: Post | Post[]) { }
-
 }
 
-@CrudCollection<CrudCollectionReducer>({
+@HttpCollection<CollectionReducer>({
     name: 'mongodbPosts',
     idKey: '_id',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
 @Injectable()
-class MongodbPostsEntitiesState extends CrudCollectionState<Post, number> { }
+class MongodbPostsEntitiesState extends CollectionState<Post, number> { }
 
 function getCollectionUrl(state: any) {
-    return state.requestOptions.collectionUrlFactory();
+    return state.stateOptions.requestOptions.collectionUrlFactory();
 }
 
-describe('CrudCollectionState', () => {
+describe('CollectionState', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
                 HttpClientTestingModule,
+                HttpCollectionModule.forRoot(),
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState, MongodbPostsEntitiesState]),
                 NgxsMiddlewareModule.forRoot(),
@@ -89,7 +88,7 @@ describe('CrudCollectionState', () => {
         httpMock: HttpTestingController,
         postsState: PostsEntitiesState,
     ) => {
-        expect(postsState.requestOptions.collectionUrlFactory).toBeDefined();
+        expect(postsState.stateOptions.requestOptions.collectionUrlFactory).toBeDefined();
         postsState.getMany().toPromise();
 
         const req = httpMock.expectOne(getCollectionUrl(postsState));

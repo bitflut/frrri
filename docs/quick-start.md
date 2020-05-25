@@ -29,11 +29,11 @@ import { PostsState } from './posts.state'; // <-- we will add this next
 export class AppModule {}
 ```
 
-Now add an entity collection for **Posts** extending `CrudCollectionState`:
+Now add an entity collection for **Posts** extending `CollectionState`:
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { CrudCollection, CrudCollectionState } from '@frrri/ng/frrri';
+import { CrudCollection, CollectionState } from '@frrri/ng/frrri';
 
 interface Post {
     id: string;
@@ -43,7 +43,7 @@ interface Post {
 
 @CrudCollection({ name: 'posts' })
 @Injectable()
-export class PostsState extends CrudCollectionState<Post, Post['id']> { }
+export class PostsState extends CollectionState<Post, Post['id']> { }
 
 ```
 

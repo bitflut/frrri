@@ -1,22 +1,23 @@
-import { Injectable } from '@angular/core';
-import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs';
+import { Injectable, InjectionToken } from '@angular/core';
+import { CollectionReducer, CollectionState } from '@frrri/ngxs';
 import { GetManyOptions, OperationContext } from '@frrri/ngxs/internal';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { EntityIdType } from '@ngxs-labs/data/typings';
 import { Observable, pipe } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { Paginated, PaginatedCrudCollectionService } from './paginated-crud-collection.service';
+import { Paginated, PaginatedCollectionService } from './paginated-collection-service.interface';
 
-export type PaginatedCrudCollectionReducer<Entity = {}, IdType extends EntityIdType = EntityIdType> = CrudCollectionReducer<Entity, IdType> & {
+export type PaginatedCrudCollectionReducer<Entity = {}, IdType extends EntityIdType = EntityIdType> = CollectionReducer<Entity, IdType> & {
     next: string,
 };
 
 @Injectable()
-export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdType = string, Reducer extends PaginatedCrudCollectionReducer<Entity, IdType> = PaginatedCrudCollectionReducer<Entity, IdType>>
-    extends CrudCollectionState<Entity, IdType, Reducer> {
+export class PaginatedCollectionState<Entity = {}, IdType extends EntityIdType = string, Reducer extends PaginatedCrudCollectionReducer<Entity, IdType> = PaginatedCrudCollectionReducer<Entity, IdType>>
+    extends CollectionState<Entity, IdType, Reducer> {
 
     protected readonly pageSize: number;
-    private paginatedService = this.injector.get<PaginatedCrudCollectionService<Entity>>(PaginatedCrudCollectionService);
+    readonly paginatedServiceToken: InjectionToken<PaginatedCollectionService<Entity>>;
+    private paginatedService = this.injector.get<PaginatedCollectionService<Entity>>(this.paginatedServiceToken);
 
     @Computed()
     public get next$(): Observable<any> {
@@ -25,7 +26,7 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
 
     @DataAction()
     public getMany(@Payload('options') options: GetManyOptions = {}) {
-        return this.paginatedService.getMany(this.requestOptions.collectionUrlFactory(), { ...options, size: this.pageSize })
+        return this.paginatedService.getMany(this.stateOptions, { ...options, size: this.pageSize })
             .pipe(
                 this.requestPipe<Paginated<Entity[]>, Entity[]>({
                     context: OperationContext.Many,
@@ -38,7 +39,7 @@ export class PaginatedCrudCollectionState<Entity = {}, IdType extends EntityIdTy
     @DataAction()
     public getAll(@Payload('options') options: GetManyOptions = {}) {
         this.ctx.patchState({ loaded: false } as any);
-        return this.paginatedService.getAll(this.requestOptions.collectionUrlFactory(), { ...options, size: this.pageSize })
+        return this.paginatedService.getAll(this.stateOptions, { ...options, size: this.pageSize })
             .pipe(
                 this.requestPipe({
                     context: OperationContext.Many,

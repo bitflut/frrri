@@ -3,29 +3,26 @@ import { Injectable, Injector } from '@angular/core';
 import { GetManyOptions } from '@frrri/ngxs/internal';
 import { EMPTY, Observable } from 'rxjs';
 import { expand, reduce } from 'rxjs/operators';
-
-export interface Paginated<T = {}> {
-    pagination: {
-        data: T,
-        next: string,
-    };
-}
+import { CollectionStateOptions } from '@frrri/ngxs';
+import { PaginatedCollectionService, Paginated } from '@frrri/ngxs/pagination';
 
 @Injectable({
     providedIn: 'root',
 })
-export class PaginatedCrudCollectionService<V> {
+export class HttpPaginatedCollectionService<V = any> implements PaginatedCollectionService<V> {
 
     protected http = this.injector.get(HttpClient);
 
     constructor(protected injector: Injector) { }
 
-    getMany(url: string, options: GetManyOptions & { size?: number } = {}) {
+    getMany(stateOptions: CollectionStateOptions, options: GetManyOptions & { size?: number } = {}) {
+        const url = stateOptions.requestOptions.collectionUrlFactory();
         return this.http.get<Paginated<V[]>>(url, { params: options.params });
     }
 
-    getAll(url: string, options: GetManyOptions & { size?: number } = {}): Observable<V[]> {
-        return this.getMany(url, options).pipe(
+    getAll(stateOptions: CollectionStateOptions, options: GetManyOptions & { size?: number } = {}): Observable<V[]> {
+        const url = stateOptions.requestOptions.collectionUrlFactory();
+        return this.getManyWithUrl(url, options).pipe(
             expand(response => {
                 let next = response.pagination?.next;
                 if (!next) { return EMPTY; }
@@ -36,7 +33,7 @@ export class PaginatedCrudCollectionService<V> {
                     next = `${baseUrl}${next}`;
                 }
 
-                return this.getMany(next);
+                return this.getManyWithUrl(next);
             }),
             reduce((acc, res) => {
                 return [
@@ -49,6 +46,10 @@ export class PaginatedCrudCollectionService<V> {
 
     getNext(url: any) {
         return this.http.get<Paginated<V[]>>(url);
+    }
+
+    private getManyWithUrl(url: string, options: GetManyOptions & { size?: number } = {}): Observable<Paginated<V[]>> {
+        return this.http.get<Paginated<V[]>>(url, { params: options.params });
     }
 
 }

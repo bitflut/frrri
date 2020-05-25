@@ -1,11 +1,11 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { PaginatedCrudCollectionState } from '@frrri/ngxs/pagination';
+import { PaginatedCollectionState } from '@frrri/ngxs/pagination';
 import { Middleware, MiddlewareFactory } from '@frrri/router-middleware';
 import { Platform } from '@frrri/router-middleware/internal';
 import { Operation, OperatorType } from '@frrri/router-middleware/operators';
-import { CrudCollectionState } from '../collection-state/crud-collection.state';
+import { CollectionState } from '../collection-state/collection.state';
 
-type StateFacade = CrudCollectionState | PaginatedCrudCollectionState;
+type StateFacade = CollectionState | PaginatedCollectionState;
 
 export class NgxsRouterMiddleware extends MiddlewareFactory(Platform.Resolver, Platform.NavigationEnd) implements Middleware {
     operate(operation: Operation, platform: Platform, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

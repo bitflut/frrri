@@ -37,13 +37,13 @@ Then define your paginated state using the **PaginatedCrudCollection** decorator
 
 ```typescript
 import { Injectable } from '@angular/core';
-import { PaginatedCrudCollection, PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
+import { PaginatedCrudCollection, PaginatedCollectionState } from '@frrri/ngxs-crud/pagination';
 
 @PaginatedCrudCollection({
     name: 'posts',
 })
 @Injectable()
-export class PostsState extends PaginatedCrudCollectionState { }
+export class PostsState extends PaginatedCollectionState { }
 
 ```
 

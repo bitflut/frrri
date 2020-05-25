@@ -1,12 +1,14 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable, NgModule } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
-import { PaginatedCrudCollectionState } from '@frrri/ngxs/pagination';
+import { CollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
+import { PaginatedCollectionState } from '@frrri/ngxs/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { NgxsMiddlewareModule } from '../../ngxs-middleware.module';
+import { of } from 'rxjs';
+import { HttpClientModule } from '@angular/common/http';
+import { TestCrudCollection, TestCrudCollectionService } from '../collection-state/collection.state.spec';
 import { StatesRegistryService } from './states-registry.service';
+import { NgxsMiddlewareModule } from '../../ngxs-middleware.module';
 
 interface Post {
     userId: number;
@@ -15,12 +17,12 @@ interface Post {
     title: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     baseUrl: 'https://jsonplaceholder.typicode.com/posts',
     name: 'posts',
 })
 @Injectable()
-class PostsEntitiesState extends CrudCollectionState<Post, number> { }
+class PostsEntitiesState extends CollectionState<Post, number> { }
 
 interface Comment {
     postId: number;
@@ -30,12 +32,12 @@ interface Comment {
     email: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'comments',
     baseUrl: 'https://jsonplaceholder.typicode.com/comments',
 })
 @Injectable()
-class CommentsEntitiesState extends CrudCollectionState<Comment, number> { }
+class CommentsEntitiesState extends CollectionState<Comment, number> { }
 
 @CrudEntities({
     name: 'cache',
@@ -57,12 +59,12 @@ const postsData = [{
     title: 'testing Angular2',
 }];
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'users',
     baseUrl: 'https://jsonplaceholder.typicode.com/users',
 })
 @Injectable()
-class UsersEntitiesState extends CrudCollectionState<Comment, number> { }
+class UsersEntitiesState extends CollectionState<Comment, number> { }
 
 
 @NgModule({
@@ -77,12 +79,13 @@ describe('StatesRegistry', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [
-                HttpClientTestingModule,
+                HttpClientModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
                 NgxsMiddlewareModule.forRoot(),
                 FeatureModule,
             ],
+            providers: [TestCrudCollectionService],
         });
     });
 
@@ -93,24 +96,24 @@ describe('StatesRegistry', () => {
     ], (
         postsState: PostsEntitiesState,
         entityCrudEntitiesState: EntityCrudEntitiesState,
-        collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
+        collectionRegistry: StatesRegistryService<PaginatedCollectionState>,
     ) => {
-        expect(collectionRegistry.getByPath('cache.posts').requestOptions.collectionUrlFactory).toBeDefined();
+        expect(collectionRegistry.getByPath('cache.posts').stateOptions.requestOptions.collectionUrlFactory).toBeDefined();
         expect(postsState).toBe(collectionRegistry.getByPath('cache.posts'));
         expect(entityCrudEntitiesState).toBe(collectionRegistry.getByPath('cache'));
     }));
 
     it('should reset all states', inject([
-        HttpTestingController,
         StatesRegistryService,
+        TestCrudCollectionService,
     ], async (
-        httpMock: HttpTestingController,
-        collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
+        collectionRegistry: StatesRegistryService<PaginatedCollectionState>,
+        service: TestCrudCollectionService,
     ) => {
         const postsState = collectionRegistry.getByPath('cache.posts');
         expect(postsState).toBeDefined();
+        spyOn(service, 'getMany').and.returnValue(of(postsData));
         postsState.getMany().toPromise();
-        httpMock.expectOne(postsState.requestOptions.collectionUrlFactory()).flush(postsData);
         expect(postsState.snapshot.ids).toEqual([1, 2]);
 
         const cacheState = collectionRegistry.getByPath('cache');
@@ -119,10 +122,8 @@ describe('StatesRegistry', () => {
     }));
 
     it('should get UserEntitiesState', inject([
-        HttpTestingController,
         StatesRegistryService,
     ], async (
-        httpMock: HttpTestingController,
         collectionRegistry: StatesRegistryService,
     ) => {
         expect(collectionRegistry.getByPath('users')).toBeDefined();

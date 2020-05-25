@@ -1,5 +1,4 @@
-export { PaginatedCrudCollection } from './paginated-crud-collection-state/paginated-crud-collection.decorator';
-export { PaginatedCrudCollectionService } from './paginated-crud-collection-state/paginated-crud-collection.service';
-export { PaginatedCrudCollectionState } from './paginated-crud-collection-state/paginated-crud-collection.state';
+export { PaginatedCollectionService, Paginated } from './paginated-collection-state/paginated-collection-service.interface';
+export { PaginatedCollectionState, PaginatedCrudCollectionReducer } from './paginated-collection-state/paginated-collection.state';
 export { PaginationInterceptor } from './pagination-interceptor/pagination.interceptor';
-
+export { PaginatedCollectionOptions } from './paginated-collection-state/paginated-collection-options.interface';

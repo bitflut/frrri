@@ -54,6 +54,9 @@
       "@frrri/ngxs": [
         "libs/ngxs/src/public_api.ts"
       ],
+      "@frrri/ngxs-http": [
+        "libs/ngxs-http/src/public_api.ts"
+      ],
       "@frrri/ui": [
         "libs/ui/src/public_api.ts"
       ]

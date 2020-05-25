@@ -60,7 +60,7 @@ export class ManyComponent implements OnInit, OnDestroy {
         if ('getNext' in this.facade) {
             this.facade.getNext().toPromise();
         } else {
-            throw new Error(`The state provided for path \`${this.path}\` does not support \`getNext()\`. Consider extending your state with \`PaginatedCrudCollectionState\` instead.`);
+            throw new Error(`The state provided for path \`${this.path}\` does not support \`getNext()\`. Consider extending your state with \`PaginatedCollectionState\` instead.`);
         }
     }
 

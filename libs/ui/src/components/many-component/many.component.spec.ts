@@ -3,15 +3,18 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState, StatesRegistryService } from '@frrri/ngxs';
-import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs/pagination';
-import { FRRRI_STATES_REGISTRY } from '@frrri/router-middleware';
+import { CollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
+import { PaginatedCollectionState, PaginationInterceptor } from '@frrri/ngxs/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
 import { ManyUiModule } from './many.module';
+import { TestCrudCollection, TestCrudCollectionService } from '../../../../ngxs/src/libs/collection-state/crud-collection.state.spec';
+import { TestPaginatedCrudCollection, TestPaginatedCrudService } from '../../../../ngxs/pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
+import { of, Subject } from 'rxjs';
+import { NgxsMiddlewareModule } from '@frrri/ngxs';
 
 interface Post {
     userId: number;
@@ -20,12 +23,12 @@ interface Post {
     title: string;
 }
 
-@CrudCollection({
+@TestPaginatedCrudCollection({
     baseUrl: 'https://jsonplaceholder.typicode.com',
     name: 'posts',
 })
 @Injectable()
-class PostsEntitiesState extends PaginatedCrudCollectionState<Post, number> { }
+class PostsEntitiesState extends PaginatedCollectionState<Post, number> { }
 
 interface Comment {
     postId: number;
@@ -35,12 +38,12 @@ interface Comment {
     email: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'comments',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
 @Injectable()
-class CommentsEntitiesState extends CrudCollectionState<Comment, number> { }
+class CommentsEntitiesState extends CollectionState<Comment, number> { }
 
 @CrudEntities({
     name: 'cache',
@@ -104,6 +107,7 @@ describe('ManyComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
+                NgxsMiddlewareModule.forRoot(),
                 ManyUiModule,
             ],
             providers: [
@@ -112,10 +116,8 @@ describe('ManyComponent', () => {
                     multi: true,
                     useClass: PaginationInterceptor,
                 },
-                {
-                    provide: FRRRI_STATES_REGISTRY,
-                    useClass: StatesRegistryService,
-                },
+                TestPaginatedCrudService,
+                TestCrudCollectionService,
             ],
         }).compileComponents();
 
@@ -140,75 +142,83 @@ describe('ManyComponent', () => {
     });
 
     it('should show contents correctly', inject([
-        HttpTestingController,
         PostsEntitiesState,
+        TestPaginatedCrudService,
     ], (
-        httpMock: HttpTestingController,
         postsEntities: PostsEntitiesState,
+        service: TestPaginatedCrudService,
     ) => {
         // INIT
         expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
         expect(fixture).toMatchSnapshot('init');
+        const subject = new Subject();
 
         // PAGE 1/3
+        spyOn(service, 'getMany').and.returnValue(subject.asObservable());
         postsEntities.getMany().toPromise();
-        const req1 = httpMock.expectOne(postsEntities.requestOptions.collectionUrlFactory());
-        fixture.detectChanges();
 
         // PAGE 1/3 - LOADING FIRST
-        expect(fixture).toMatchSnapshot('loading-page-1-of-3');
-        req1.flush(page1Data.body, { headers: page1Data.headers });
         fixture.detectChanges();
+        expect(fixture).toMatchSnapshot('loading-page-1-of-3');
 
-        // PAGE 1/3 - LOADED
+        // // PAGE 1/3 - LOADED
+        subject.next({ pagination: { data: page1Data.body, next: page1Data.headers.Link } });
+        fixture.detectChanges();
         expect(fixture).toMatchSnapshot('loaded-page-1-of-3');
 
-        // PAGE 2/3
+        // // PAGE 2/3
+        spyOn(service, 'getNext').and.returnValue(subject.asObservable());
         postsEntities.getNext().toPromise();
-        const req2 = httpMock.expectOne(postsEntities.snapshot.next);
+
         fixture.detectChanges();
 
-        // PAGE 2/3 - LOADING
+        // // PAGE 2/3 - LOADING
         expect(fixture).toMatchSnapshot('loading-page-2-of-3');
-        req2.flush(page2Data.body, { headers: page2Data.headers });
+        subject.next({ pagination: { data: page2Data.body, next: page2Data.headers.Link } });
         fixture.detectChanges();
 
-        // PAGE 2/3 LOADED
+        // // PAGE 2/3 LOADED
         expect(fixture).toMatchSnapshot('loaded-page-2-of-3');
 
-        // PAGE 3/3 (LAST PAGE)
+        // // PAGE 3/3 (LAST PAGE)
         postsEntities.getNext().toPromise();
-        const req3 = httpMock.expectOne(postsEntities.snapshot.next);
         fixture.detectChanges();
 
-        // PAGE 3/3 LOADING
+        // // PAGE 3/3 LOADING
         expect(fixture).toMatchSnapshot('loading-page-3-of-3');
-        req3.flush(page3Data.body, { headers: page3Data.headers });
+        subject.next({ pagination: { data: page3Data.body } });
         fixture.detectChanges();
 
-        // PAGE 3/3 LOADED
+        // // PAGE 3/3 LOADED
         expect(fixture).toMatchSnapshot('loaded-page-3-of-3');
     }));
 
     it('should show errors', inject([
-        HttpTestingController,
         PostsEntitiesState,
+        TestPaginatedCrudService,
     ], (
-        httpMock: HttpTestingController,
         postsEntities: PostsEntitiesState,
+        service: TestPaginatedCrudService,
     ) => {
         // INIT
         expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
         expect(fixture).toMatchSnapshot('init');
+        const subject = new Subject();
 
         // PAGE 1/3
+        spyOn(service, 'getMany').and.returnValue(subject.asObservable().pipe(
+            tap((data) => {
+                if (data === 'error') {
+                    throw new Error('Http failure response for https://jsonplaceholder.typicode.com/posts: 400 Bad Request');
+                }
+            }),
+        ));
         postsEntities.getMany().toPromise();
-        const req1 = httpMock.expectOne(postsEntities.requestOptions.collectionUrlFactory());
         fixture.detectChanges();
 
         // PAGE 1/3 - LOADING FIRST
         expect(fixture).toMatchSnapshot('loading-page-1-of-3');
-        req1.flush({}, { status: 400, statusText: 'Bad Request' });
+        subject.next('error');
         fixture.detectChanges();
 
         // PAGE 1/3 - ERROR

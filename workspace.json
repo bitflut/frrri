@@ -346,6 +346,34 @@
           "style": "none"
         }
       }
+    },
+    "ngxs-http": {
+      "projectType": "library",
+      "root": "libs/ngxs-http",
+      "sourceRoot": "libs/ngxs-http/src",
+      "prefix": "frrri",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/ngxs-http/tsconfig.lib.json",
+              "libs/ngxs-http/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/ngxs-http/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/ngxs-http/jest.config.js",
+            "tsConfig": "libs/ngxs-http/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/ngxs-http/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

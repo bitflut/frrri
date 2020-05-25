@@ -3,15 +3,17 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState, StatesRegistryService } from '@frrri/ngxs';
-import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs/pagination';
-import { FRRRI_STATES_REGISTRY } from '@frrri/router-middleware';
+import { CollectionState, CrudEntities, CrudEntitiesState, NgxsMiddlewareModule } from '@frrri/ngxs';
+import { PaginatedCollectionState, PaginationInterceptor } from '@frrri/ngxs/pagination';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ActiveComponent } from './active.component';
 import { ActiveUiModule } from './active.module';
+import { of, Subject } from 'rxjs';
+import { TestCrudCollection, TestCrudCollectionService } from '../../../../ngxs/src/libs/collection-state/crud-collection.state.spec';
+import { TestPaginatedCrudCollection, TestPaginatedCrudService } from '../../../../ngxs/pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
 
 interface Post {
     userId: number;
@@ -20,12 +22,12 @@ interface Post {
     title: string;
 }
 
-@CrudCollection({
+@TestPaginatedCrudCollection({
     baseUrl: 'https://jsonplaceholder.typicode.com',
     name: 'posts',
 })
 @Injectable()
-class PostsEntitiesState extends PaginatedCrudCollectionState<Post, number> { }
+class PostsEntitiesState extends PaginatedCollectionState<Post, number> { }
 
 interface Comment {
     postId: number;
@@ -35,12 +37,12 @@ interface Comment {
     email: string;
 }
 
-@CrudCollection({
+@TestCrudCollection({
     name: 'comments',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
 @Injectable()
-class CommentsEntitiesState extends CrudCollectionState<Comment, number> { }
+class CommentsEntitiesState extends CollectionState<Comment, number> { }
 
 @CrudEntities({
     name: 'cache',
@@ -103,18 +105,16 @@ describe('ActiveComponent', () => {
                 HttpClientTestingModule,
                 NgxsModule.forRoot([EntityCrudEntitiesState, PostsEntitiesState, CommentsEntitiesState]),
                 NgxsDataPluginModule.forRoot(),
+                NgxsMiddlewareModule.forRoot(),
                 ActiveUiModule,
             ],
-            providers: [
-                {
-                    provide: HTTP_INTERCEPTORS,
-                    multi: true,
-                    useClass: PaginationInterceptor,
-                },
-                {
-                    provide: FRRRI_STATES_REGISTRY,
-                    useClass: StatesRegistryService,
-                },
+            providers: [{
+                provide: HTTP_INTERCEPTORS,
+                multi: true,
+                useClass: PaginationInterceptor,
+            },
+                TestPaginatedCrudService,
+                TestCrudCollectionService,
             ],
         }).compileComponents();
 
@@ -139,22 +139,25 @@ describe('ActiveComponent', () => {
     it('should show contents correctly', inject([
         HttpTestingController,
         PostsEntitiesState,
+        TestCrudCollectionService,
     ], (
         httpMock: HttpTestingController,
         postsEntities: PostsEntitiesState,
+        service: TestCrudCollectionService,
     ) => {
         // INIT
         expect(fixture.nativeElement.textContent.trim()).toEqual('My content');
         expect(fixture).toMatchSnapshot('init');
+        const subject = new Subject();
 
         // LOADING
+        spyOn(service, 'getOne').and.returnValue(subject.asObservable());
         postsEntities.getActive(1).toPromise();
-        const req1 = httpMock.expectOne(postsEntities.requestOptions.resourceUrlFactory(1));
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot('loading');
 
         // LOADED
-        req1.flush(page1Data.body[0]);
+        subject.next(page1Data.body[0]);
         fixture.detectChanges();
         expect(fixture).toMatchSnapshot('loaded');
     }));
