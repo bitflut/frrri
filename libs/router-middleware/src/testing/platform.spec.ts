@@ -5,16 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Platform } from '@frrri/router-middleware/internal';
 import { of } from 'rxjs';
 import { FRRRI_MIDDLEWARE } from '../constants';
+import { MiddlewareFactory } from '../factories/middleware.factory';
 import { frrri } from '../frrri';
 import { FrrriModule } from '../frrri.module';
 import { Middleware } from '../interfaces/middleware.interface';
 
-function MiddlewareFactory(id: string | number, platforms: Platform[]) {
-    class MyMiddleware implements Middleware {
-        platforms = platforms;
-
-        operate(operation: any, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-            const name = `Resolver ${id} --> ${operation}`;
+function MiddlewareTestingFactory(id: string | number, platforms: Platform[]) {
+    class MyMiddleware extends MiddlewareFactory(...platforms) implements Middleware {
+        operate(operation: any, platform: Platform, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+            const name = `${platform} Resolver ${id} --> ${operation}`;
             return of(name);
         }
     }
@@ -24,8 +23,8 @@ function MiddlewareFactory(id: string | number, platforms: Platform[]) {
 
 describe('Platform', () => {
 
-    class Resolver1 extends MiddlewareFactory(1, [Platform.NavigationEnd]) { }
-    class Resolver2 extends MiddlewareFactory(2, [Platform.Resolver]) { }
+    class Resolver1 extends MiddlewareTestingFactory(1, [Platform.NavigationEnd]) { }
+    class Resolver2 extends MiddlewareTestingFactory(2, [Platform.Resolver]) { }
 
     @Component({ template: '<router-outlet></router-outlet>' })
     class AppComponent { }

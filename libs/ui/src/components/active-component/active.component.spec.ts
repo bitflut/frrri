@@ -3,8 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState, StatesRegistryService } from '@frrri/ngxs';
 import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs/pagination';
+import { FRRRI_STATES_REGISTRY } from '@frrri/router-middleware';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
@@ -104,18 +105,24 @@ describe('ActiveComponent', () => {
                 NgxsDataPluginModule.forRoot(),
                 ActiveUiModule,
             ],
-            providers: [{
-                provide: HTTP_INTERCEPTORS,
-                multi: true,
-                useClass: PaginationInterceptor,
-            }],
+            providers: [
+                {
+                    provide: HTTP_INTERCEPTORS,
+                    multi: true,
+                    useClass: PaginationInterceptor,
+                },
+                {
+                    provide: FRRRI_STATES_REGISTRY,
+                    useClass: StatesRegistryService,
+                },
+            ],
         }).compileComponents();
 
         fixture = MockRender(`
-            <ngxs-crud-active path="cache.posts">
+            <frrri-active path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
-            </ngxs-crud-active>
+            </frrri-active>
         `);
 
         component = fixture.debugElement

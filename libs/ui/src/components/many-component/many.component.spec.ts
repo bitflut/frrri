@@ -3,8 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { Injectable } from '@angular/core';
 import { ComponentFixture, inject, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState } from '@frrri/ngxs';
+import { CrudCollection, CrudCollectionState, CrudEntities, CrudEntitiesState, StatesRegistryService } from '@frrri/ngxs';
 import { PaginatedCrudCollectionState, PaginationInterceptor } from '@frrri/ngxs/pagination';
+import { FRRRI_STATES_REGISTRY } from '@frrri/router-middleware';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { MockRender } from 'ng-mocks';
@@ -105,20 +106,26 @@ describe('ManyComponent', () => {
                 NgxsDataPluginModule.forRoot(),
                 ManyUiModule,
             ],
-            providers: [{
-                provide: HTTP_INTERCEPTORS,
-                multi: true,
-                useClass: PaginationInterceptor,
-            }],
+            providers: [
+                {
+                    provide: HTTP_INTERCEPTORS,
+                    multi: true,
+                    useClass: PaginationInterceptor,
+                },
+                {
+                    provide: FRRRI_STATES_REGISTRY,
+                    useClass: StatesRegistryService,
+                },
+            ],
         }).compileComponents();
 
         fixture = MockRender(`
-            <ngxs-crud-many path="cache.posts">
+            <frrri-many path="cache.posts">
                 My content
                 <div class="loading">mock-loading</div>
                 <div class="loading-first">mock-first-load</div>
                 <div class="load-more">mock-more</div>
-            </ngxs-crud-many>
+            </frrri-many>
         `);
 
         component = fixture.debugElement

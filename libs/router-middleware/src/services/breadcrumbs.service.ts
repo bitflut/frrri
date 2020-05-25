@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectFlags } from '@angular/core';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { activeBreadcrumb, OperatorType } from '@frrri/router-middleware/operators';
 import { EMPTY, Subject } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
-import { FRRRI_OPERATIONS, FRRRI_STATE_REGISTRY } from '../constants';
+import { FRRRI_OPERATIONS, FRRRI_STATES_REGISTRY } from '../constants';
 import { NavigationEndPlatform } from '../platforms/navigation-end.platform';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class BreadcrumbsService extends NavigationEndPlatform {
     private all$$ = new Subject();
     all$ = this.all$$.asObservable();
 
-    protected registryService = this.injector.get(FRRRI_STATE_REGISTRY);
+    protected statesRegistry = this.injector.get(FRRRI_STATES_REGISTRY, null, InjectFlags.Optional);
 
     async resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const breadcrumbsMap: { [key: string]: any } = {};
@@ -48,11 +48,15 @@ export class BreadcrumbsService extends NavigationEndPlatform {
         ]);
 
         this.all$$.next(breadcrumbs.reverse());
-        this.activeId$$.next(breadcrumbs[0].id);
+        this.activeId$$.next(breadcrumbs?.[0]?.id);
     }
 
     private async activeBreadcrumbToStatic(breadcrumb: ReturnType<typeof activeBreadcrumb>) {
-        const facade = this.registryService.getByPath(breadcrumb.statePath);
+        if (!this.statesRegistry) {
+            throw new Error('Provide a StatesRegistry to use \`activeBreadcrumb()\`');
+        }
+
+        const facade = this.statesRegistry.getByPath(breadcrumb.statePath);
         const active = await facade.active$
             .pipe(
                 timeout(12000),

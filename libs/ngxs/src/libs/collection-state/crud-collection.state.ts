@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, InjectFlags, Injector } from '@angular/core';
 import { GetManyOptions, OperationContext } from '@frrri/ngxs/internal';
-import { FRRRI_STATE_REGISTRY } from '@frrri/router-middleware';
+import { FRRRI_STATES_REGISTRY } from '@frrri/router-middleware';
 import { populate } from '@frrri/router-middleware/operators';
 import { Computed, DataAction, Payload } from '@ngxs-labs/data/decorators';
 import { NgxsDataEntityCollectionsRepository } from '@ngxs-labs/data/repositories';
@@ -27,7 +27,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
     extends NgxsDataEntityCollectionsRepository<Entity, IdType, Reducer> {
 
     private service = this.injector.get<CrudCollectionService<Entity>>(CrudCollectionService);
-    private statesRegistry = this.injector.get(FRRRI_STATE_REGISTRY);
+    private statesRegistry = this.injector.get(FRRRI_STATES_REGISTRY);
     private populations: Array<ReturnType<typeof populate>>;
     protected http = this.injector.get(HttpClient);
     readonly requestOptions: CrudCollectionOptions['requestOptions'];

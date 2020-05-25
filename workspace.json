@@ -405,13 +405,6 @@
       "library": {
         "linter": "eslint"
       }
-    },
-    "@nrwl/ngxs-crud-legacy:application": {
-      "unitTestRunner": "jest",
-      "e2eTestRunner": "cypress"
-    },
-    "@nrwl/ngxs-crud-legacy:library": {
-      "unitTestRunner": "jest"
     }
   }
 }

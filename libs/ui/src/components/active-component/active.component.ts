@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { CrudCollectionState, StatesRegistryService } from '@frrri/ngxs';
-import { FRRRI_STATE_REGISTRY } from '@frrri/router-middleware';
-import { EntityIdType } from '@ngxs-labs/data/typings';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { FRRRI_STATES_REGISTRY, StatesRegistry } from '@frrri/router-middleware';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -16,15 +14,15 @@ export class ActiveComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
     @Input() path: string;
-    protected facade: CrudCollectionState;
+    protected facade: any;
 
     active$: Observable<any>;
-    activeId$: Observable<EntityIdType>;
+    activeId$: Observable<string | number | undefined>;
     loading$: Observable<boolean>;
     error$: Observable<string>;
 
     constructor(
-        @Inject(FRRRI_STATE_REGISTRY) private statesRegistryService: StatesRegistryService<CrudCollectionState>,
+        @Optional() @Inject(FRRRI_STATES_REGISTRY) private statesRegistryService: StatesRegistry,
     ) { }
 
     ngOnInit(): void {

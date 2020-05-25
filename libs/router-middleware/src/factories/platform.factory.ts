@@ -19,7 +19,7 @@ export function PlatformFactory(platform: Platform) {
 
         getMiddlewares() {
             return this.injector.get(FRRRI_MIDDLEWARE)
-                ?.filter(middleware => middleware.platforms.includes(platform));
+                ?.filter(middleware => middleware.supportedPlatforms.includes(platform));
         }
 
         getOperations$(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
@@ -28,7 +28,7 @@ export function PlatformFactory(platform: Platform) {
             operations.forEach(operation =>
                 this.getMiddlewares()
                     .forEach(resolver => {
-                        const resolved = resolver.operate(operation, route, state);
+                        const resolved = resolver.operate(operation, platform, route, state);
                         operations$.push(
                             toObservable(resolved).pipe(map(result => ({ operation, result }))),
                         );

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { frrri, FrrriModule, FRRRI_MIDDLEWARE, Middleware, operate } from '@frrri/router-middleware';
+import { frrri, FrrriModule, FRRRI_MIDDLEWARE, Middleware, MiddlewareFactory, operate } from '@frrri/router-middleware';
 import { Platform } from '@frrri/router-middleware/internal';
 import { of } from 'rxjs';
 import { getActive } from '../libs/crud/operators/get-active.operator';
@@ -10,21 +10,17 @@ import { getMany } from '../libs/crud/operators/get-many.operator';
 import { populate } from '../libs/crud/operators/populate.operator';
 import { reset } from '../libs/crud/operators/reset.operator';
 
-class MyMiddleware1 implements Middleware {
-    platforms = [Platform.Resolver];
-
-    operate(operation: any, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+class MyMiddleware1 extends MiddlewareFactory(Platform.Resolver) implements Middleware {
+    operate(operation: any, platform: Platform, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const name = 'Resolver 1';
-        return of(`${name} ${operation.type} ${operation?.statePath}`);
+        return of(`${platform} ${name} ${operation.type} ${operation?.statePath}`);
     }
 }
-class MyMiddleware2 implements Middleware {
-    platforms = [Platform.Resolver];
-
-    operate(operation: any, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+class MyMiddleware2 extends MiddlewareFactory(Platform.Resolver) implements Middleware {
+    operate(operation: any, platform: Platform, route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const name = 'Resolver 2';
         if (operation.type === 'reset') { return; }
-        return of(`${name} ${operation.type} ${operation?.statePath}`);
+        return of(`${platform} ${name} ${operation.type} ${operation?.statePath}`);
     }
 }
 

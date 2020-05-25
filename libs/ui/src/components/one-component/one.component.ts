@@ -1,7 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { CrudCollectionState, StatesRegistryService } from '@frrri/ngxs';
-import { FRRRI_STATE_REGISTRY } from '@frrri/router-middleware';
-import { EntityIdType } from '@ngxs-labs/data/typings';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnChanges, OnDestroy, OnInit, Optional, SimpleChanges } from '@angular/core';
+import { FRRRI_STATES_REGISTRY, StatesRegistry } from '@frrri/router-middleware';
 import { BehaviorSubject, combineLatest, Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
@@ -13,20 +11,19 @@ import { map, takeUntil } from 'rxjs/operators';
 })
 export class OneComponent implements OnInit, OnDestroy, OnChanges {
 
-
     @Input() path: string;
     @Input() id: string;
     private idSubject$$ = new BehaviorSubject<string>(undefined);
     private destroy$ = new Subject<void>();
-    protected facade: CrudCollectionState;
+    protected facade: any;
 
     one$: Observable<any>;
-    oneId$: Observable<EntityIdType>;
+    oneId$: Observable<string | number | undefined>;
     loading$: Observable<boolean>;
     error$: Observable<string>;
 
     constructor(
-        @Inject(FRRRI_STATE_REGISTRY) private statesRegistryService: StatesRegistryService<CrudCollectionState>,
+        @Optional() @Inject(FRRRI_STATES_REGISTRY) private statesRegistry: StatesRegistry,
     ) { }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -41,7 +38,7 @@ export class OneComponent implements OnInit, OnDestroy, OnChanges {
         }
 
         try {
-            this.facade = this.statesRegistryService.getByPath(this.path);
+            this.facade = this.statesRegistry.getByPath(this.path);
             if (!this.facade) { throw new Error(); }
         } catch (e) {
             throw new Error(`<lya-one> could not find path \`${this.path}\` in registered states`);

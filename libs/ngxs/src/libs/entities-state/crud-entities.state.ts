@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { FRRRI_STATE_REGISTRY } from '@frrri/router-middleware';
+import { FRRRI_STATES_REGISTRY } from '@frrri/router-middleware';
 import { DataAction } from '@ngxs-labs/data/decorators';
 import { NgxsDataRepository } from '@ngxs-labs/data/repositories';
 import { DataStateClass } from '@ngxs-labs/data/typings';
@@ -11,7 +11,7 @@ interface Resettable {
 @Injectable()
 export class CrudEntitiesState<T = any> extends NgxsDataRepository<T> {
 
-    private statesRegistry = this.injector.get(FRRRI_STATE_REGISTRY);
+    private statesRegistry = this.injector.get(FRRRI_STATES_REGISTRY);
 
     constructor(protected injector: Injector) {
         super();

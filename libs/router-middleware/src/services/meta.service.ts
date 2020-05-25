@@ -1,17 +1,16 @@
-import { Injectable } from '@angular/core';
+import { Injectable, InjectFlags } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { CrudCollectionState } from '@frrri/ngxs';
 import { activeMeta, OperatorType } from '@frrri/router-middleware/operators';
 import { EMPTY } from 'rxjs';
 import { catchError, filter, take, timeout } from 'rxjs/operators';
-import { FRRRI_OPERATIONS, FRRRI_STATE_REGISTRY } from '../constants';
+import { FRRRI_OPERATIONS, FRRRI_STATES_REGISTRY } from '../constants';
 import { NavigationEndPlatform } from '../platforms/navigation-end.platform';
 
 @Injectable()
 export class MetaService extends NavigationEndPlatform {
 
-    protected registryService = this.injector.get(FRRRI_STATE_REGISTRY);
+    protected statesRegistry = this.injector.get(FRRRI_STATES_REGISTRY, null, InjectFlags.Optional);
     protected metaService = this.injector.get(Meta);
     protected titleService = this.injector.get(Title);
     private defaultTitle = this.titleService.getTitle();
@@ -43,7 +42,11 @@ export class MetaService extends NavigationEndPlatform {
     }
 
     private async activeMeta(meta: ReturnType<typeof activeMeta>) {
-        const facade = this.registryService.getByPath<CrudCollectionState>(meta.statePath);
+        if (!this.statesRegistry) {
+            throw new Error('Provide a StatesRegistry to use \`activeMeta()\`');
+        }
+
+        const facade = this.statesRegistry.getByPath(meta.statePath);
         const active = await facade.active$
             .pipe(
                 timeout(12000),

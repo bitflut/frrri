@@ -1,8 +1,5 @@
-import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
-import { CrudCollectionState, StatesRegistryService } from '@frrri/ngxs';
-import { PaginatedCrudCollectionState } from '@frrri/ngxs/pagination';
-import { FRRRI_STATE_REGISTRY } from '@frrri/router-middleware';
-import { EntityIdType } from '@ngxs-labs/data/typings';
+import { ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, Optional } from '@angular/core';
+import { FRRRI_STATES_REGISTRY, StatesRegistry } from '@frrri/router-middleware';
 import { Observable, pipe, Subject, UnaryFunction } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -17,7 +14,7 @@ export class ManyComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
 
     @Input() path: string;
-    protected facade: CrudCollectionState | PaginatedCrudCollectionState;
+    protected facade: any;
 
     all$: Observable<any[]>;
     loaded$: Observable<boolean>;
@@ -27,10 +24,10 @@ export class ManyComponent implements OnInit, OnDestroy {
     error$: Observable<string | undefined>;
     empty$: Observable<boolean>;
     next$?: Observable<any | false>;
-    activeId$?: Observable<EntityIdType | undefined>;
+    activeId$?: Observable<string | number | undefined>;
 
     constructor(
-        @Inject(FRRRI_STATE_REGISTRY) private statesRegistryService: StatesRegistryService<CrudCollectionState | PaginatedCrudCollectionState>,
+        @Optional() @Inject(FRRRI_STATES_REGISTRY) private statesRegistryService: StatesRegistry,
     ) { }
 
     ngOnInit(): void {

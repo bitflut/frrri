@@ -11,9 +11,9 @@ import { MetaService } from './services/meta.service';
 export class FrrriModule {
 
     constructor(
-        navigationEndPlatform: NavigationEndPlatform,
-        breadcrumbsService: BreadcrumbsService,
-        metaService: MetaService,
+        protected navigationEndPlatform: NavigationEndPlatform,
+        protected breadcrumbsService: BreadcrumbsService,
+        protected metaService: MetaService,
     ) { }
 
     static forRoot(): ModuleWithProviders {
