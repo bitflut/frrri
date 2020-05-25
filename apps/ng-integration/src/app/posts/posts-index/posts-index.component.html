@@ -1,6 +1,6 @@
 <div class="flex flex-row -mx-6">
-    <div class="w-1/3 px-6 h-screen overflow-y-auto py-16">
-        <ngxs-crud-many path="entities.posts" #posts>
+    <div class="w-1/3 px-6 h-screen overflow-y-auto">
+        <frrri-many path="entities.posts" #posts>
             <ng-container *ngIf="posts.loaded$ | async">
                 <div class="-my-2">
                     <ng-container *ngFor="let post of posts.all$ | async; trackBy: posts.trackByKey()">
@@ -11,11 +11,11 @@
                                 #{{ post.id }} {{ post.title }}
                             </div>
                             <div>{{ post.body | slice:0:20 }}...</div>
-                            <ngxs-crud-one path="entities.users" [id]="post.userId" #oneUser>
+                            <frrri-one path="entities.users" [id]="post.userId" #oneUser>
                                 <ng-container *ngIf="oneUser.one$ | async as user">
                                     {{ user.name }}
                                 </ng-container>
-                            </ngxs-crud-one>
+                            </frrri-one>
                         </a>
                     </ng-container>
                 </div>
@@ -36,9 +36,9 @@
                     Loading more...
                 </a>
             </div>
-        </ngxs-crud-many>
+        </frrri-many>
     </div>
-    <div class="w-2/3 px-6 h-screen overflow-y-auto py-16">
+    <div class="w-2/3 px-6 h-screen overflow-y-auto">
         <router-outlet></router-outlet>
     </div>
 </div>

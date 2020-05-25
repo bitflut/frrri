@@ -1,5 +1,5 @@
 ---
-description: <ngxs-crud-many>
+description: <frrri-many>
 ---
 
 # NgxsCrudManycomponent
@@ -9,7 +9,7 @@ The component exposes multiple selectors and has common scenarios like loading p
 The path **entities.posts** defined in the example below is the corresponding collection's state path. See [States Registry](../../recipes/states-registry.md) for more information.
 
 ```markup
-<ngxs-crud-many path="entities.posts" #posts>
+<frrri-many path="entities.posts" #posts>
     <!-- Loop through all posts -->
     <ng-container *ngFor="let post of posts.all$ | async; trackBy:posts.trackByKey('id')">
         {{ post | json }}
@@ -19,12 +19,12 @@ The path **entities.posts** defined in the example below is the corresponding co
     <div class="loading">
         Loading posts...
     </div>
-</ngxs-crud-many>
+</frrri-many>
 ```
 
 #### Provided &lt;ng-content&gt; selectors
 
-Note: If the default order of these components is not like you wish, we suggest you use css to set ngxs-crud-many display to flex and order the as wanted. 
+Note: If the default order of these components is not like you wish, we suggest you use css to set frrri-many display to flex and order the as wanted. 
 
 * **.loading:** Shown while the collection is loading.
 * **.loading-first**: If provided, will show this instead of .loading when loading the first page of a collection.

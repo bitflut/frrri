@@ -1,11 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ngxsCrudRoutes } from '@frrri/ngxs-crud/routing';
+import { frrri, operate } from '@frrri/router-middleware';
+import { staticBreadcrumb } from '@frrri/router-middleware/operators';
 
 const routes: Routes = [
     {
         path: '',
+        data: operate(
+            staticBreadcrumb({ title: 'home' }),
+        ),
         children: [
             {
                 path: 'posts',
@@ -20,7 +24,7 @@ const routes: Routes = [
     imports: [
         CommonModule,
         RouterModule.forRoot(
-            ngxsCrudRoutes(routes),
+            frrri(routes),
             {
                 initialNavigation: 'enabled',
                 urlUpdateStrategy: 'eager',
