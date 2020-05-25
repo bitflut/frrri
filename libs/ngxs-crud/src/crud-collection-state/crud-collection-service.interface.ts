@@ -7,6 +7,6 @@ export interface CrudCollectionService<V = any, IdType = any> {
     getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions): Observable<V[]>;
     patchOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V>;
     putOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V>;
-    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType): void;
+    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType): Observable<void>;
     postOne(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V>;
 }
