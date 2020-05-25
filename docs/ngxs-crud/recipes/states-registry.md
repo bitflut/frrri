@@ -6,7 +6,7 @@ As you might have noticed by now, [routing instructions](../usage/routing-instru
 @CrudCollection({
     name: 'posts'
 })
-export class PostsState extends CrudCollectionState { }
+export class PostsState extends CollectionState { }
 
 @CrudEntities({
     name: 'entities',

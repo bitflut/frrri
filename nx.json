@@ -29,9 +29,6 @@
     "nest-integration": {
       "tags": []
     },
-    "ngxs-crud": {
-      "tags": []
-    },
     "nest-crud": {
       "tags": []
     },
@@ -41,7 +38,16 @@
     "nest-crud-mongoose": {
       "tags": []
     },
-    "ngxs-crud-http": {
+    "router-middleware": {
+      "tags": []
+    },
+    "ngxs": {
+      "tags": []
+    },
+    "ui": {
+      "tags": []
+    },
+    "ngxs-http": {
       "tags": []
     }
   }

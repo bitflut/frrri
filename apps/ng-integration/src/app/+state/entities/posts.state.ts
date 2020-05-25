@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AfterSuccess } from '@frrri/ngxs-crud';
-import { OperationContext } from '@frrri/ngxs-crud/internal';
-import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
+import { AfterSuccess } from '@frrri/ngxs';
+import { OperationContext } from '@frrri/ngxs/internal';
+import { PaginatedCollectionState } from '@frrri/ngxs/pagination';
 import { Observable } from 'rxjs';
-import { HttpPaginatedCrudCollection } from '@frrri/ngxs-crud-http';
+import { HttpPaginatedCollection } from '@frrri/ngxs-http';
 
 interface Post {
     userId: number;
@@ -12,11 +12,11 @@ interface Post {
     title: string;
 }
 
-@HttpPaginatedCrudCollection({
+@HttpPaginatedCollection({
     name: 'posts',
 })
 @Injectable()
-export class PostsState extends PaginatedCrudCollectionState<Post, Post['id']> implements AfterSuccess<Post> {
+export class PostsState extends PaginatedCollectionState<Post, Post['id']> implements AfterSuccess<Post> {
 
     afterSuccess(data: any | any[], operation: OperationContext): void | Observable<any> {
     }

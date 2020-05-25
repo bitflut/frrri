@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpPaginatedCrudCollection } from '@frrri/ngxs-crud-http';
-import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
+import { PaginatedCollectionState } from '@frrri/ngxs/pagination';
+import { HttpPaginatedCollection } from '@frrri/ngxs-http';
 
-@HttpPaginatedCrudCollection({
+@HttpPaginatedCollection({
     name: 'users',
 })
 @Injectable()
-export class UsersState extends PaginatedCrudCollectionState<any, string> {
+export class UsersState extends PaginatedCollectionState<any, string> {
 }

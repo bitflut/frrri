@@ -34,7 +34,7 @@ import { PostsState } from './posts.state'; // <-- we will add this next
 export class AppModule {}
 ```
 
-Now add a **CrudEntitiesState** \(acting as a parent to your entities\) and your first **CrudCollectionState**:
+Now add a **CrudEntitiesState** \(acting as a parent to your entities\) and your first **CollectionState**:
 
 {% tabs %}
 {% tab title="entities.state.ts" %}
@@ -54,7 +54,7 @@ export class EntitiesState extends CrudEntitiesState { }
 @CrudCollection({
     name: 'posts'
 })
-export class PostsState extends CrudCollectionState { }
+export class PostsState extends CollectionState { }
 ```
 {% endtab %}
 {% endtabs %}

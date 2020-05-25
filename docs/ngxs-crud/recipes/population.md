@@ -36,15 +36,15 @@ import { Post, Comment, User } from './interfaces';
 
 @CrudCollection({ name: 'posts' })
 @Injectable()
-export class PostsState extends CrudCollectionState<Post, Post['id']> { }
+export class PostsState extends CollectionState<Post, Post['id']> { }
 
 @CrudCollection({ name: 'comments' })
 @Injectable()
-export class CommentsState extends CrudCollectionState<Comment, Comment['id']> { }
+export class CommentsState extends CollectionState<Comment, Comment['id']> { }
 
 @CrudCollection({ name: 'users' })
 @Injectable()
-export class UsersState extends CrudCollectionState<User, User['id']> { }
+export class UsersState extends CollectionState<User, User['id']> { }
 
 @CrudEntities({
     name: 'users',

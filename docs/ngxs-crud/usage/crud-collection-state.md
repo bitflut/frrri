@@ -1,11 +1,11 @@
 # Crud Collection
 
-By extending your State with **CrudCollectionState** and adding the **@CrudCollection** decorator, you are all set to communicate with your api via the provided defaults `/api/{collection name}` .
+By extending your State with **CollectionState** and adding the **@CrudCollection** decorator, you are all set to communicate with your api via the provided defaults `/api/{collection name}` .
 
 {% code title="posts.state.ts" %}
 ```typescript
 import { Injectable } from '@angular/core';
-import { CrudCollection, CrudCollectionState } from '@frrri/ngxs-crud';
+import { CrudCollection, CollectionState } from '@frrri/ngxs-crud';
 
 interface Post {
     id: string;
@@ -15,7 +15,7 @@ interface Post {
 
 @CrudCollection({ name: 'posts' })
 @Injectable()
-export class PostsState extends CrudCollectionState<Post, Post['id']> { }
+export class PostsState extends CollectionState<Post, Post['id']> { }
 
 ```
 {% endcode %}

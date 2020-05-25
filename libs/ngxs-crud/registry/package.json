@@ -1,9 +1,0 @@
-{
-  "ngPackage": {
-    "lib": {
-      "umdModuleIds": {
-        "@ngxs/store/internals": "@ngxs/store/internals"
-      }
-    }
-  }
-}

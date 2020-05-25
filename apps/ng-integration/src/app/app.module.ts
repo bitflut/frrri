@@ -1,13 +1,14 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgxsCrudMetaModule } from '@frrri/ngxs-crud/meta';
-import { PaginationInterceptor } from '@frrri/ngxs-crud/pagination';
-import { NgxsCrudRoutingModule } from '@frrri/ngxs-crud/routing';
+import { NgxsMiddlewareModule } from '@frrri/ngxs';
+import { PaginationInterceptor } from '@frrri/ngxs/pagination';
+import { FrrriModule } from '@frrri/router-middleware';
+import { BreadcrumbsUiModule } from '@frrri/ui';
 import { AppRoutingModule } from './app-routing.module';
 import { AppStateModule } from './app-state.module';
 import { AppComponent } from './app.component';
-import { NgxsHttpCrudCollectionModule } from '@frrri/ngxs-crud-http';
+import { HttpCollectionModule } from '@frrri/ngxs-http';
 
 @NgModule({
     declarations: [AppComponent],
@@ -16,9 +17,10 @@ import { NgxsHttpCrudCollectionModule } from '@frrri/ngxs-crud-http';
         HttpClientModule,
         AppRoutingModule,
         AppStateModule,
-        NgxsHttpCrudCollectionModule.forRoot(),
-        NgxsCrudMetaModule.forRoot(),
-        NgxsCrudRoutingModule.forRoot(),
+        FrrriModule.forRoot(),
+        HttpCollectionModule.forRoot(),
+        NgxsMiddlewareModule.forRoot(),
+        BreadcrumbsUiModule,
     ],
     providers: [
         {
