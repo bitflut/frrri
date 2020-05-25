@@ -6,9 +6,11 @@ import { map } from 'rxjs/operators';
 import { FRRRI_MIDDLEWARE, FRRRI_OPERATIONS } from '../constants';
 import { toObservable } from '../helpers/is-observable';
 
+type OptionalArray<T = any> = T | T[];
+
 export function PlatformFactory(platform: Platform) {
     @Injectable()
-    abstract class PlatformAbstract<T = any> implements Resolve<T[]> {
+    abstract class PlatformAbstract<T = any> implements Resolve<OptionalArray<T>> {
 
         constructor(protected injector: Injector) { }
 
@@ -38,8 +40,10 @@ export function PlatformFactory(platform: Platform) {
             return operations$;
         }
 
-        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-            return forkJoin(this.getOperations$(route, state));
+        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<OptionalArray<T>> | Promise<OptionalArray<T>> | OptionalArray<T> {
+            const operations$ = this.getOperations$(route, state);
+            if (!operations$.length) { return; }
+            return forkJoin(operations$);
         }
 
     }

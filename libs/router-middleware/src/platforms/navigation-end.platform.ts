@@ -5,7 +5,7 @@ import { concatMapTo, filter, map, take } from 'rxjs/operators';
 import { PlatformFactory } from '../factories/platform.factory';
 
 @Injectable()
-export class NavigationEndPlatform<T = any> extends PlatformFactory(Platform.NavigationEnd) implements Resolve<T[]> {
+export class NavigationEndPlatform<T = any> extends PlatformFactory(Platform.NavigationEnd) implements Resolve<T | T[]> {
 
     constructor(protected injector: Injector) {
         super(injector);

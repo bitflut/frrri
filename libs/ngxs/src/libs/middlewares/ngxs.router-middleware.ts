@@ -12,8 +12,6 @@ export class NgxsRouterMiddleware extends MiddlewareFactory(Platform.Resolver, P
         let facade: StateFacade;
         if ('statePath' in operation && operation.statePath) {
             facade = this.statesRegistry.getByPath<StateFacade>(operation.statePath);
-        } else {
-            return;
         }
 
         switch (platform) {
