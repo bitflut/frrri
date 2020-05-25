@@ -1,11 +1,11 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs-crud';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { omit } from 'lodash';
 import { HttpCrudCollection } from './http-crud-collection.decorator';
-import { CrudCollectionReducer, CrudCollectionState } from '@frrri/ngxs-crud';
 import { NgxsHttpCrudCollectionModule } from './http-crud-collection.module';
 
 interface Post {
@@ -46,18 +46,13 @@ const newPostData = {
     title: 'testing Angular',
 };
 
-
-
-
 @HttpCrudCollection<CrudCollectionReducer>({
     name: 'posts',
     baseUrl: 'https://jsonplaceholder.typicode.com',
 })
 @Injectable()
 class PostsEntitiesState extends CrudCollectionState<Post, number> {
-
     afterSuccess(data: Post | Post[]) { }
-
 }
 
 @HttpCrudCollection<CrudCollectionReducer>({
