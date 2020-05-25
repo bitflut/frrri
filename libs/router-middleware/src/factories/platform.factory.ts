@@ -1,8 +1,9 @@
-import { Injectable, Injector } from '@angular/core';
+import { isPlatformServer } from '@angular/common';
+import { Injectable, Injector, PLATFORM_ID } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Platform } from '@frrri/router-middleware/internal';
-import { forkJoin, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 import { FRRRI_MIDDLEWARE, FRRRI_OPERATIONS } from '../constants';
 import { toObservable } from '../helpers/is-observable';
 
@@ -11,6 +12,8 @@ type OptionalArray<T = any> = T | T[];
 export function PlatformFactory(platform: Platform) {
     @Injectable()
     abstract class PlatformAbstract<T = any> implements Resolve<OptionalArray<T>> {
+
+        protected ngPlatformId = this.injector.get(PLATFORM_ID);
 
         constructor(protected injector: Injector) { }
 
@@ -26,14 +29,25 @@ export function PlatformFactory(platform: Platform) {
 
         getOperations$(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
             const operations = this.getOperations(route) ?? [];
-            const operations$: Observable<any>[] = [];
+            const operations$: Array<Observable<any>> = [];
             operations.forEach(operation =>
                 this.getMiddlewares()
                     .forEach(resolver => {
-                        const resolved = resolver.operate(operation, platform, route, state);
-                        operations$.push(
-                            toObservable(resolved).pipe(map(result => ({ operation, result }))),
-                        );
+                        const operate = resolver.operate(operation, platform, route, state);
+                        const operate$ = toObservable(operate);
+
+                        const awaitPlatformServer = operation.awaitPlatformServer || true;
+                        const awaitPlatformBrowser = operation.await || false;
+                        const shouldAwait = isPlatformServer(this.ngPlatformId) ? awaitPlatformServer : awaitPlatformBrowser;
+
+                        if (shouldAwait) {
+                            operations$.push(
+                                operate$.pipe(map(result => ({ operation, result }))),
+                            );
+                        } else {
+                            operate$.pipe(take(1)).toPromise();
+                            operations$.push(of({ operation, result: undefined }));
+                        }
                     }),
             );
 
