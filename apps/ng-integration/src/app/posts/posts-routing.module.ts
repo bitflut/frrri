@@ -68,6 +68,13 @@ const routes: Routes = [
             path: ':id',
             component: PostsShowComponent,
             data: operate(
+                reset(comments),
+                populate({
+                    from: posts,
+                    to: comments,
+                    idPath: 'postId',
+                    idSource: comments,
+                }),
                 getActive(posts, { await: true }),
             ),
         }],
