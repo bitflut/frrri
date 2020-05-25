@@ -61,7 +61,7 @@ export function TestCrudCollection<T = CrudCollectionReducer>(options: CrudColle
     return function (target: StateClass) {
         stateFn(target);
         stateRepositoryFn(target);
-        target.prototype.serviceToken = TEST_CRUD_COLLECTION_SERVICE;
+        target.prototype.serviceToken = TestCrudCollectionService;
 
         const stateOptions = {
             requestOptions: options.requestOptions,
@@ -81,13 +81,9 @@ export class TestCrudCollectionService<V = any, IdType = any> implements CrudCol
     getMany(stateOptions: CurdCollectionStateOptions, options: GetManyOptions = {}): Observable<V[]> { return of([]); }
     patchOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }) { return (of({} as V)); }
     putOne(stateOptions: CurdCollectionStateOptions, id: IdType, changes: { [key: string]: Partial<V> }): Observable<V> { return of({} as V); }
-    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType) { return of({}); }
+    deleteOne(stateOptions: CurdCollectionStateOptions, id: IdType): Observable<void> { return of(); }
     postOne(stateOptions: CurdCollectionStateOptions, body: Partial<V>): Observable<V> { return of({} as V); }
 }
-
-export const TEST_CRUD_COLLECTION_SERVICE =
-    new InjectionToken<CrudCollectionService>('TEST_CRUD_COLLECTION_SERVICE_TOKEN');
-
 
 @TestCrudCollection<CrudCollectionReducer>({
     name: 'posts',
@@ -116,18 +112,13 @@ describe('CrudCollectionState', () => {
                 NgxsDataPluginModule.forRoot(),
                 NgxsModule.forRoot([PostsEntitiesState, MongodbPostsEntitiesState]),
             ],
-            providers: [
-                {
-                    provide: TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestCrudCollectionService,
-                },
-            ],
+            providers: [TestCrudCollectionService],
         }).compileComponents();
     });
 
     it('should getMany', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -142,7 +133,7 @@ describe('CrudCollectionState', () => {
 
     it('should getMany with different idKey', inject([
         MongodbPostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: MongodbPostsEntitiesState,
         service: TestCrudCollectionService,
@@ -157,7 +148,7 @@ describe('CrudCollectionState', () => {
 
     it('should getOne', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -169,7 +160,7 @@ describe('CrudCollectionState', () => {
 
     it('should postOne', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -181,7 +172,7 @@ describe('CrudCollectionState', () => {
 
     it('should postOneOptimistic', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -193,7 +184,7 @@ describe('CrudCollectionState', () => {
 
     it('should patchOne', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -206,7 +197,7 @@ describe('CrudCollectionState', () => {
 
     it('should patchOneOptimistic', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -223,7 +214,7 @@ describe('CrudCollectionState', () => {
 
     it('should deleteOne', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -235,7 +226,7 @@ describe('CrudCollectionState', () => {
 
     it('should deleteOneOptimistic', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -262,7 +253,7 @@ describe('CrudCollectionState', () => {
 
     it('should getActive', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,
@@ -276,7 +267,7 @@ describe('CrudCollectionState', () => {
 
     it('should call afterSuccess', inject([
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         postsState: PostsEntitiesState,
         service: TestCrudCollectionService,

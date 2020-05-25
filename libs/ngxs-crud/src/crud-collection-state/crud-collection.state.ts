@@ -34,7 +34,7 @@ export class CrudCollectionState<Entity = {}, IdType extends EntityIdType = stri
 
     constructor(protected injector: Injector) {
         super();
-        const { idKey, baseUrl, endpoint, populateFactory, requestOptions } = this.stateOptions;
+        const { idKey, baseUrl, endpoint, requestOptions } = this.stateOptions;
         const providerOptions = this.injector.get(CRUD_COLLECTION_OPTIONS_TOKEN, {}, InjectFlags.Optional);
 
         this.primaryKey = idKey ?? providerOptions.idKey ?? this.primaryKey; // TODO: update in @ngxs-labs/data

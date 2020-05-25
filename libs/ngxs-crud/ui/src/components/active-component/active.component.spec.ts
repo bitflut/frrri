@@ -11,8 +11,8 @@ import { MockRender } from 'ng-mocks';
 import { take } from 'rxjs/operators';
 import { ActiveComponent } from './active.component';
 import { NgxsCrudActiveModule } from './active.module';
-import { TestCrudCollection, TEST_CRUD_COLLECTION_SERVICE, TestCrudCollectionService } from '../../../../src/crud-collection-state/crud-collection.state.spec';
-import { TestPaginatedCrudCollection, PAGINATED_TEST_CRUD_COLLECTION_SERVICE, TestPaginatedCrudService } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
+import { TestCrudCollection, TestCrudCollectionService } from '../../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestPaginatedCrudCollection, TestPaginatedCrudService } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
 import { of, Subject } from 'rxjs';
 
 
@@ -113,14 +113,8 @@ describe('ActiveComponent', () => {
                 multi: true,
                 useClass: PaginationInterceptor,
             },
-            {
-                provide: PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
-                useClass: TestPaginatedCrudService,
-            },
-            {
-                provide: TEST_CRUD_COLLECTION_SERVICE,
-                useClass: TestCrudCollectionService,
-            },
+                TestPaginatedCrudService,
+                TestCrudCollectionService,
             ],
         }).compileComponents();
 
@@ -145,7 +139,7 @@ describe('ActiveComponent', () => {
     it('should show contents correctly', inject([
         HttpTestingController,
         PostsEntitiesState,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], (
         httpMock: HttpTestingController,
         postsEntities: PostsEntitiesState,

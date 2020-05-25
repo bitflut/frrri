@@ -1,12 +1,12 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { Injectable, InjectionToken } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
 import { PaginationInterceptor, PaginatedCrudCollectionReducer, PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 import { CrudCollectionReducer, CurdCollectionStateOptions } from '@frrri/ngxs-crud';
 import { PaginatedCrudCollectionOptions } from './paginated-crud-collection-options.interface';
-import { TestCrudCollection, TestCrudCollectionService, TEST_CRUD_COLLECTION_SERVICE } from '../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestCrudCollection, TestCrudCollectionService } from '../../../src/crud-collection-state/crud-collection.state.spec';
 import { StateClass } from '@ngxs/store/internals';
 import { PaginatedCrudCollectionService } from './paginated-crud-collection-service.interface';
 import { GetManyOptions } from '@frrri/ngxs-crud/internal';
@@ -18,9 +18,6 @@ interface Post {
     body: string;
     title: string;
 }
-
-export const PAGINATED_TEST_CRUD_COLLECTION_SERVICE =
-    new InjectionToken<PaginatedCrudCollectionService>('PAGINATED_TOKEN');
 
 export function TestPaginatedCrudCollection<T = CrudCollectionReducer>(options: PaginatedCrudCollectionOptions<T>) {
     options = {
@@ -34,7 +31,7 @@ export function TestPaginatedCrudCollection<T = CrudCollectionReducer>(options: 
     const crudCollectionFn = TestCrudCollection(options);
     return function (target: StateClass) {
         target.prototype.pageSize = options.size;
-        target.prototype.paginatedServiceToken = PAGINATED_TEST_CRUD_COLLECTION_SERVICE;
+        target.prototype.paginatedServiceToken = TestPaginatedCrudService;
         crudCollectionFn(target);
     };
 }
@@ -66,21 +63,15 @@ describe('PaginatedCollectionState', () => {
                     multi: true,
                     useClass: PaginationInterceptor,
                 },
-                {
-                    provide: PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestPaginatedCrudService,
-                },
-                {
-                    provide: TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestCrudCollectionService,
-                },
+                TestPaginatedCrudService,
+                TestCrudCollectionService,
             ],
         }).compileComponents();
     });
 
     it('should getMany', inject([
         PostsEntitiesState,
-        PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+        TestPaginatedCrudService,
     ], (
         postsState: PostsEntitiesState,
         service: TestPaginatedCrudService,
@@ -96,7 +87,7 @@ describe('PaginatedCollectionState', () => {
 
     it('should getAll', inject([
         PostsEntitiesState,
-        PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+        TestPaginatedCrudService,
     ], (
         postsState: PostsEntitiesState,
         service: TestPaginatedCrudService,
@@ -109,7 +100,7 @@ describe('PaginatedCollectionState', () => {
 
     it('should getNext', inject([
         PostsEntitiesState,
-        PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+        TestPaginatedCrudService,
     ], (
         postsState: PostsEntitiesState,
         service: TestPaginatedCrudService,

@@ -5,7 +5,7 @@ import { PaginatedCrudCollectionState } from '@frrri/ngxs-crud/pagination';
 import { StatesRegistryService } from '@frrri/ngxs-crud/registry';
 import { NgxsDataPluginModule } from '@ngxs-labs/data';
 import { NgxsModule } from '@ngxs/store';
-import { TestCrudCollection, TestCrudCollectionService, TEST_CRUD_COLLECTION_SERVICE } from '../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestCrudCollection, TestCrudCollectionService } from '../../../src/crud-collection-state/crud-collection.state.spec';
 import { of } from 'rxjs';
 import { HttpClientModule } from '@angular/common/http';
 
@@ -83,12 +83,7 @@ describe('StatesRegistry', () => {
                 NgxsDataPluginModule.forRoot(),
                 FeatureModule,
             ],
-            providers: [
-                {
-                    provide: TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestCrudCollectionService,
-                },
-            ],
+            providers: [TestCrudCollectionService],
         });
     });
 
@@ -108,7 +103,7 @@ describe('StatesRegistry', () => {
 
     it('should reset all states', inject([
         StatesRegistryService,
-        TEST_CRUD_COLLECTION_SERVICE,
+        TestCrudCollectionService,
     ], async (
         collectionRegistry: StatesRegistryService<PaginatedCrudCollectionState>,
         service: TestCrudCollectionService,

@@ -11,8 +11,8 @@ import { MockRender } from 'ng-mocks';
 import { take, tap } from 'rxjs/operators';
 import { ManyComponent } from './many.component';
 import { NgxsCrudManyModule } from './many.module';
-import { TestCrudCollection, TEST_CRUD_COLLECTION_SERVICE, TestCrudCollectionService } from '../../../../src/crud-collection-state/crud-collection.state.spec';
-import { TestPaginatedCrudCollection, PAGINATED_TEST_CRUD_COLLECTION_SERVICE, TestPaginatedCrudService } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
+import { TestCrudCollection, TestCrudCollectionService } from '../../../../src/crud-collection-state/crud-collection.state.spec';
+import { TestPaginatedCrudCollection, TestPaginatedCrudService } from '../../../../pagination/src/paginated-crud-collection-state/paginated-crud-collection.state.spec';
 import { of, Subject } from 'rxjs';
 
 interface Post {
@@ -114,14 +114,8 @@ describe('ManyComponent', () => {
                     multi: true,
                     useClass: PaginationInterceptor,
                 },
-                {
-                    provide: PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestPaginatedCrudService,
-                },
-                {
-                    provide: TEST_CRUD_COLLECTION_SERVICE,
-                    useClass: TestCrudCollectionService,
-                },
+                TestPaginatedCrudService,
+                TestCrudCollectionService,
             ],
         }).compileComponents();
 
@@ -147,7 +141,7 @@ describe('ManyComponent', () => {
 
     it('should show contents correctly', inject([
         PostsEntitiesState,
-        PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+        TestPaginatedCrudService,
     ], (
         postsEntities: PostsEntitiesState,
         service: TestPaginatedCrudService,
@@ -199,7 +193,7 @@ describe('ManyComponent', () => {
 
     it('should show errors', inject([
         PostsEntitiesState,
-        PAGINATED_TEST_CRUD_COLLECTION_SERVICE,
+        TestPaginatedCrudService,
     ], (
         postsEntities: PostsEntitiesState,
         service: TestPaginatedCrudService,
