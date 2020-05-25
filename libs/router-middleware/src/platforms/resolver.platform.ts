@@ -4,5 +4,5 @@ import { Platform } from '@frrri/router-middleware/internal';
 import { PlatformFactory } from '../factories/platform.factory';
 
 @Injectable()
-export class ResolverPlatform<T = any> extends PlatformFactory(Platform.Resolver) implements Resolve<T> {
+export class ResolverPlatform<T = any> extends PlatformFactory(Platform.Resolver) implements Resolve<T[]> {
 }

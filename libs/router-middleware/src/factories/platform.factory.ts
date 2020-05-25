@@ -2,13 +2,13 @@ import { Injectable, Injector } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router';
 import { Platform } from '@frrri/router-middleware/internal';
 import { forkJoin, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { FRRRI_MIDDLEWARE, FRRRI_OPERATIONS } from '../constants';
 import { toObservable } from '../helpers/is-observable';
 
 export function PlatformFactory(platform: Platform) {
     @Injectable()
-    abstract class PlatformAbstract<T = any> implements Resolve<T> {
+    abstract class PlatformAbstract<T = any> implements Resolve<T[]> {
 
         constructor(protected injector: Injector) { }
 
@@ -38,8 +38,8 @@ export function PlatformFactory(platform: Platform) {
             return operations$;
         }
 
-        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<T> | Promise<T> | T {
-            return forkJoin(this.getOperations$(route, state)).pipe(tap(console.log));
+        resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+            return forkJoin(this.getOperations$(route, state));
         }
 
     }
