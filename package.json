@@ -108,7 +108,7 @@
     "@types/mongoose": "^5.7.20",
     "@types/node": "~8.9.4",
     "@types/supertest": "^2.0.9",
-    "class-transformer": "0.2.x",
+    "class-transformer": "0.3.x",
     "class-validator": "0.12.x",
     "codelyzer": "~5.0.1",
     "cypress": "^4.1.0",
